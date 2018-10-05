@@ -6,9 +6,9 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,25 +16,14 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @ToString
 @Builder
 @Document
-public class BoardGame {
-
-	@Indexed
-	@Field("gameId")
-	@JsonProperty
-	private int bggId;
+public class Store {
 
 	@JsonProperty
 	private String name;
 
 	@JsonProperty
-	private String urlImage;
+	private String url;
 
-	@JsonProperty
-	private double bestPrice;
+	private LocalDate lastVisit;
 
-	@JsonProperty
-	private double lowestPriceEver;
-
-	@JsonProperty
-	private Store store;
 }
