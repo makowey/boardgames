@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,6 +18,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @ToString
 @Builder
 @Document
+@Getter
+@Setter
 public class BoardGame {
 
 	@Indexed
@@ -31,6 +35,8 @@ public class BoardGame {
 
 	@JsonProperty
 	private double bestPrice;
+
+	private double currentPrice;
 
 	@JsonProperty
 	private double lowestPriceEver;
