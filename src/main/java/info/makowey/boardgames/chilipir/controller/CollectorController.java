@@ -2,7 +2,7 @@ package info.makowey.boardgames.chilipir.controller;
 
 import com.jaunt.ResponseException;
 import info.makowey.boardgames.chilipir.model.BoardGame;
-import info.makowey.boardgames.chilipir.scraper.ScraperGame;
+import info.makowey.boardgames.chilipir.scraper.ElefantScraperGame;
 import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.service.CollectorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +41,8 @@ public class CollectorController {
 	public List<BoardGame> traceAllGames(
 			@RequestParam(name = "name", required = false, defaultValue = "ELEFANT") String name ) throws
 			ResponseException {
-		return ScraperGame.fetchAllGames( Source.valueOf( name.toUpperCase() ) );
+		return ElefantScraperGame.builder()
+				.build()
+				.fetchAllGames( Source.valueOf( name.toUpperCase() ) );
 	}
 }

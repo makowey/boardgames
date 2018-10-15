@@ -7,6 +7,7 @@ import com.jaunt.ResponseException;
 import com.jaunt.UserAgent;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
+import lombok.Builder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,16 +15,20 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class ScraperGame {
+@Builder
+public class ElefantScraperGame implements BoardGameExtractor {
 
 	private static int counterPage = 1;
 
+	private static final ElefantScraperGame INSTANCE = ElefantScraperGame.builder().build();
+
 	public static void main( String[] args ) throws ResponseException {
 
-		fetchAllGames( Source.ELEFANT ).forEach( System.out::println );
+		INSTANCE.fetchAllGames( Source.ELEFANT )
+				.forEach( System.out::println );
 	}
 
-	public static List<BoardGame> fetchAllGames( Source source ) throws ResponseException {
+	public List<BoardGame> fetchAllGames( Source source ) throws ResponseException {
 		return fetchAllProducts( source ).parallelStream()
 				.map( element -> {
 					try {
@@ -34,11 +39,11 @@ public class ScraperGame {
 					return null;
 				} )
 				.filter( Objects::nonNull )
-				.peek( ScraperGame::selectBestPrice )
+				.peek( ElefantScraperGame::selectBestPrice )
 				.collect( Collectors.toList() );
 	}
 
-	private static void findBggId( BoardGame boardGame ) {
+	private void findBggId( BoardGame boardGame ) {
 		String id = null;
 		String name = boardGame.getName();
 		name = name
@@ -88,7 +93,7 @@ public class ScraperGame {
 		counterPage = 1;
 	}
 
-	private static BoardGame convertToBoardGame( Element element,
+	private BoardGame convertToBoardGame( Element element,
 			Source source ) throws NotFound {
 
 		Store store = Store.builder()
@@ -100,28 +105,34 @@ public class ScraperGame {
 		return BoardGame.builder()
 				.store( store )
 				.name( populateName( element ) )
-				.currentPrice( parseDouble( element ) )
+				.currentPrice( parsePrice( element ) )
 				.urlImage( populateUrlImage( element ) )
 				.build();
 	}
 
-	private static Double parseDouble( Element element ) throws NotFound {
+	public Double parsePrice( Element element ) throws NotFound {
 		return Double.parseDouble( element.findFirst( "<span class=\"elf-price\">" )
 				.getChildText()
 				.replaceAll( "[^0-9.,]+", "" )
 				.replaceAll( ",", "." ) );
 	}
 
-	private static String populateUrl( Element element ) throws NotFound {
+	public String populateUrl( Element element ) throws NotFound {
 		return element.findFirst( "<a href>" ).getAt( "href" );
 	}
 
-	private static String populateUrlImage( Element element ) throws NotFound {
+	public String populateUrlImage( Element element ) throws NotFound {
 		return element.findFirst( "<a href>" ).findFirst( "<img>" ).getAt( "data-original" );
 	}
 
-	private static String populateName( Element element ) throws NotFound {
+	public String populateName( Element element ) throws NotFound {
 		return element.findFirst( "<a href>" ).getAt( "title" );
+	}
+
+	@Override
+	public BoardGame search( String name ) {
+		// http://www.elefant.ro/search/jucarii?query=catan
+		return BoardGame.builder().build();
 	}
 }
 
