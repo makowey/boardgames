@@ -20,4 +20,16 @@ public class CollectorServiceImpl implements CollectorService {
 	public List<BoardGame> traceAll() {
 		return boardGameRepository.findAll();
 	}
+
+	@Override
+	public void storeBoardGames( List<BoardGame> boardGames ) {
+		boardGameRepository.saveAll( boardGames );
+	}
+
+	@Override
+	public int deleteAll() {
+		int items = Math.toIntExact( boardGameRepository.count() );
+		boardGameRepository.deleteAll();
+		return items;
+	}
 }

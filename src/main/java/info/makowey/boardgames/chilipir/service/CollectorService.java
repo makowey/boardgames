@@ -7,4 +7,8 @@ import java.util.List;
 public interface CollectorService {
 
 	List<BoardGame> traceAll();
+
+	void storeBoardGames(List<BoardGame> boardGames);
+
+	int deleteAll();
 }

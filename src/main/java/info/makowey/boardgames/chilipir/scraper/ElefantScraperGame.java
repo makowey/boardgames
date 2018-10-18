@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Builder
@@ -102,9 +103,12 @@ public class ElefantScraperGame implements BoardGameExtractor {
 				.lastVisit( LocalDate.now() )
 				.build();
 
+		String name = populateName( element );
 		return BoardGame.builder()
+				.id( UUID.nameUUIDFromBytes( name.getBytes() ).toString() )
+				.bggId( 0 )
 				.store( store )
-				.name( populateName( element ) )
+				.name( name )
 				.currentPrice( parsePrice( element ) )
 				.urlImage( populateUrlImage( element ) )
 				.build();

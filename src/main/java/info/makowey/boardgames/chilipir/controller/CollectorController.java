@@ -7,11 +7,15 @@ import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.service.CollectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static java.lang.String.format;
 
 @RestController
 public class CollectorController {
@@ -37,12 +41,21 @@ public class CollectorController {
 		return collectorService.traceAll();
 	}
 
-	@GetMapping(path = "/allGames")
-	public List<BoardGame> traceAllGames(
+	@PostMapping(path = "/collectGames")
+	public String collectGames(
 			@RequestParam(name = "name", required = false, defaultValue = "ELEFANT") String name ) throws
 			ResponseException {
-		return ElefantScraperGame.builder()
+
+		List<BoardGame> boardGames = ElefantScraperGame.builder()
 				.build()
 				.fetchAllGames( Source.valueOf( name.toUpperCase() ) );
+		collectorService.storeBoardGames( boardGames );
+		return format( "Collected %d games from %s!", boardGames.size(), name );
+	}
+
+	@DeleteMapping(path = "/clean")
+	public String deleteAll() {
+		return format( "Deleted all the %d boardgames from the repository!",
+				collectorService.deleteAll() );
 	}
 }
