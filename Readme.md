@@ -11,5 +11,11 @@ To run this application locally just execute the following command:
 
 <img src="https://i.pinimg.com/originals/2f/c4/fe/2fc4fee4a8c5ed906bd4fe0286fc309f.png">  
 
+## Angular
+
+`npm install -g @angular/cli`
+`npm install --save rxjs-compat`
+`ng serve`
+link: https://developer.okta.com/blog/2017/12/04/basic-crud-angular-and-spring-boot
 
 @makowey

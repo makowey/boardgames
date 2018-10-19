@@ -1,0 +1,11 @@
+<mat-card>
+  <mat-card-header>BoardGame List</mat-card-header>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item *ngFor="let boardGame of boardGames">
+        <img mat-list-avatar src="{{boardGame.urlImage}}" alt="{{boardGame.name}}">
+        <h3 mat-line>{{boardGame.name}}</h3>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
