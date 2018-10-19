@@ -7,7 +7,7 @@ import com.jaunt.ResponseException;
 import com.jaunt.UserAgent;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
-import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,20 +16,22 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Builder
+@NoArgsConstructor
 public class ElefantScraperGame implements BoardGameExtractor {
 
 	private static int counterPage = 1;
 
-	private static final ElefantScraperGame INSTANCE = ElefantScraperGame.builder().build();
+	public static final ElefantScraperGame INSTANCE = new ElefantScraperGame();
+
+	private static Source source = Source.ELEFANT;
 
 	public static void main( String[] args ) throws ResponseException {
 
-		INSTANCE.fetchAllGames( Source.ELEFANT )
+		INSTANCE.fetchAllGames()
 				.forEach( System.out::println );
 	}
 
-	public List<BoardGame> fetchAllGames( Source source ) throws ResponseException {
+	public List<BoardGame> fetchAllGames() throws ResponseException {
 		return fetchAllProducts( source ).parallelStream()
 				.map( element -> {
 					try {

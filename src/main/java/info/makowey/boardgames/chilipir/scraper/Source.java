@@ -3,6 +3,8 @@ package info.makowey.boardgames.chilipir.scraper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Optional;
+
 import static java.lang.String.format;
 
 @Getter
@@ -31,5 +33,19 @@ public enum Source {
 				getNumberOfProductsPerPage(),
 				getPageName(),
 				counter ) );
+	}
+
+	public static Source getByName( String name ) {
+		return Optional.of( valueOf( name.toUpperCase() ) )
+				.orElse( ELEFANT );
+	}
+
+	public BoardGameExtractor getBGEInstance() {
+		switch (this) {
+			case ELEFANT:
+				return ElefantScraperGame.INSTANCE;
+			default:
+				return ElefantScraperGame.INSTANCE;
+		}
 	}
 }
