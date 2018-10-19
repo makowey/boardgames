@@ -128,7 +128,8 @@ public class ElefantScraperGame implements BoardGameExtractor {
 	}
 
 	public String populateUrlImage( Element element ) throws NotFound {
-		return element.findFirst( "<a href>" ).findFirst( "<img>" ).getAt( "data-original" );
+		return element.findFirst( "<a href>" ).findFirst( "<img>" ).getAt( "data-original" )
+				.replace( "http://", "https://" );
 	}
 
 	public String populateName( Element element ) throws NotFound {
