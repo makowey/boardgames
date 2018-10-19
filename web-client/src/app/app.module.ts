@@ -10,6 +10,7 @@ import { BoardGameListComponent } from './board-game-list/board-game-list.compon
 
 import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {DemoMaterialModule} from './material-module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatCardModule,
     MatInputModule,
     MatListModule,
-    MatToolbarModule
+    MatToolbarModule,
+    DemoMaterialModule
   ],
   providers: [BoardGameService],
   bootstrap: [AppComponent]

@@ -11,6 +11,6 @@ export class BoardGameService {
   }
 
   getAll(): Observable<any> {
-    return this.http.get('/all');
+    return this.http.get('//localhost:8083/all');
   }
 }

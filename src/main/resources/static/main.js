@@ -137,12 +137,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _board_game_list_board_game_list_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./board-game-list/board-game-list.component */ "./src/app/board-game-list/board-game-list.component.ts");
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _material_module__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./material-module */ "./src/app/material-module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -170,7 +172,8 @@ var AppModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatCardModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatInputModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatListModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatToolbarModule"]
+                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatToolbarModule"],
+                _material_module__WEBPACK_IMPORTED_MODULE_9__["DemoMaterialModule"]
             ],
             providers: [_board_game_service__WEBPACK_IMPORTED_MODULE_4__["BoardGameService"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
@@ -190,7 +193,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2JvYXJkLWdhbWUtbGlzdC9ib2FyZC1nYW1lLWxpc3QuY29tcG9uZW50LmNzcyJ9 */"
+module.exports = "table {\r\n  width: 100%;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYm9hcmQtZ2FtZS1saXN0L2JvYXJkLWdhbWUtbGlzdC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsWUFBWTtDQUNiIiwiZmlsZSI6InNyYy9hcHAvYm9hcmQtZ2FtZS1saXN0L2JvYXJkLWdhbWUtbGlzdC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsidGFibGUge1xyXG4gIHdpZHRoOiAxMDAlO1xyXG59XHJcbiJdfQ== */"
 
 /***/ }),
 
@@ -201,7 +204,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>BoardGame List</mat-card-header>\n  <mat-card-content>\n    <mat-list>\n      <mat-list-item *ngFor=\"let boardGame of boardGames\">\n        <img mat-list-avatar src=\"{{boardGame.urlImage}}\" alt=\"{{boardGame.name}}\">\n        <h3 mat-line>{{boardGame.name}}</h3>\n      </mat-list-item>\n    </mat-list>\n  </mat-card-content>\n</mat-card>\n"
+module.exports = "<div class=\"mat-elevation-z8\">\n  <table mat-table [dataSource]=\"boardGames\">\n\n    <!--- Note that these columns can be defined in any order.\n          The actual rendered columns are set as a property on the row definition\" -->\n\n    <!-- Prod Column -->\n    <ng-container matColumnDef=\"prod\">\n      <th mat-header-cell *matHeaderCellDef> Item</th>\n      <td mat-cell *matCellDef=\"let element\">\n        <img class=\"avatar\" src=\"{{element.urlImage}}\" alt=\"{{element.name}}\">\n      </td>\n    </ng-container>\n\n    <!-- Name Column -->\n    <ng-container matColumnDef=\"name\">\n      <th mat-header-cell *matHeaderCellDef> Name</th>\n      <td mat-cell *matCellDef=\"let element\"> {{element.name}}</td>\n    </ng-container>\n\n    <!-- Weight Column -->\n    <ng-container matColumnDef=\"price\">\n      <th mat-header-cell *matHeaderCellDef> Price</th>\n      <td mat-cell *matCellDef=\"let element\"> {{element.currentPrice}}</td>\n    </ng-container>\n\n    <!-- Symbol Column -->\n    <ng-container matColumnDef=\"store\">\n      <th mat-header-cell *matHeaderCellDef> Store</th>\n      <td mat-cell *matCellDef=\"let element\"> {{element.store.name}}</td>\n    </ng-container>\n\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n  </table>\n\n  <mat-paginator [pageSizeOptions]=\"[15, 30, 50]\" showFirstLastButtons></mat-paginator>\n</div>\n"
 
 /***/ }),
 
@@ -217,6 +220,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BoardGameListComponent", function() { return BoardGameListComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _board_game_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../board-game.service */ "./src/app/board-game.service.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -228,16 +232,23 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var BoardGameListComponent = /** @class */ (function () {
     function BoardGameListComponent(boardGameService) {
         this.boardGameService = boardGameService;
+        this.displayedColumns = ['prod', 'name', 'price', 'store'];
     }
     BoardGameListComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.boardGameService.getAll().subscribe(function (data) {
-            return _this.boardGames = data;
+            _this.boardGames = new _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](data);
+            _this.boardGames.paginator = _this.paginator;
         });
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatPaginator"]),
+        __metadata("design:type", _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatPaginator"])
+    ], BoardGameListComponent.prototype, "paginator", void 0);
     BoardGameListComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-board-game-list',
@@ -281,7 +292,7 @@ var BoardGameService = /** @class */ (function () {
         this.http = http;
     }
     BoardGameService.prototype.getAll = function () {
-        return this.http.get('/all');
+        return this.http.get('/all'); ////localhost:8083
     };
     BoardGameService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -292,6 +303,89 @@ var BoardGameService = /** @class */ (function () {
     return BoardGameService;
 }());
 
+
+
+/***/ }),
+
+/***/ "./src/app/material-module.ts":
+/*!************************************!*\
+  !*** ./src/app/material-module.ts ***!
+  \************************************/
+/*! exports provided: DemoMaterialModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DemoMaterialModule", function() { return DemoMaterialModule; });
+/* harmony import */ var _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/cdk/drag-drop */ "./node_modules/@angular/cdk/esm5/drag-drop.es5.js");
+/* harmony import */ var _angular_cdk_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/cdk/table */ "./node_modules/@angular/cdk/esm5/table.es5.js");
+/* harmony import */ var _angular_cdk_tree__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/cdk/tree */ "./node_modules/@angular/cdk/esm5/tree.es5.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+var DemoMaterialModule = /** @class */ (function () {
+    function DemoMaterialModule() {
+    }
+    DemoMaterialModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["NgModule"])({
+            exports: [
+                _angular_cdk_table__WEBPACK_IMPORTED_MODULE_1__["CdkTableModule"],
+                _angular_cdk_tree__WEBPACK_IMPORTED_MODULE_2__["CdkTreeModule"],
+                _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_0__["DragDropModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatAutocompleteModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatBadgeModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatBottomSheetModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatButtonModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatButtonToggleModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatCardModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatCheckboxModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatChipsModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatStepperModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatDatepickerModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatDialogModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatDividerModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatExpansionModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatGridListModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatIconModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatInputModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatListModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatMenuModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatNativeDateModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatPaginatorModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatProgressBarModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatProgressSpinnerModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatRadioModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatRippleModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatSelectModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatSidenavModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatSliderModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatSlideToggleModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatSnackBarModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatSortModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatTableModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatTabsModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatToolbarModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatTooltipModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatTreeModule"],
+            ]
+        })
+    ], DemoMaterialModule);
+    return DemoMaterialModule;
+}());
+
+/**  Copyright 2018 Google Inc. All Rights Reserved.
+ Use of this source code is governed by an MIT-style license that
+ can be found in the LICENSE file at http://angular.io/license */
 
 
 /***/ }),
