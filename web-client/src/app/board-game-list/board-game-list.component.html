@@ -15,19 +15,21 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name</th>
-      <td mat-cell *matCellDef="let element"> {{element.name}}</td>
+      <td mat-cell *matCellDef="let element">{{element.name}}</td>
     </ng-container>
 
     <!-- Weight Column -->
     <ng-container matColumnDef="price">
       <th mat-header-cell *matHeaderCellDef> Price</th>
-      <td mat-cell *matCellDef="let element"> {{element.currentPrice}}</td>
+      <td mat-cell *matCellDef="let element">{{element.currentPrice}}</td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="store">
       <th mat-header-cell *matHeaderCellDef> Store</th>
-      <td mat-cell *matCellDef="let element"> {{element.store.name}}</td>
+      <td mat-cell *matCellDef="let element">
+        <a href="{{element.store.url}}" target="_blank">{{element.store.name}}</a>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
