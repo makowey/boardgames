@@ -78,7 +78,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar color=\"primary\">\n  <span>Welcome to {{title}}!</span>\n</mat-toolbar>\n\n<app-board-game-list></app-board-game-list>\n<router-outlet></router-outlet>\n"
+module.exports = "<mat-toolbar color=\"primary\">\r\n  <span>Welcome to {{title}}!</span>\r\n</mat-toolbar>\r\n\r\n<app-board-game-list></app-board-game-list>\r\n<router-outlet></router-outlet>\r\n"
 
 /***/ }),
 
@@ -102,7 +102,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
-        this.title = 'web-client';
+        this.title = 'best price deal for boardgames';
     }
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -204,7 +204,7 @@ module.exports = "table {\r\n  width: 100%;\r\n}\r\n\r\n/*# sourceMappingURL=dat
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"mat-elevation-z8\">\n  <table mat-table [dataSource]=\"boardGames\">\n\n    <!--- Note that these columns can be defined in any order.\n          The actual rendered columns are set as a property on the row definition\" -->\n\n    <!-- Prod Column -->\n    <ng-container matColumnDef=\"prod\">\n      <th mat-header-cell *matHeaderCellDef> Item</th>\n      <td mat-cell *matCellDef=\"let element\">\n        <img class=\"avatar\" src=\"{{element.urlImage}}\" alt=\"{{element.name}}\">\n      </td>\n    </ng-container>\n\n    <!-- Name Column -->\n    <ng-container matColumnDef=\"name\">\n      <th mat-header-cell *matHeaderCellDef> Name</th>\n      <td mat-cell *matCellDef=\"let element\">{{element.name}}</td>\n    </ng-container>\n\n    <!-- Weight Column -->\n    <ng-container matColumnDef=\"price\">\n      <th mat-header-cell *matHeaderCellDef> Price</th>\n      <td mat-cell *matCellDef=\"let element\">{{element.currentPrice}}</td>\n    </ng-container>\n\n    <!-- Symbol Column -->\n    <ng-container matColumnDef=\"store\">\n      <th mat-header-cell *matHeaderCellDef> Store</th>\n      <td mat-cell *matCellDef=\"let element\">\n        <a href=\"{{element.store.url}}\" target=\"_blank\">{{element.store.name}}</a>\n      </td>\n    </ng-container>\n\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n  </table>\n\n  <mat-paginator [pageSizeOptions]=\"[15, 30, 50]\" showFirstLastButtons></mat-paginator>\n</div>\n"
+module.exports = "<mat-form-field>\r\n  <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\r\n</mat-form-field>\r\n\r\n<div class=\"mat-elevation-z8\">\r\n  <table mat-table [dataSource]=\"boardGames\" matSort>\r\n\r\n    <!--- Note that these columns can be defined in any order.\r\n          The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Prod Column -->\r\n    <ng-container matColumnDef=\"prod\">\r\n      <th mat-header-cell *matHeaderCellDef> Item</th>\r\n      <td mat-cell *matCellDef=\"let element\">\r\n        <img class=\"avatar\" src=\"{{element.urlImage}}\" alt=\"{{element.name}}\">\r\n      </td>\r\n    </ng-container>\r\n\r\n    <!-- Name Column -->\r\n    <ng-container matColumnDef=\"name\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{element.name}}</td>\r\n    </ng-container>\r\n\r\n    <!-- Weight Column -->\r\n    <ng-container matColumnDef=\"price\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header> Price</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{element.currentPrice}}</td>\r\n    </ng-container>\r\n\r\n    <!-- Symbol Column -->\r\n    <ng-container matColumnDef=\"store\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header> Store</th>\r\n      <td mat-cell *matCellDef=\"let element\">\r\n        <a href=\"{{element.store.url}}\" target=\"_blank\">{{element.store.name}}</a>\r\n      </td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\r\n  </table>\r\n\r\n  <mat-paginator [pageSizeOptions]=\"[15, 30, 50]\" showFirstLastButtons></mat-paginator>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -243,8 +243,16 @@ var BoardGameListComponent = /** @class */ (function () {
         this.boardGameService.getAll().subscribe(function (data) {
             _this.boardGames = new _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](data);
             _this.boardGames.paginator = _this.paginator;
+            _this.boardGames.sort = _this.sort;
         });
     };
+    BoardGameListComponent.prototype.applyFilter = function (filterValue) {
+        this.boardGames.filter = filterValue.trim().toLowerCase();
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatSort"]),
+        __metadata("design:type", _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatSort"])
+    ], BoardGameListComponent.prototype, "sort", void 0);
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatPaginator"]),
         __metadata("design:type", _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatPaginator"])
@@ -292,7 +300,7 @@ var BoardGameService = /** @class */ (function () {
         this.http = http;
     }
     BoardGameService.prototype.getAll = function () {
-        return this.http.get('/all'); //localhost:8083
+        return this.http.get('/all');
     };
     BoardGameService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -451,7 +459,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\Stuff\chilipir\web-client\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! D:\oath\cheapest-boardgame\web-client\src\main.ts */"./src/main.ts");
 
 
 /***/ })
