@@ -20,42 +20,48 @@ import static java.lang.String.format;
 @RestController
 public class CollectorController {
 
-	private CollectorService collectorService;
+    private CollectorService collectorService;
 
-	@Autowired
-	public void setCollectorService( CollectorService collectorService ) {
-		this.collectorService = collectorService;
-	}
+    @Autowired
+    public void setCollectorService(CollectorService collectorService) {
+        this.collectorService = collectorService;
+    }
 
-	@GetMapping("/greeting")
-	public String greeting(
-			@RequestParam(name = "name", required = false, defaultValue = "World") String name,
-			Model model ) {
+    @GetMapping("/greeting")
+    public String greeting(
+            @RequestParam(name = "name", required = false, defaultValue = "World") String name,
+            Model model) {
 
-		model.addAttribute( "name", name );
-		return "Greeting ".concat( name );
-	}
+        model.addAttribute("name", name);
+        return "Greeting ".concat(name);
+    }
 
-	@GetMapping(path = "/all")
-	@CrossOrigin(origins = "http://localhost:4200")
-	public List<BoardGame> traceAll() {
-		return collectorService.traceAll();
-	}
+    @GetMapping(path = "/all")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public List<BoardGame> traceAll() {
+        return collectorService.traceAll();
+    }
 
-	@PostMapping(path = "/collectGames")
-	public String collectGames(
-			@RequestParam(name = "name", required = false, defaultValue = "ELEFANT") String name ) throws
-			ResponseException {
+    @PostMapping(path = "/collectGames")
+    public String collectGames(
+            @RequestParam(name = "name", required = false, defaultValue = "ELEFANT") String name) throws
+            ResponseException {
 
-		Source source = Source.getByName( name );
-		List<BoardGame> boardGames = source.getBGEInstance().fetchAllGames();
-		collectorService.storeBoardGames( boardGames );
-		return format( "Collected %d games from %s!", boardGames.size(), name );
-	}
+        Source source = Source.getByName(name);
+        List<BoardGame> boardGames = source.getBGEInstance().fetchAllGames();
+        collectorService.storeBoardGames(boardGames);
+        return format("Collected %d games from %s!", boardGames.size(), name);
+    }
 
-	@DeleteMapping(path = "/clean")
-	public String deleteAll() {
-		return format( "Deleted all the %d boardgames from the repository!",
-				collectorService.deleteAll() );
-	}
+    @DeleteMapping(path = "/clean")
+    public String deleteAll() {
+        return format("Deleted all the %d boardgames from the repository!",
+                collectorService.deleteAll());
+    }
+
+    @GetMapping("/search")
+    public List<BoardGame> search(
+            @RequestParam(name = "name", required = true, defaultValue = "Rummy") String name) {
+        return collectorService.search(name);
+    }
 }

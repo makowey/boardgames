@@ -11,4 +11,6 @@ public interface CollectorService {
 	void storeBoardGames(List<BoardGame> boardGames);
 
 	int deleteAll();
+
+	List<BoardGame> search(String name);
 }

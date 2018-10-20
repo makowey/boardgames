@@ -11,7 +11,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 public interface BoardGameRepository extends MongoRepository<BoardGame, String> {
 
-	BoardGame findByName( String name );
+	List<BoardGame> findByNameContaining( String name );
 
 	List<BoardGame> findByBggId( int bggId );
 }
