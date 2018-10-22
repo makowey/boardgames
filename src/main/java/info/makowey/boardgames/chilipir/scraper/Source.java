@@ -13,7 +13,8 @@ public enum Source {
 
 	ELEFANT( "Elefant.ro",
 			"?%s=%d&%s=%d",
-			"http://www.elefant.ro/list/jucarii/jocuri/jocuri-de-societate",
+			"http://www.elefant.ro",
+			"/list/jucarii/jocuri/jocuri-de-societate",
 			"productsPerPage",
 			"page",
 			"<div class=\"thumbnail\">",
@@ -22,13 +23,15 @@ public enum Source {
 	private String siteName;
 	private String formatter;
 	private String baseUrl;
+	private String path;
 	private String productsPerPageName;
 	private String pageName;
 	private String productDiv;
 	private int numberOfProductsPerPage;
 
 	public String getPath( int counter ) {
-		return getBaseUrl().concat( format( getFormatter(),
+		return getBaseUrl().concat(path)
+				.concat( format( getFormatter(),
 				getProductsPerPageName(),
 				getNumberOfProductsPerPage(),
 				getPageName(),

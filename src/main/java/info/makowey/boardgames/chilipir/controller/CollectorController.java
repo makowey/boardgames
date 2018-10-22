@@ -61,7 +61,7 @@ public class CollectorController {
 
     @GetMapping("/search")
     public List<BoardGame> search(
-            @RequestParam(name = "name", required = true, defaultValue = "Rummy") String name) {
+            @RequestParam(name = "name", defaultValue = "Rummy") String name) throws ResponseException {
         return collectorService.search(name);
     }
 }

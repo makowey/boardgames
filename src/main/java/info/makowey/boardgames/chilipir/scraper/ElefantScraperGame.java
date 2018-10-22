@@ -14,133 +14,152 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
 public class ElefantScraperGame implements BoardGameExtractor {
 
-	private static int counterPage = 1;
+    private static int counterPage = 1;
 
-	public static final ElefantScraperGame INSTANCE = new ElefantScraperGame();
+    public static final ElefantScraperGame INSTANCE = new ElefantScraperGame();
 
-	private static Source source = Source.ELEFANT;
+    private static Source source = Source.ELEFANT;
 
-	public static void main( String[] args ) throws ResponseException {
+    public static void main(String[] args) throws ResponseException {
 
-		INSTANCE.fetchAllGames()
-				.forEach( System.out::println );
-	}
+//        INSTANCE.fetchAllGames()
+//                .forEach(System.out::println);
 
-	public List<BoardGame> fetchAllGames() throws ResponseException {
-		return fetchAllProducts( source ).parallelStream()
-				.map( element -> {
-					try {
-						return convertToBoardGame( element, source );
-					} catch (NotFound notFound) {
-						notFound.printStackTrace();
-					}
-					return null;
-				} )
-				.filter( Objects::nonNull )
-				.peek( ElefantScraperGame::selectBestPrice )
-				.collect( Collectors.toList() );
-	}
+        INSTANCE.search("catan")
+                .forEach(System.out::println);
+    }
 
-	private void findBggId( BoardGame boardGame ) {
-		String id = null;
-		String name = boardGame.getName();
-		name = name
-				.replaceAll( "Joc", "" )
-				.replaceAll( " ", "%20" );
+    public List<BoardGame> fetchAllGames() throws ResponseException {
+        return fetchAllProducts(source).parallelStream()
+                .map(element -> {
+                    try {
+                        return convertToBoardGame(element);
+                    } catch (NotFound notFound) {
+                        notFound.printStackTrace();
+                    }
+                    return null;
+                })
+                .filter(Objects::nonNull)
+                .peek(ElefantScraperGame::selectBestPrice)
+                .collect(Collectors.toList());
+    }
 
-		try {
-			id = BoardGameGeekEngine.lookupByName( name );
-		} catch (ResponseException | NotFound e) {
-			e.printStackTrace();
-		}
+    private void findBggId(BoardGame boardGame) {
+        String id = null;
+        String name = boardGame.getName();
+        name = name
+                .replaceAll("Joc", "")
+                .replaceAll(" ", "%20");
 
-		Optional.ofNullable( id )
-				.ifPresent( bggId -> boardGame.setBggId( Integer.parseInt( bggId ) ) );
-	}
+        try {
+            id = BoardGameGeekEngine.lookupByName(name);
+        } catch (ResponseException | NotFound e) {
+            e.printStackTrace();
+        }
 
-	private static void selectBestPrice( BoardGame boardGame ) {
-		if (boardGame.getBestPrice() > 0) {
-			boardGame.setBestPrice(
-					boardGame.getCurrentPrice() < boardGame.getBestPrice() ?
-							boardGame.getCurrentPrice() :
-							boardGame.getBestPrice() );
-		} else {
-			boardGame.setBestPrice( boardGame.getCurrentPrice() );
-		}
-	}
+        Optional.ofNullable(id)
+                .ifPresent(bggId -> boardGame.setBggId(Integer.parseInt(bggId)));
+    }
 
-	private static List<Element> fetchAllProducts( Source source ) throws ResponseException {
-		List<Element> elements = fetchProducts( source ).toList();
-		while(elements.size() == source.getNumberOfProductsPerPage()) {
-			elements.addAll( fetchProducts( source ).toList() );
-		}
+    private static void selectBestPrice(BoardGame boardGame) {
+        if (boardGame.getBestPrice() > 0) {
+            boardGame.setBestPrice(
+                    boardGame.getCurrentPrice() < boardGame.getBestPrice() ?
+                            boardGame.getCurrentPrice() :
+                            boardGame.getBestPrice());
+        } else {
+            boardGame.setBestPrice(boardGame.getCurrentPrice());
+        }
+    }
 
-		resetCounter();
-		return elements;
-	}
+    private List<Element> fetchAllProducts(Source source) throws ResponseException {
+        List<Element> elements = fetchProducts(source).toList();
+        while (elements.size() == source.getNumberOfProductsPerPage()) {
+            elements.addAll(fetchProducts(source).toList());
+        }
 
-	private static Elements fetchProducts( Source source ) throws ResponseException {
-		UserAgent userAgent = new UserAgent();
-		userAgent.visit( source.getPath( counterPage ) );
+        resetCounter();
+        return elements;
+    }
 
-		counterPage++;
-		return userAgent.doc.findEach( source.getProductDiv() );
-	}
+    private Elements fetchProducts(Source source) throws ResponseException {
+        UserAgent userAgent = new UserAgent();
+        userAgent.visit(source.getPath(counterPage));
 
-	private static void resetCounter() {
-		counterPage = 1;
-	}
+        counterPage++;
+        return userAgent.doc.findEach(source.getProductDiv());
+    }
 
-	private BoardGame convertToBoardGame( Element element,
-			Source source ) throws NotFound {
+    private static void resetCounter() {
+        counterPage = 1;
+    }
 
-		Store store = Store.builder()
-				.name( source.getSiteName() )
-				.url( populateUrl( element ) )
-				.lastVisit( LocalDate.now() )
-				.build();
+    private BoardGame convertToBoardGame(Element element) throws NotFound {
 
-		String name = populateName( element );
-		return BoardGame.builder()
-				.id( UUID.nameUUIDFromBytes( name.getBytes() ).toString() )
-				.bggId( 0 )
-				.store( store )
-				.name( name )
-				.currentPrice( parsePrice( element ) )
-				.urlImage( populateUrlImage( element ) )
-				.build();
-	}
+        Store store = Store.builder()
+                .name(source.getSiteName())
+                .url(populateUrl(element))
+                .lastVisit(LocalDate.now())
+                .build();
 
-	public Double parsePrice( Element element ) throws NotFound {
-		return Double.parseDouble( element.findFirst( "<span class=\"elf-price\">" )
-				.getChildText()
-				.replaceAll( "[^0-9.,]+", "" )
-				.replaceAll( ",", "." ) );
-	}
+        String name = populateName(element);
+        return BoardGame.builder()
+                .id(UUID.nameUUIDFromBytes(name.getBytes()).toString())
+                .bggId(0)
+                .store(store)
+                .name(name)
+                .currentPrice(parsePrice(element))
+                .urlImage(populateUrlImage(element))
+                .build();
+    }
 
-	public String populateUrl( Element element ) throws NotFound {
-		return element.findFirst( "<a href>" ).getAt( "href" );
-	}
+    public Double parsePrice(Element element) throws NotFound {
+        return Double.parseDouble(element.findFirst("<span class=\"elf-price\">")
+                .getChildText()
+                .replaceAll("[^0-9.,]+", "")
+                .replaceAll(",", "."));
+    }
 
-	public String populateUrlImage( Element element ) throws NotFound {
-		return element.findFirst( "<a href>" ).findFirst( "<img>" ).getAt( "data-original" )
-				.replace( "http://", "https://" );
-	}
+    public String populateUrl(Element element) throws NotFound {
+        return element.findFirst("<a href>").getAt("href");
+    }
 
-	public String populateName( Element element ) throws NotFound {
-		return element.findFirst( "<a href>" ).getAt( "title" );
-	}
+    public String populateUrlImage(Element element) throws NotFound {
+        return element.findFirst("<a href>").findFirst("<img>").getAt("data-original")
+                .replace("http://", "https://");
+    }
 
-	@Override
-	public BoardGame search( String name ) {
-		// http://www.elefant.ro/search/jucarii?query=catan
-		return BoardGame.builder().build();
-	}
+    public String populateName(Element element) throws NotFound {
+        return element.findFirst("<a href>").getAt("title");
+    }
+
+    @Override
+    public List<BoardGame> search(String name) throws ResponseException {
+        UserAgent userAgent = new UserAgent();
+        userAgent.visit(
+                source.getBaseUrl()
+                        .concat("/search/jucarii?query="
+                                .concat(name)));
+
+        Elements elements = userAgent.doc.findEach(source.getProductDiv());
+
+        return elements.toList().stream()
+                .map(element -> {
+                    try {
+                        return convertToBoardGame(element);
+                    } catch (NotFound notFound) {
+                        System.err.println("No games found. Reason: " + notFound.getMessage());
+                        return null;
+                    }
+                })
+                .collect(Collectors.toList());
+    }
 }
-
+// http://www.elefant.ro/search/jucarii?query=catan
 // Scheduler http://www.quartz-scheduler.org/
