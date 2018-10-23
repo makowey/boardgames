@@ -57,6 +57,8 @@ public enum Source {
         switch (this) {
             case ELEFANT:
                 return ElefantScraperGame.INSTANCE;
+            case REGAT:
+                return RegatScrapperGame.INSTANCE;
             default:
                 return ElefantScraperGame.INSTANCE;
         }
