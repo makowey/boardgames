@@ -29,9 +29,6 @@ public class ElefantScraperGame implements BoardGameExtractor {
 
     public static void main(String[] args) throws ResponseException {
 
-//        INSTANCE.fetchAllGames()
-//                .forEach(System.out::println);
-
         INSTANCE.search("catan")
                 .forEach(System.out::println);
     }

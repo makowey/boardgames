@@ -18,6 +18,7 @@ import java.util.List;
 import static java.lang.String.format;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class CollectorController {
 
     private static final String ELEFANT = "ELEFANT";
@@ -39,7 +40,6 @@ public class CollectorController {
     }
 
     @GetMapping(path = "/all")
-    @CrossOrigin(origins = "http://localhost:4200")
     public List<BoardGame> traceAll() {
         return collectorService.traceAll();
     }

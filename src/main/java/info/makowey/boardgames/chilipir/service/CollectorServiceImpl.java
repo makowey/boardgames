@@ -38,6 +38,6 @@ public class CollectorServiceImpl implements CollectorService {
 
     @Override
     public List<BoardGame> search( String name, BoardGameExtractor boardGameExtractor ) throws ResponseException {
-        return boardGameExtractor.search( name );
+		return boardGameRepository.saveAll( boardGameExtractor.search( name ) );
     }
 }
