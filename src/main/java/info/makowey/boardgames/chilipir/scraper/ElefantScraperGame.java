@@ -7,6 +7,8 @@ import com.jaunt.ResponseException;
 import com.jaunt.UserAgent;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
+import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -14,10 +16,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ElefantScraperGame implements BoardGameExtractor {
 
     private static int counterPage = 1;
@@ -27,9 +28,6 @@ public class ElefantScraperGame implements BoardGameExtractor {
     private static Source source = Source.ELEFANT;
 
     public static void main(String[] args) throws ResponseException {
-
-//        INSTANCE.fetchAllGames()
-//                .forEach(System.out::println);
 
         INSTANCE.search("catan")
                 .forEach(System.out::println);

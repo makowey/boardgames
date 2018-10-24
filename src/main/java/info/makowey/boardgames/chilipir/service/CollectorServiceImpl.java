@@ -3,7 +3,7 @@ package info.makowey.boardgames.chilipir.service;
 import com.jaunt.ResponseException;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.repository.BoardGameRepository;
-import info.makowey.boardgames.chilipir.scraper.ElefantScraperGame;
+import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +37,7 @@ public class CollectorServiceImpl implements CollectorService {
     }
 
     @Override
-    public List<BoardGame> search(String name) throws ResponseException {
-        //boardGameRepository.findByNameContaining(name);
-        return ElefantScraperGame.INSTANCE.search(name);
+    public List<BoardGame> search( String name, BoardGameExtractor boardGameExtractor ) throws ResponseException {
+		return boardGameRepository.saveAll( boardGameExtractor.search( name ) );
     }
 }

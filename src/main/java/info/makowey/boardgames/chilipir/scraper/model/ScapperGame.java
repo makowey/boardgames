@@ -1,4 +1,4 @@
-package info.makowey.boardgames.chilipir.scraper;
+package info.makowey.boardgames.chilipir.scraper.model;
 import com.jaunt.Element;
 import com.jaunt.NotFound;
 

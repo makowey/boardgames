@@ -18,7 +18,10 @@ import java.util.List;
 import static java.lang.String.format;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class CollectorController {
+
+    private static final String ELEFANT = "ELEFANT";
 
     private CollectorService collectorService;
 
@@ -37,14 +40,13 @@ public class CollectorController {
     }
 
     @GetMapping(path = "/all")
-    @CrossOrigin(origins = "http://localhost:4200")
     public List<BoardGame> traceAll() {
         return collectorService.traceAll();
     }
 
     @PostMapping(path = "/collectGames")
     public String collectGames(
-            @RequestParam(name = "name", required = false, defaultValue = "ELEFANT") String name) throws
+            @RequestParam(name = "name", required = false, defaultValue = ELEFANT) String name ) throws
             ResponseException {
 
         Source source = Source.getByName(name);
@@ -61,7 +63,9 @@ public class CollectorController {
 
     @GetMapping("/search")
     public List<BoardGame> search(
-            @RequestParam(name = "name", defaultValue = "Rummy") String name) throws ResponseException {
-        return collectorService.search(name);
+            @RequestParam(name = "name", defaultValue = "Rummy") String name,
+            @RequestParam(name = "extractor", defaultValue = ELEFANT) String extractorName ) throws
+            ResponseException {
+        return collectorService.search( name, Source.valueOf( extractorName ).getBGEInstance() );
     }
 }

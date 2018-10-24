@@ -1,4 +1,4 @@
-package info.makowey.boardgames.chilipir.scraper;
+package info.makowey.boardgames.chilipir.scraper.model;
 
 import com.jaunt.ResponseException;
 import info.makowey.boardgames.chilipir.model.BoardGame;
