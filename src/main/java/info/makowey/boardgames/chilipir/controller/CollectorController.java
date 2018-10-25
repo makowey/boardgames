@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.lang.String.format;
 
@@ -46,7 +49,7 @@ public class CollectorController {
 
     @PostMapping(path = "/collectGames")
     public String collectGames(
-            @RequestParam(name = "name", required = false, defaultValue = ELEFANT) String name ) throws
+            @RequestParam(name = "name", required = false, defaultValue = ELEFANT) String name) throws
             ResponseException {
 
         Source source = Source.getByName(name);
@@ -63,9 +66,21 @@ public class CollectorController {
 
     @GetMapping("/search")
     public List<BoardGame> search(
-            @RequestParam(name = "name", defaultValue = "Rummy") String name,
-            @RequestParam(name = "extractor", defaultValue = ELEFANT) String extractorName ) throws
-            ResponseException {
-        return collectorService.search( name, Source.valueOf( extractorName ).getBGEInstance() );
+            @RequestParam(name = "name", defaultValue = "Rummy") String name) {
+
+        List<BoardGame> boardGames = new ArrayList<>();
+        Stream.of(Source.values())
+                .parallel()
+                .map(Source::getBGEInstance)
+                .forEach(boardGameExtractor -> {
+                    try {
+                        boardGames.addAll(
+                                collectorService.search(name, boardGameExtractor));
+                    } catch (ResponseException | IOException e) {
+                        System.err.println("Collector error: " + e.getMessage());
+                    }
+                });
+
+        return boardGames;
     }
 }

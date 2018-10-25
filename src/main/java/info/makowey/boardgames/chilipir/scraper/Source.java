@@ -28,7 +28,16 @@ public enum Source {
             "perPage...",
             "page...",
             "<div class=\"centerBoxContentsProducts centeredContent\" style=\"width:100%;\">",
-            100);
+            100),
+
+    CARTURESTI("Carturesti.ro",
+            "",
+            "https://carturesti.ro",
+            "/raft/board-games-1445?stock_label=in-stoc,stoc-limitat",
+            "perPage...",
+            "page...",
+            ".product-grid-container a",
+            90);
 
     private String siteName;
     private String formatter;
@@ -59,8 +68,10 @@ public enum Source {
                 return ElefantScraperGame.INSTANCE;
             case REGAT:
                 return RegatScrapperGame.INSTANCE;
+            case CARTURESTI:
+                return CarturestiScrapperGame.INSTANCE;
             default:
-                return ElefantScraperGame.INSTANCE;
+                throw new ExceptionInInitializerError("NO INSTANCE FOUND FOR " + name());
         }
     }
 }

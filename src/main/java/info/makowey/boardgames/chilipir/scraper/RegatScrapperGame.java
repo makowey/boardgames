@@ -26,11 +26,13 @@ public class RegatScrapperGame implements BoardGameExtractor {
 
     public static void main(String[] args) throws ResponseException {
 
-//        INSTANCE.fetchAllGames()
-//                .forEach(System.out::println);
-
         INSTANCE.search("catan")
                 .forEach(System.out::println);
+    }
+
+    @Override
+    public String name() {
+        return source.name();
     }
 
     @Override
@@ -38,22 +40,22 @@ public class RegatScrapperGame implements BoardGameExtractor {
         return null;
     }
 
-    private BoardGame convertToBoardGame( Element image, Element title, Element price ) throws NotFound {
+    private BoardGame convertToBoardGame(Element image, Element title, Element price) throws NotFound {
 
         Store store = Store.builder()
                 .name(source.getSiteName())
-                .url( populateUrl( title ) )
+                .url(populateUrl(title))
                 .lastVisit(LocalDate.now())
                 .build();
 
-        String name = populateName( title );
+        String name = populateName(title);
         return BoardGame.builder()
                 .id(UUID.nameUUIDFromBytes(name.getBytes()).toString())
                 .bggId(0)
                 .store(store)
                 .name(name)
-                .currentPrice( parsePrice( price ) )
-                .urlImage( populateUrlImage( image ) )
+                .currentPrice(parsePrice(price))
+                .urlImage(populateUrlImage(image))
                 .build();
     }
 
@@ -61,25 +63,25 @@ public class RegatScrapperGame implements BoardGameExtractor {
     public List<BoardGame> search(String name) throws ResponseException {
         UserAgent userAgent = new UserAgent();
         String fullPath = source.getBaseUrl()
-                .concat( "/index.php?main_page=advanced_search_result&search_in_description=0&x=0&y=0&keyword=" )
-                .concat( name )
-                .concat( "&max_display=" )
-                .concat( String.valueOf( source.getNumberOfProductsPerPage() ) );
+                .concat("/index.php?main_page=advanced_search_result&search_in_description=0&x=0&y=0&keyword=")
+                .concat(name)
+                .concat("&max_display=")
+                .concat(String.valueOf(source.getNumberOfProductsPerPage()));
 
-        userAgent.visit( fullPath );
+        userAgent.visit(fullPath);
 
-        Elements images = userAgent.doc.findEvery( "<img class=listingProductImage>" );
-        Elements names = userAgent.doc.findEvery( "<h3 class=itemTitle>" );
-        Elements prices = userAgent.doc.findEvery( "<td class=productlisting_price>" );
+        Elements images = userAgent.doc.findEvery("<img class=listingProductImage>");
+        Elements names = userAgent.doc.findEvery("<h3 class=itemTitle>");
+        Elements prices = userAgent.doc.findEvery("<td class=productlisting_price>");
 
-        AtomicInteger index = new AtomicInteger( 0 );
+        AtomicInteger index = new AtomicInteger(0);
         return images.toList().stream()
-                .map( image -> {
+                .map(image -> {
                     try {
                         BoardGame boardGame = convertToBoardGame(
                                 image,
-                                names.toList().get( index.get() ),
-                                prices.toList().get( index.get() )
+                                names.toList().get(index.get()),
+                                prices.toList().get(index.get())
                         );
 
                         index.incrementAndGet();
@@ -94,30 +96,30 @@ public class RegatScrapperGame implements BoardGameExtractor {
 
     @Override
     public String populateUrl(Element element) throws NotFound {
-        return element.getElement( 0 ).getAt( "href" );
+        return element.getElement(0).getAt("href");
     }
 
     @Override
     public String populateUrlImage(Element element) throws NotFound {
-        return element.getAt( "src" );
+        return element.getAt("src");
     }
 
     @Override
     public String populateName(Element element) throws NotFound {
-        return element.getElement( 0 ).getChildText();
+        return element.getElement(0).getChildText();
     }
 
     @Override
     public Double parsePrice(Element element) throws NotFound {
 
         String price = element.innerHTML();
-        if (price.contains( "productSpecialPrice" )) {
-            Element localElement = new Element( element.outerHTML() );
-            price = localElement.getChildElements().get( 1 ).getTextContent();
+        if (price.contains("productSpecialPrice")) {
+            Element localElement = new Element(element.outerHTML());
+            price = localElement.getChildElements().get(1).getTextContent();
         }
 
-        return Double.parseDouble( price
-                .replaceAll( "[^0-9.,]+", "" )
-                .replaceAll( ",", "." ) );
+        return Double.parseDouble(price
+                .replaceAll("[^0-9.,]+", "")
+                .replaceAll(",", "."));
     }
 }

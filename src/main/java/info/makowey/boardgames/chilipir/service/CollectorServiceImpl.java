@@ -7,6 +7,7 @@ import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -37,7 +38,10 @@ public class CollectorServiceImpl implements CollectorService {
     }
 
     @Override
-    public List<BoardGame> search( String name, BoardGameExtractor boardGameExtractor ) throws ResponseException {
-		return boardGameRepository.saveAll( boardGameExtractor.search( name ) );
+    public List<BoardGame> search(String name, BoardGameExtractor boardGameExtractor) throws
+            ResponseException,
+            IOException {
+        System.out.println("Extracting from " + boardGameExtractor.name());
+        return boardGameRepository.saveAll(boardGameExtractor.search(name));
     }
 }

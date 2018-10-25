@@ -33,6 +33,11 @@ public class ElefantScraperGame implements BoardGameExtractor {
                 .forEach(System.out::println);
     }
 
+    @Override
+    public String name() {
+        return source.name();
+    }
+
     public List<BoardGame> fetchAllGames() throws ResponseException {
         return fetchAllProducts(source).parallelStream()
                 .map(element -> {
