@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Observable';
 })
 export class BoardGameService {
 
-  baseUrl = "//localhost:8083";
+  baseUrl = "";//localhost:8083";
 
   constructor(private http: HttpClient) {
   }

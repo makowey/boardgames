@@ -4,6 +4,7 @@ import com.jaunt.ResponseException;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.repository.BoardGameRepository;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@Slf4j
 public class CollectorServiceImpl implements CollectorService {
 
     private final BoardGameRepository boardGameRepository;
@@ -41,7 +43,7 @@ public class CollectorServiceImpl implements CollectorService {
     public List<BoardGame> search(String name, BoardGameExtractor boardGameExtractor) throws
             ResponseException,
             IOException {
-        System.out.println("Extracting from " + boardGameExtractor.name());
+        log.info("Extracting from " + boardGameExtractor.name());
         return boardGameRepository.saveAll(boardGameExtractor.search(name));
     }
 }

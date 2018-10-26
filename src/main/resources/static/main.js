@@ -78,7 +78,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar color=\"primary\">\r\n  <span>Welcome to {{title}}!</span>\r\n</mat-toolbar>\r\n\r\n<app-board-game-list></app-board-game-list>\r\n<router-outlet></router-outlet>\r\n"
+module.exports = "<mat-toolbar color=\"primary\">\n  <span>Welcome to {{title}}!</span>\n</mat-toolbar>\n\n<app-board-game-list></app-board-game-list>\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -204,7 +204,7 @@ module.exports = "table {\r\n  width: 100%;\r\n}\r\n\r\n/*# sourceMappingURL=dat
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-form-field>\r\n  <input matInput (keyup)=\"applyFilter($event.target.value)\" (keydown.enter)=\"findBoardGame($event.target.value)\" placeholder=\"Filter the {{numberOfGames}} items | Press enter to load new games\">\r\n</mat-form-field>\r\n\r\n<div class=\"mat-elevation-z8\">\r\n  <table mat-table [dataSource]=\"boardGames\" matSort>\r\n\r\n    <!--- Note that these columns can be defined in any order.\r\n          The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Prod Column -->\r\n    <ng-container matColumnDef=\"prod\">\r\n      <th mat-header-cell *matHeaderCellDef> Item</th>\r\n      <td mat-cell *matCellDef=\"let element\">\r\n        <img class=\"avatar\" src=\"{{element.urlImage}}\" alt=\"{{element.name}}\">\r\n      </td>\r\n    </ng-container>\r\n\r\n    <!-- Name Column -->\r\n    <ng-container matColumnDef=\"name\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{element.name}}</td>\r\n    </ng-container>\r\n\r\n    <!-- Weight Column -->\r\n    <ng-container matColumnDef=\"price\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header> Price</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{element.currentPrice}}</td>\r\n    </ng-container>\r\n\r\n    <!-- Symbol Column -->\r\n    <ng-container matColumnDef=\"store\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header> Store</th>\r\n      <td mat-cell *matCellDef=\"let element\">\r\n        <a href=\"{{element.store.url}}\" target=\"_blank\">{{element.store.name}}</a>\r\n      </td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\r\n  </table>\r\n\r\n  <mat-paginator [pageSizeOptions]=\"[15, 30, 50]\" showFirstLastButtons></mat-paginator>\r\n</div>\r\n"
+module.exports = "<mat-form-field>\r\n  <input matInput (keyup)=\"applyFilter($event.target.value)\" (keydown.enter)=\"findBoardGame($event.target.value)\" placeholder=\"Filter the {{numberOfGames}} items | Press enter to load new games\">\r\n</mat-form-field>\r\n\r\n<div class=\"mat-elevation-z8\">\r\n  <table mat-table [dataSource]=\"boardGames\" matSort>\r\n\r\n    <!--- Note that these columns can be defined in any order.\r\n          The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Prod Column -->\r\n    <ng-container matColumnDef=\"prod\">\r\n      <th mat-header-cell *matHeaderCellDef> Item</th>\r\n      <td mat-cell *matCellDef=\"let element\">\r\n        <img class=\"avatar\" src=\"{{element.urlImage}}\" alt=\"{{element.name}}\">\r\n      </td>\r\n    </ng-container>\r\n\r\n    <!-- Name Column -->\r\n    <ng-container matColumnDef=\"name\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{element.name}}</td>\r\n    </ng-container>\r\n\r\n    <!-- Weight Column -->\r\n    <ng-container matColumnDef=\"currentPrice\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header> Price</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{element.currentPrice}}</td>\r\n    </ng-container>\r\n\r\n    <!-- Symbol Column -->\r\n    <ng-container matColumnDef=\"store\">\r\n      <th mat-header-cell *matHeaderCellDef> Store</th>\r\n      <td mat-cell *matCellDef=\"let element\">\r\n        <a href=\"{{element.store.url}}\" target=\"_blank\">{{element.store.name}}</a>\r\n      </td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\r\n  </table>\r\n\r\n  <mat-paginator [pageSizeOptions]=\"[15, 30, 50]\" showFirstLastButtons></mat-paginator>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -238,7 +238,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var BoardGameListComponent = /** @class */ (function () {
     function BoardGameListComponent(boardGameService) {
         this.boardGameService = boardGameService;
-        this.displayedColumns = ['prod', 'name', 'price', 'store'];
+        this.displayedColumns = ['prod', 'name', 'currentPrice', 'store'];
     }
     BoardGameListComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -272,6 +272,7 @@ var BoardGameListComponent = /** @class */ (function () {
     BoardGameListComponent.prototype.refresh = function (data) {
         this.boardGames = new _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](data);
         this.boardGames.paginator = this.paginator;
+        this.sort.sort(({ id: 'currentPrice', start: 'asc' }));
         this.boardGames.sort = this.sort;
         this.numberOfGames = data.length;
     };
@@ -324,7 +325,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var BoardGameService = /** @class */ (function () {
     function BoardGameService(http) {
         this.http = http;
-        this.baseUrl = ""; //localhost:8080";
+        this.baseUrl = ""; //localhost:8083";
     }
     BoardGameService.prototype.getAll = function () {
         return this.http.get(this.baseUrl + '/all');
@@ -335,7 +336,6 @@ var BoardGameService = /** @class */ (function () {
             params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]()
                 .set('gameId', gameId.toString())
                 .set('name', name)
-                .set('extractor', 'REGAT')
         });
     };
     BoardGameService = __decorate([
@@ -495,7 +495,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\oath\cheapest-boardgame\web-client\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! D:\Stuff\chilipir\web-client\src\main.ts */"./src/main.ts");
 
 
 /***/ })

@@ -3,6 +3,7 @@ package info.makowey.boardgames.chilipir.scraper;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,6 +21,7 @@ import java.util.UUID;
 
 import static java.lang.String.format;
 
+@Slf4j
 public class CarturestiScrapperGame implements BoardGameExtractor {
 
     public static final CarturestiScrapperGame INSTANCE = new CarturestiScrapperGame();
@@ -39,7 +41,7 @@ public class CarturestiScrapperGame implements BoardGameExtractor {
 
     @Override
     public String name() {
-        return null;
+        return source.name();
     }
 
     @Override
@@ -78,9 +80,19 @@ public class CarturestiScrapperGame implements BoardGameExtractor {
 
     private BoardGame convertToBoardGame( JSONObject jsonObject ) {
 
+        String urlImage = String.valueOf( jsonObject.get( "imgUrl" ) );
+        urlImage = ! urlImage.startsWith( "http" ) ?
+                source.getBaseUrl().concat( urlImage ) :
+                urlImage;
+
+        String urlProduct = String.valueOf( jsonObject.get( "url" ) );
+        urlProduct = ! urlProduct.startsWith( "http" ) ?
+                source.getBaseUrl().concat( urlProduct ) :
+                urlProduct;
+
         Store store = Store.builder()
                 .name(source.getSiteName())
-                .url( source.getBaseUrl().concat( String.valueOf( jsonObject.get( "url" ) ) ) )
+                .url( urlProduct )
                 .lastVisit(LocalDate.now())
                 .build();
 
@@ -91,7 +103,7 @@ public class CarturestiScrapperGame implements BoardGameExtractor {
                 .store(store)
                 .name(name)
                 .currentPrice( jsonObject.getDouble( "price" ) )
-                .urlImage( source.getBaseUrl().concat( String.valueOf( jsonObject.get( "imgUrl" ) ) ) )
+                .urlImage( urlImage )
                 .build();
     }
 

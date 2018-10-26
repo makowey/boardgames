@@ -4,6 +4,7 @@ import com.jaunt.ResponseException;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.service.CollectorService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,6 +21,7 @@ import java.util.stream.Stream;
 
 import static java.lang.String.format;
 
+@Slf4j
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class CollectorController {
@@ -77,7 +79,7 @@ public class CollectorController {
                         boardGames.addAll(
                                 collectorService.search(name, boardGameExtractor));
                     } catch (ResponseException | IOException e) {
-                        System.err.println("Collector error: " + e.getMessage());
+                        log.error("Collector error: " + e.getMessage());
                     }
                 });
 

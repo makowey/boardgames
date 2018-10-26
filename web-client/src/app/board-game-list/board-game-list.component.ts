@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {BoardGameService} from "../board-game.service";
-import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
+import {MatPaginator, MatSort, MatSortable, MatTableDataSource} from "@angular/material";
 import {tap} from "rxjs/operators";
 
 @Component({
@@ -11,7 +11,7 @@ import {tap} from "rxjs/operators";
 export class BoardGameListComponent implements OnInit, AfterViewInit {
   boardGames;
   originalData;
-  displayedColumns: string[] = ['prod', 'name', 'price', 'store'];
+  displayedColumns: string[] = ['prod', 'name', 'currentPrice', 'store'];
   numberOfGames;
 
   @ViewChild(MatSort) sort: MatSort;
@@ -56,6 +56,7 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
   refresh(data) {
     this.boardGames = new MatTableDataSource<BoardGame>(data);
     this.boardGames.paginator = this.paginator;
+    this.sort.sort(<MatSortable>({id: 'currentPrice', start: 'asc'}));
     this.boardGames.sort = this.sort;
     this.numberOfGames = data.length;
   }
@@ -64,6 +65,6 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
 export interface BoardGame {
   name: string;
   urlImage: string;
-  price: number;
+  currentPrice: number;
   store: string;
 }
