@@ -37,14 +37,9 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
 
   applyFilter(filterValue: string) {
     this.boardGames.filter = filterValue.trim().toLowerCase();
-
-    if(filterValue.length == 0) {
-      this.refresh(this.originalData);
-    }
   }
 
   findBoardGame(filterValue: string) {
-    //this.boardGames.filter = filterValue.trim().toLowerCase();
     this.boardGames.filter = filterValue.replace(/ /g, "%20");
     this.boardGameService.findBoardGames(0, this.boardGames.filter)
       .subscribe(data => {

@@ -33,3 +33,9 @@ th.mat-sort-header-sorted {
   font-size: 14px;
   width: 100%;
 }
+
+#row0 {
+  background-color: aqua;
+  font-weight: bold;
+  color: darkblue;
+}
