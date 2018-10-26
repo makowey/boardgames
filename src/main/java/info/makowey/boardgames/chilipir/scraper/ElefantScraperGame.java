@@ -158,7 +158,7 @@ public class ElefantScraperGame implements BoardGameExtractor {
                         return convertToBoardGame(element);
                     } catch (NotFound notFound) {
                         System.err.println("No games found. Reason: " + notFound.getMessage());
-                        return null;
+                        return BoardGame.builder().build();
                     }
                 })
                 .collect(Collectors.toList());

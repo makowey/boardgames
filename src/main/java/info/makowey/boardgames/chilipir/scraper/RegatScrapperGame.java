@@ -88,7 +88,7 @@ public class RegatScrapperGame implements BoardGameExtractor {
                         return boardGame;
                     } catch (NotFound notFound) {
                         System.err.println("No games found. Reason: " + notFound.getMessage());
-                        return null;
+                        return BoardGame.builder().build();
                     }
                 })
                 .collect(Collectors.toList());

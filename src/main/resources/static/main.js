@@ -261,7 +261,6 @@ var BoardGameListComponent = /** @class */ (function () {
         this.boardGames.filter = filterValue.replace(/ /g, "%20");
         this.boardGameService.findBoardGames(0, this.boardGames.filter)
             .subscribe(function (data) {
-            _this.originalData = _this.originalData.concat(data);
             _this.refresh(data);
         });
     };

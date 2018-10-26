@@ -43,7 +43,6 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
     this.boardGames.filter = filterValue.replace(/ /g, "%20");
     this.boardGameService.findBoardGames(0, this.boardGames.filter)
       .subscribe(data => {
-        this.originalData = this.originalData.concat(data);
         this.refresh(data);
       });
   }

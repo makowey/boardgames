@@ -37,7 +37,15 @@ public enum Source {
             "perPage...",
             "page...",
             ".product-grid-container a",
-            90);
+            90 ),
+    LEXSHOP( "Lexshop.ro",
+            "",
+            "https://www.lexshop.ro",
+            "?page=produse&categorie=8&min=6.5&max=899&nrjucatori_min=1&nrjucatori_max=99&sort=0&nrpg=36",
+            "perPage...",
+            "page...",
+            "<div class=\"prod_nou \">",
+            36 );
 
     private String siteName;
     private String formatter;
@@ -70,6 +78,8 @@ public enum Source {
                 return RegatScrapperGame.INSTANCE;
             case CARTURESTI:
                 return CarturestiScrapperGame.INSTANCE;
+            case LEXSHOP:
+                return LexshopScrapperGame.INSTANCE;
             default:
                 throw new ExceptionInInitializerError("NO INSTANCE FOUND FOR " + name());
         }

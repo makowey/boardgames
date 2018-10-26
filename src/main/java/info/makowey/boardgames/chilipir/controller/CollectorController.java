@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
@@ -67,10 +68,10 @@ public class CollectorController {
     }
 
     @GetMapping("/search")
-    public List<BoardGame> search(
+    public Set<BoardGame> search(
             @RequestParam(name = "name", defaultValue = "Rummy") String name) {
 
-        List<BoardGame> boardGames = new ArrayList<>();
+        Set<BoardGame> boardGames = new HashSet<>();
         Stream.of(Source.values())
                 .parallel()
                 .map(Source::getBGEInstance)

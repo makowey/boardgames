@@ -52,8 +52,8 @@ public class CarturestiScrapperGame implements BoardGameExtractor {
     @Override
     public List<BoardGame> search( String name ) throws IOException {
 
-        String json = "{\"settings\":{\"context\":\"search\",\"contextId\":\"%s\",\"url\":\"/product/json-search\",\"checkBoxSize\":7,\"term\":\"catan\",\"listName\":\"Search page\"},\"attributes\":[],\"preferences\":[],\"search\":{\"stock_label\":\"in-stoc,stoc-limitat\",\"per-page\":\"90\",\"id_product_type\":\"45\"}}";
-        RequestBody body = RequestBody.create( JSON, format( json, name ) );
+        String json = "{\"settings\":{\"context\":\"search\",\"contextId\":\"%s\",\"url\":\"/product/json-search\",\"checkBoxSize\":7,\"term\":\"%s\",\"listName\":\"Search page\"},\"attributes\":[],\"preferences\":[],\"search\":{\"stock_label\":\"in-stoc,stoc-limitat\",\"per-page\":\"90\",\"id_product_type\":\"45\"}}";
+        RequestBody body = RequestBody.create( JSON, format( json, name, name ) );
         String carturestiUrl = "https://carturesti.ro/product/json-search";
         Request request = new Request.Builder()
                 .url( carturestiUrl )
