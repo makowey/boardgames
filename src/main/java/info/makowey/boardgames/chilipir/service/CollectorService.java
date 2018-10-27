@@ -16,4 +16,8 @@ public interface CollectorService {
 	int deleteAll();
 
 	List<BoardGame> search( String name, BoardGameExtractor boardGameExtractor ) throws ResponseException, IOException;
+
+	List<BoardGame> findByName( String name );
+
+	int count();
 }

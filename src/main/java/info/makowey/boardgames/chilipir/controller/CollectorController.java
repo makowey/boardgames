@@ -67,6 +67,17 @@ public class CollectorController {
                 collectorService.deleteAll());
     }
 
+    @GetMapping("/find")
+    public List<BoardGame> find(
+            @RequestParam(name = "name", defaultValue = "Catan") String name ) {
+        return collectorService.findByName( name );
+    }
+
+    @GetMapping("/count")
+    public int count() {
+        return collectorService.count();
+    }
+
     @GetMapping("/search")
     public Set<BoardGame> search(
             @RequestParam(name = "name", defaultValue = "Rummy") String name) {

@@ -2,6 +2,8 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {BoardGameService} from "../board-game.service";
 import {MatPaginator, MatSort, MatSortable, MatTableDataSource} from "@angular/material";
 import {tap} from "rxjs/operators";
+import {Observable} from "rxjs";
+import 'rxjs/add/observable/of';
 
 @Component({
   selector: 'app-board-game-list',
@@ -25,23 +27,34 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
       this.originalData = data;
       this.refresh(data);
     });
+
+    this.boardGameService.count().subscribe(data => {
+      this.numberOfGames = data;
+    });
   }
 
   ngAfterViewInit() {
     this.paginator.page
       .pipe(
-        tap(() => this.boardGameService.findBoardGames(0, this.boardGames.filter))
+        tap(() => this.boardGameService.search(Observable.of(this.boardGames.filter)))
       )
       .subscribe();
   }
 
   applyFilter(filterValue: string) {
     this.boardGames.filter = filterValue.trim().toLowerCase();
+
+    if (this.boardGames.filter.length > 3) {
+      this.boardGameService.search(Observable.of(this.boardGames.filter))
+        .subscribe(data => {
+          this.refresh(data);
+        });
+    }
   }
 
   findBoardGame(filterValue: string) {
     this.boardGames.filter = filterValue.replace(/ /g, "%20");
-    this.boardGameService.findBoardGames(0, this.boardGames.filter)
+    this.boardGameService.findAndUpdateBoardGames(0, this.boardGames.filter)
       .subscribe(data => {
         this.refresh(data);
       });
@@ -52,7 +65,6 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
     this.boardGames.paginator = this.paginator;
     this.sort.sort(<MatSortable>({id: 'currentPrice', start: 'asc'}));
     this.boardGames.sort = this.sort;
-    this.numberOfGames = data.length;
   }
 }
 
