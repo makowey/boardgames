@@ -78,7 +78,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar color=\"primary\">\r\n  <span>Welcome to {{title}}!</span>\r\n</mat-toolbar>\r\n\r\n<app-board-game-list></app-board-game-list>\r\n<router-outlet></router-outlet>\r\n"
+module.exports = "<mat-toolbar color=\"primary\" class=\"fixed-header\">\r\n  <span>Welcome to {{title}}</span>\r\n</mat-toolbar>\r\n\r\n<app-board-game-list></app-board-game-list>\r\n<router-outlet></router-outlet>\r\n\r\n<footer class=\"credit\">\r\n  @makowey, 2018 - https://boardgamegeek.com/user/makowey\r\n</footer>\r\n"
 
 /***/ }),
 
@@ -102,7 +102,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
-        this.title = 'best price deal for boardgames';
+        this.title = 'boardgames share market';
     }
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -200,7 +200,7 @@ module.exports = "table {\r\n  width: 100%;\r\n}\r\n\r\n/*# sourceMappingURL=dat
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--<form class=\"example-form\">-->\r\n<!--<mat-form-field class=\"example-full-width\">-->\r\n<!--<input matInput placeholder=\"BoardGame\" aria-label=\"BoardGame\" [matAutocomplete]=\"auto\" [formControl]=\"stateCtrl\">-->\r\n<!--<mat-autocomplete #auto=\"matAutocomplete\">-->\r\n<!--<mat-option *ngFor=\"let boardGame of boardGames | async\" [value]=\"boardGame.name\">-->\r\n<!--<img class=\"example-option-img\" aria-hidden [src]=\"boardGame.urlImage\" height=\"25\">-->\r\n<!--<span>{{boardGame.name}}</span> |-->\r\n<!--<small>boardgamegeek: {{boardGame.store.url}}</small>-->\r\n<!--</mat-option>-->\r\n<!--</mat-autocomplete>-->\r\n<!--</mat-form-field>-->\r\n<!--<br>-->\r\n<!--</form>-->\r\n\r\n<mat-form-field>\r\n  <input matInput (keyup)=\"applyFilter($event.target.value)\" (keydown.enter)=\"findBoardGame($event.target.value)\"\r\n         placeholder=\"Filter the {{numberOfGames}} items | Press enter to load new games\">\r\n</mat-form-field>\r\n\r\n<mat-slide-toggle\r\n  [checked]=\"stateCtrl.disabled\"\r\n  (change)=\"stateCtrl.disabled ? stateCtrl.enable() : stateCtrl.disable()\">\r\n  <label>GeekMarket</label>\r\n</mat-slide-toggle>\r\n\r\n<div class=\"mat-elevation-z8\">\r\n  <table mat-table [dataSource]=\"boardGames\" matSort>\r\n\r\n    <!--- Note that these columns can be defined in any order.\r\n          The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Prod Column -->\r\n    <ng-container matColumnDef=\"prod\">\r\n      <th mat-header-cell *matHeaderCellDef> Item</th>\r\n      <td mat-cell *matCellDef=\"let element\">\r\n        <img class=\"avatar\" src=\"{{element.urlImage}}\" alt=\"{{element.name}}\">\r\n      </td>\r\n    </ng-container>\r\n\r\n    <!-- Name Column -->\r\n    <ng-container matColumnDef=\"name\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{element.name}}</td>\r\n    </ng-container>\r\n\r\n    <!-- Weight Column -->\r\n    <ng-container matColumnDef=\"currentPrice\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header matSortStart=\"asc\"> Price</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{element.currentPrice | number : '1.2-2'}}</td>\r\n    </ng-container>\r\n\r\n    <!-- Symbol Column -->\r\n    <ng-container matColumnDef=\"store\">\r\n      <th mat-header-cell *matHeaderCellDef> Store</th>\r\n      <td mat-cell *matCellDef=\"let element\">\r\n        <a href=\"{{element.store.url}}\" target=\"_blank\">{{element.store.name}}</a>\r\n      </td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns; let i = index\" id=\"row{{i}}\"></tr>\r\n  </table>\r\n\r\n  <mat-paginator [pageSizeOptions]=\"[15, 30, 50]\" showFirstLastButtons></mat-paginator>\r\n</div>\r\n"
+module.exports = "<!--<form class=\"example-form\">-->\r\n<!--<mat-form-field class=\"example-full-width\">-->\r\n<!--<input matInput placeholder=\"BoardGame\" aria-label=\"BoardGame\" [matAutocomplete]=\"auto\" [formControl]=\"stateCtrl\">-->\r\n<!--<mat-autocomplete #auto=\"matAutocomplete\">-->\r\n<!--<mat-option *ngFor=\"let boardGame of boardGames | async\" [value]=\"boardGame.name\">-->\r\n<!--<img class=\"example-option-img\" aria-hidden [src]=\"boardGame.urlImage\" height=\"25\">-->\r\n<!--<span>{{boardGame.name}}</span> |-->\r\n<!--<small>boardgamegeek: {{boardGame.store.url}}</small>-->\r\n<!--</mat-option>-->\r\n<!--</mat-autocomplete>-->\r\n<!--</mat-form-field>-->\r\n<!--<br>-->\r\n<!--</form>-->\r\n\r\n<mat-form-field>\r\n  <input matInput (keyup)=\"applyFilter($event.target.value)\" (keydown.enter)=\"findBoardGame($event.target.value)\"\r\n         placeholder=\"Filter the {{numberOfGames}} items | Press enter to get latest price | Enable GeekMarket for best trades[europe]\">\r\n</mat-form-field>\r\n\r\n<mat-slide-toggle\r\n  [checked]=\"stateCtrl.disabled\"\r\n  (change)=\"onChange()\">\r\n  <i>GeekMarket</i>\r\n</mat-slide-toggle>\r\n\r\n<div class=\"mat-elevation-z8\">\r\n  <table mat-table [dataSource]=\"boardGames\" matSort>\r\n\r\n    <!--- Note that these columns can be defined in any order.\r\n          The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Prod Column -->\r\n    <ng-container matColumnDef=\"prod\">\r\n      <th mat-header-cell *matHeaderCellDef> Item</th>\r\n      <td mat-cell *matCellDef=\"let element\">\r\n        <img class=\"avatar\" src=\"{{element.urlImage}}\" alt=\"{{element.name}}\">\r\n      </td>\r\n    </ng-container>\r\n\r\n    <!-- Name Column -->\r\n    <ng-container matColumnDef=\"name\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{element.name}}</td>\r\n    </ng-container>\r\n\r\n    <!-- Weight Column -->\r\n    <ng-container matColumnDef=\"currentPrice\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header matSortStart=\"asc\"> Price(lei)</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{element.currentPrice | number : '1.2-2'}}</td>\r\n    </ng-container>\r\n\r\n    <!-- Symbol Column -->\r\n    <ng-container matColumnDef=\"store\">\r\n      <th mat-header-cell *matHeaderCellDef> Store</th>\r\n      <td mat-cell *matCellDef=\"let element\">\r\n        <a href=\"{{element.store.url}}\" target=\"_blank\">{{element.store.name}}</a>\r\n      </td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns; let i = index\" id=\"row{{i}}\"></tr>\r\n  </table>\r\n\r\n  <mat-paginator [pageSizeOptions]=\"[15, 30, 50]\" showFirstLastButtons></mat-paginator>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -242,7 +242,9 @@ var BoardGameListComponent = /** @class */ (function () {
         this.boardGameService = boardGameService;
         this.displayedColumns = ['prod', 'name', 'currentPrice', 'store'];
         this.stateCtrl = new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"]();
-        this.isGeekMarket = this.stateCtrl.disable;
+        this.currentFilter = "catan";
+        this.isGeekMarket = false;
+        this.stateCtrl.disable();
     }
     BoardGameListComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -262,8 +264,8 @@ var BoardGameListComponent = /** @class */ (function () {
     };
     BoardGameListComponent.prototype.applyFilter = function (filterValue) {
         var _this = this;
+        this.currentFilter = filterValue;
         this.boardGames.filter = filterValue.trim().toLowerCase();
-        this.isGeekMarket = this.stateCtrl.disabled;
         if (this.boardGames.filter.length > 1) {
             this.boardGameService.search(rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].of(this.boardGames.filter), this.isGeekMarket)
                 .subscribe(function (data) {
@@ -273,6 +275,7 @@ var BoardGameListComponent = /** @class */ (function () {
     };
     BoardGameListComponent.prototype.findBoardGame = function (filterValue) {
         var _this = this;
+        this.currentFilter = filterValue;
         this.boardGames.filter = filterValue.replace(/ /g, "%20");
         this.boardGameService.findAndUpdateBoardGames(0, this.boardGames.filter)
             .subscribe(function (data) {
@@ -284,6 +287,21 @@ var BoardGameListComponent = /** @class */ (function () {
         this.boardGames.paginator = this.paginator;
         this.sort.sort(({ id: 'currentPrice', start: 'asc' }));
         this.boardGames.sort = this.sort;
+    };
+    BoardGameListComponent.prototype.enableGeekMarket = function () {
+        this.stateCtrl.enable();
+        this.isGeekMarket = true;
+        this.applyFilter(this.currentFilter);
+    };
+    BoardGameListComponent.prototype.disableGeekMarket = function () {
+        this.stateCtrl.disable();
+        this.isGeekMarket = false;
+        this.applyFilter(this.currentFilter);
+    };
+    BoardGameListComponent.prototype.onChange = function () {
+        this.stateCtrl.disabled ?
+            this.enableGeekMarket() :
+            this.disableGeekMarket();
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatSort"]),

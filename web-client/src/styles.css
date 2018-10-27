@@ -8,6 +8,13 @@ purple-green.css
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
+.fixed-header {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+}
+
 body {
   margin: 0;
   font-family: Roboto, sans-serif;
@@ -58,4 +65,11 @@ th.mat-sort-header-sorted {
 [dir='rtl'] .example-option-img {
   margin-right: 0;
   margin-left: 8px;
+}
+
+.credit {
+  font-size: 10px;
+  color: midnightblue;
+  bottom: 5px;
+  padding-top: 10px;
 }

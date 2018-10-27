@@ -14,13 +14,13 @@
 
 <mat-form-field>
   <input matInput (keyup)="applyFilter($event.target.value)" (keydown.enter)="findBoardGame($event.target.value)"
-         placeholder="Filter the {{numberOfGames}} items | Press enter to load new games">
+         placeholder="Filter the {{numberOfGames}} items | Press enter to get latest price | Enable GeekMarket for best trades[europe]">
 </mat-form-field>
 
 <mat-slide-toggle
   [checked]="stateCtrl.disabled"
-  (change)="stateCtrl.disabled ? stateCtrl.enable() : stateCtrl.disable()">
-  <label>GeekMarket</label>
+  (change)="onChange()">
+  <i>GeekMarket</i>
 </mat-slide-toggle>
 
 <div class="mat-elevation-z8">
@@ -45,7 +45,7 @@
 
     <!-- Weight Column -->
     <ng-container matColumnDef="currentPrice">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header matSortStart="asc"> Price</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header matSortStart="asc"> Price(lei)</th>
       <td mat-cell *matCellDef="let element">{{element.currentPrice | number : '1.2-2'}}</td>
     </ng-container>
 

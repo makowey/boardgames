@@ -18,12 +18,14 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
   numberOfGames;
   stateCtrl = new FormControl();
   isGeekMarket;
+  currentFilter = "catan";
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private boardGameService: BoardGameService) {
-    this.isGeekMarket = this.stateCtrl.disable;
+    this.isGeekMarket = false;
+    this.stateCtrl.disable();
   }
 
   ngOnInit() {
@@ -48,8 +50,8 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
   }
 
   applyFilter(filterValue: string) {
+    this.currentFilter = filterValue;
     this.boardGames.filter = filterValue.trim().toLowerCase();
-    this.isGeekMarket = this.stateCtrl.disabled;
 
     if (this.boardGames.filter.length > 1) {
       this.boardGameService.search(
@@ -62,6 +64,7 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
   }
 
   findBoardGame(filterValue: string) {
+    this.currentFilter = filterValue;
     this.boardGames.filter = filterValue.replace(/ /g, "%20");
     this.boardGameService.findAndUpdateBoardGames(0, this.boardGames.filter)
       .subscribe(data => {
@@ -75,6 +78,25 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
     this.sort.sort(<MatSortable>({id: 'currentPrice', start: 'asc'}));
     this.boardGames.sort = this.sort;
   }
+
+  enableGeekMarket() {
+    this.stateCtrl.enable();
+    this.isGeekMarket = true;
+    this.applyFilter(this.currentFilter);
+  }
+
+  disableGeekMarket() {
+    this.stateCtrl.disable();
+    this.isGeekMarket = false;
+    this.applyFilter(this.currentFilter);
+  }
+
+  onChange() {
+    this.stateCtrl.disabled ?
+      this.enableGeekMarket() :
+      this.disableGeekMarket();
+  }
+
 }
 
 export interface BoardGame {

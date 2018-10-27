@@ -1,6 +1,10 @@
-<mat-toolbar color="primary">
-  <span>Welcome to {{title}}!</span>
+<mat-toolbar color="primary" class="fixed-header">
+  <span>Welcome to {{title}}</span>
 </mat-toolbar>
 
 <app-board-game-list></app-board-game-list>
 <router-outlet></router-outlet>
+
+<footer class="credit">
+  @makowey, 2018 - https://boardgamegeek.com/user/makowey
+</footer>
