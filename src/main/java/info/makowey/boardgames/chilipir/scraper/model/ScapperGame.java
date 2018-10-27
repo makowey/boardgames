@@ -4,12 +4,20 @@ import com.jaunt.NotFound;
 
 public interface ScapperGame {
 
-	String populateUrl( Element element ) throws NotFound;
+	default String populateUrl( Element element ) throws NotFound {
+		return "PUT YOUR IMPLEMENTATION";
+	}
 
-	String populateUrlImage( Element element ) throws NotFound;
+	default String populateUrlImage( Element element ) throws NotFound {
+		return "PUT YOUR IMPLEMENTATION";
+	}
 
-	String populateName( Element element ) throws NotFound;
+	default String populateName( Element element ) throws NotFound {
+		return "PUT YOUR IMPLEMENTATION";
+	}
 
-	Double parsePrice( Element element ) throws NotFound;
+	default Double parsePrice( Element element ) throws NotFound {
+		return 0.0;
+	}
 
 }

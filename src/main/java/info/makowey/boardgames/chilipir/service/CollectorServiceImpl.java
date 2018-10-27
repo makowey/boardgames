@@ -1,8 +1,10 @@
 package info.makowey.boardgames.chilipir.service;
 
 import com.jaunt.ResponseException;
+import com.mongodb.client.result.DeleteResult;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.repository.BoardGameRepository;
+import info.makowey.boardgames.chilipir.scraper.GeekMarketScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,11 +27,11 @@ public class CollectorServiceImpl implements CollectorService {
 
     private final MongoTemplate mongoTemplate;
 
-    Comparator<BoardGame> byCurrentPrice = Comparator.comparing( BoardGame::getCurrentPrice );
-    Comparator<BoardGame> byName = Comparator.comparing( BoardGame::getName );
+    Comparator<BoardGame> byCurrentPrice = Comparator.comparing(BoardGame::getCurrentPrice);
+    Comparator<BoardGame> byName = Comparator.comparing(BoardGame::getName);
 
     @Autowired
-    public CollectorServiceImpl( BoardGameRepository boardGameRepository, MongoTemplate mongoTemplate ) {
+    public CollectorServiceImpl(BoardGameRepository boardGameRepository, MongoTemplate mongoTemplate) {
         this.boardGameRepository = boardGameRepository;
         this.mongoTemplate = mongoTemplate;
     }
@@ -37,8 +40,8 @@ public class CollectorServiceImpl implements CollectorService {
     public List<BoardGame> traceAll() {
         Query query = new Query();
         //query.skip(pageNumber * pageSize);
-        query.limit( 100 );
-        return mongoTemplate.find( query, BoardGame.class );
+        query.limit(100);
+        return mongoTemplate.find(query, BoardGame.class);
     }
 
     @Override
@@ -53,9 +56,15 @@ public class CollectorServiceImpl implements CollectorService {
         return items;
     }
 
+    public DeleteResult deleteByName(String name) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("name").regex(name, "i"));
+        return mongoTemplate.remove(query, BoardGame.class);
+    }
+
     @Override
     public int count() {
-        return Math.toIntExact( boardGameRepository.count() );
+        return Math.toIntExact(boardGameRepository.count());
     }
 
     @Override
@@ -63,16 +72,33 @@ public class CollectorServiceImpl implements CollectorService {
             ResponseException,
             IOException {
         log.info("Extracting from " + boardGameExtractor.name());
+        deleteByName(name);
         return boardGameRepository.saveAll(boardGameExtractor.search(name));
     }
 
     @Override
-    public List<BoardGame> findByName( String name ) {
+    public List<BoardGame> findByName(String name) {
         Query query = new Query();
-        query.addCriteria( Criteria.where( "name" ).regex( name, "i" ) );
-        query.limit( 15 );
-        return mongoTemplate.find( query, BoardGame.class ).stream()
-                .sorted( byCurrentPrice.reversed() )
-                .collect( Collectors.toList() );
+        query.addCriteria(Criteria.where("name").regex(name, "i"));
+        query.limit(15);
+        return mongoTemplate.find(query, BoardGame.class).stream()
+                .sorted(byCurrentPrice)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BoardGame> findBGGByName(String name) throws IOException {
+        return GeekMarketScrapperGame.INSTANCE.searchOnline(name);
+    }
+
+    @Override
+    public List<BoardGame> findAll(String name, String geekMarket) throws IOException {
+        List<BoardGame> allGames = new ArrayList<>(findByName(name));
+        if (Boolean.valueOf(geekMarket))
+            allGames.addAll(findBGGByName(name));
+
+        return allGames.stream()
+                .sorted(byCurrentPrice.reversed())
+                .collect(Collectors.toList());
     }
 }

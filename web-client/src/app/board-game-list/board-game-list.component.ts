@@ -4,6 +4,7 @@ import {MatPaginator, MatSort, MatSortable, MatTableDataSource} from "@angular/m
 import {tap} from "rxjs/operators";
 import {Observable} from "rxjs";
 import 'rxjs/add/observable/of';
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-board-game-list',
@@ -15,11 +16,14 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
   originalData;
   displayedColumns: string[] = ['prod', 'name', 'currentPrice', 'store'];
   numberOfGames;
+  stateCtrl = new FormControl();
+  isGeekMarket;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private boardGameService: BoardGameService) {
+    this.isGeekMarket = this.stateCtrl.disable;
   }
 
   ngOnInit() {
@@ -36,16 +40,21 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.paginator.page
       .pipe(
-        tap(() => this.boardGameService.search(Observable.of(this.boardGames.filter)))
+        tap(() => this.boardGameService.search(
+          Observable.of(this.boardGames.filter),
+          this.isGeekMarket))
       )
       .subscribe();
   }
 
   applyFilter(filterValue: string) {
     this.boardGames.filter = filterValue.trim().toLowerCase();
+    this.isGeekMarket = this.stateCtrl.disabled;
 
-    if (this.boardGames.filter.length > 3) {
-      this.boardGameService.search(Observable.of(this.boardGames.filter))
+    if (this.boardGames.filter.length > 1) {
+      this.boardGameService.search(
+        Observable.of(this.boardGames.filter),
+        this.isGeekMarket)
         .subscribe(data => {
           this.refresh(data);
         });

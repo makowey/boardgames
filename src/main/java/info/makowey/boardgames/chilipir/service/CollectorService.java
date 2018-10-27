@@ -19,5 +19,9 @@ public interface CollectorService {
 
 	List<BoardGame> findByName( String name );
 
+	List<BoardGame> findBGGByName( String name ) throws IOException;
+
 	int count();
+
+	List<BoardGame> findAll(String name, String geekMarket) throws IOException;
 }

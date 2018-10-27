@@ -31,6 +31,14 @@ export class BoardGameService {
     });
   }
 
+  private findAllBoardGames(name = '', value = false): Observable<any> {
+    return this.http.get(this.baseUrl + '/findall', {
+      params: new HttpParams()
+        .set('name', name)
+        .set('geekmarket', String(value))
+    });
+  }
+
   findAndUpdateBoardGames(
     gameId: number, name = ''): Observable<any> {
 
@@ -41,10 +49,10 @@ export class BoardGameService {
     });
   }
 
-  search(term: Observable<string>): Observable<any> {
+  search(term: Observable<string>, geekMarket: false): Observable<any> {
     return term
       .debounceTime(1000)
       .distinctUntilChanged()
-      .switchMap(term => this.findBoardGames(term));
+      .switchMap(term => this.findAllBoardGames(term, geekMarket));
   }
 }

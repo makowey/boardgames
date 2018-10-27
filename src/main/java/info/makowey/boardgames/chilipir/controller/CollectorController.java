@@ -7,12 +7,7 @@ import info.makowey.boardgames.chilipir.service.CollectorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -68,9 +63,22 @@ public class CollectorController {
     }
 
     @GetMapping("/find")
-    public List<BoardGame> find(
-            @RequestParam(name = "name", defaultValue = "Catan") String name ) {
-        return collectorService.findByName( name );
+    public List<BoardGame> findLocal(
+            @RequestParam(name = "name", defaultValue = "Catan") String name) {
+        return collectorService.findByName(name);
+    }
+
+    @GetMapping("/findbgg")
+    public List<BoardGame> findBGGByName(
+            @RequestParam(name = "name", defaultValue = "Catan") String name) throws IOException {
+        return collectorService.findBGGByName(name);
+    }
+
+    @GetMapping("/findall")
+    public List<BoardGame> findAll(
+            @RequestParam(name = "name", defaultValue = "Catan") String name,
+            @RequestParam(name = "geekmarket", defaultValue = "false") String geekMarket) throws IOException {
+        return collectorService.findAll(name, geekMarket);
     }
 
     @GetMapping("/count")

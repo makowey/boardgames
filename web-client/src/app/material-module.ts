@@ -82,7 +82,7 @@ import {
     MatTreeModule,
   ]
 })
-export class DemoMaterialModule {}
+export class AllMaterialModule {}
 
 
 /**  Copyright 2018 Google Inc. All Rights Reserved.

@@ -45,7 +45,16 @@ public enum Source {
             "perPage...",
             "page...",
             "<div class=\"prod_nou \">",
-            36 );
+            36 ),
+    GEEKMARKET( "GeekMarket",
+            "",
+            "https://boardgamegeek.com",
+            "/geekmarket/browse?objecttype=thing&objectid=230802",
+            "perPage...",
+            "page...",
+            "????",
+            100
+    );
 
     private String siteName;
     private String formatter;
@@ -80,6 +89,8 @@ public enum Source {
                 return CarturestiScrapperGame.INSTANCE;
             case LEXSHOP:
                 return LexshopScrapperGame.INSTANCE;
+            case GEEKMARKET:
+                return GeekMarketScrapperGame.INSTANCE;
             default:
                 throw new ExceptionInInitializerError("NO INSTANCE FOUND FOR " + name());
         }

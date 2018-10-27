@@ -106,24 +106,4 @@ public class CarturestiScrapperGame implements BoardGameExtractor {
                 .urlImage( urlImage )
                 .build();
     }
-
-    @Override
-    public String populateUrl( com.jaunt.Element element ) {
-        return null;
-    }
-
-    @Override
-    public String populateUrlImage( com.jaunt.Element element ) {
-        return null;
-    }
-
-    @Override
-    public String populateName( com.jaunt.Element element ) {
-        return null;
-    }
-
-    @Override
-    public Double parsePrice( com.jaunt.Element element ) {
-        return null;
-    }
 }

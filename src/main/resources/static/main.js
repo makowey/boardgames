@@ -78,7 +78,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar color=\"primary\">\n  <span>Welcome to {{title}}!</span>\n</mat-toolbar>\n\n<app-board-game-list></app-board-game-list>\n<router-outlet></router-outlet>\n"
+module.exports = "<mat-toolbar color=\"primary\">\r\n  <span>Welcome to {{title}}!</span>\r\n</mat-toolbar>\r\n\r\n<app-board-game-list></app-board-game-list>\r\n<router-outlet></router-outlet>\r\n"
 
 /***/ }),
 
@@ -168,12 +168,8 @@ var AppModule = /** @class */ (function () {
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HttpClientModule"],
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_8__["BrowserAnimationsModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatButtonModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatCardModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatInputModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatListModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatToolbarModule"],
-                _material_module__WEBPACK_IMPORTED_MODULE_9__["DemoMaterialModule"]
+                _material_module__WEBPACK_IMPORTED_MODULE_9__["AllMaterialModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatNativeDateModule"]
             ],
             providers: [_board_game_service__WEBPACK_IMPORTED_MODULE_4__["BoardGameService"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
@@ -204,7 +200,7 @@ module.exports = "table {\r\n  width: 100%;\r\n}\r\n\r\n/*# sourceMappingURL=dat
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-form-field>\r\n  <input matInput (keyup)=\"applyFilter($event.target.value)\" (keydown.enter)=\"findBoardGame($event.target.value)\"\r\n         placeholder=\"Filter the {{numberOfGames}} items | Press enter to load new games\">\r\n</mat-form-field>\r\n\r\n<div class=\"mat-elevation-z8\">\r\n  <table mat-table [dataSource]=\"boardGames\" matSort>\r\n\r\n    <!--- Note that these columns can be defined in any order.\r\n          The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Prod Column -->\r\n    <ng-container matColumnDef=\"prod\">\r\n      <th mat-header-cell *matHeaderCellDef> Item</th>\r\n      <td mat-cell *matCellDef=\"let element\">\r\n        <img class=\"avatar\" src=\"{{element.urlImage}}\" alt=\"{{element.name}}\">\r\n      </td>\r\n    </ng-container>\r\n\r\n    <!-- Name Column -->\r\n    <ng-container matColumnDef=\"name\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{element.name}}</td>\r\n    </ng-container>\r\n\r\n    <!-- Weight Column -->\r\n    <ng-container matColumnDef=\"currentPrice\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header> Price</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{element.currentPrice}}</td>\r\n    </ng-container>\r\n\r\n    <!-- Symbol Column -->\r\n    <ng-container matColumnDef=\"store\">\r\n      <th mat-header-cell *matHeaderCellDef> Store</th>\r\n      <td mat-cell *matCellDef=\"let element\">\r\n        <a href=\"{{element.store.url}}\" target=\"_blank\">{{element.store.name}}</a>\r\n      </td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns; let i = index\" id=\"row{{i}}\"></tr>\r\n  </table>\r\n\r\n  <mat-paginator [pageSizeOptions]=\"[15, 30, 50]\" showFirstLastButtons></mat-paginator>\r\n</div>\r\n"
+module.exports = "<!--<form class=\"example-form\">-->\r\n<!--<mat-form-field class=\"example-full-width\">-->\r\n<!--<input matInput placeholder=\"BoardGame\" aria-label=\"BoardGame\" [matAutocomplete]=\"auto\" [formControl]=\"stateCtrl\">-->\r\n<!--<mat-autocomplete #auto=\"matAutocomplete\">-->\r\n<!--<mat-option *ngFor=\"let boardGame of boardGames | async\" [value]=\"boardGame.name\">-->\r\n<!--<img class=\"example-option-img\" aria-hidden [src]=\"boardGame.urlImage\" height=\"25\">-->\r\n<!--<span>{{boardGame.name}}</span> |-->\r\n<!--<small>boardgamegeek: {{boardGame.store.url}}</small>-->\r\n<!--</mat-option>-->\r\n<!--</mat-autocomplete>-->\r\n<!--</mat-form-field>-->\r\n<!--<br>-->\r\n<!--</form>-->\r\n\r\n<mat-form-field>\r\n  <input matInput (keyup)=\"applyFilter($event.target.value)\" (keydown.enter)=\"findBoardGame($event.target.value)\"\r\n         placeholder=\"Filter the {{numberOfGames}} items | Press enter to load new games\">\r\n</mat-form-field>\r\n\r\n<mat-slide-toggle\r\n  [checked]=\"stateCtrl.disabled\"\r\n  (change)=\"stateCtrl.disabled ? stateCtrl.enable() : stateCtrl.disable()\">\r\n  <label>GeekMarket</label>\r\n</mat-slide-toggle>\r\n\r\n<div class=\"mat-elevation-z8\">\r\n  <table mat-table [dataSource]=\"boardGames\" matSort>\r\n\r\n    <!--- Note that these columns can be defined in any order.\r\n          The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Prod Column -->\r\n    <ng-container matColumnDef=\"prod\">\r\n      <th mat-header-cell *matHeaderCellDef> Item</th>\r\n      <td mat-cell *matCellDef=\"let element\">\r\n        <img class=\"avatar\" src=\"{{element.urlImage}}\" alt=\"{{element.name}}\">\r\n      </td>\r\n    </ng-container>\r\n\r\n    <!-- Name Column -->\r\n    <ng-container matColumnDef=\"name\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{element.name}}</td>\r\n    </ng-container>\r\n\r\n    <!-- Weight Column -->\r\n    <ng-container matColumnDef=\"currentPrice\">\r\n      <th mat-header-cell *matHeaderCellDef mat-sort-header matSortStart=\"asc\"> Price</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{element.currentPrice | number : '1.2-2'}}</td>\r\n    </ng-container>\r\n\r\n    <!-- Symbol Column -->\r\n    <ng-container matColumnDef=\"store\">\r\n      <th mat-header-cell *matHeaderCellDef> Store</th>\r\n      <td mat-cell *matCellDef=\"let element\">\r\n        <a href=\"{{element.store.url}}\" target=\"_blank\">{{element.store.name}}</a>\r\n      </td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns; let i = index\" id=\"row{{i}}\"></tr>\r\n  </table>\r\n\r\n  <mat-paginator [pageSizeOptions]=\"[15, 30, 50]\" showFirstLastButtons></mat-paginator>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -224,6 +220,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 /* harmony import */ var rxjs_add_observable_of__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/add/observable/of */ "./node_modules/rxjs-compat/_esm5/add/observable/of.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -239,10 +236,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var BoardGameListComponent = /** @class */ (function () {
     function BoardGameListComponent(boardGameService) {
         this.boardGameService = boardGameService;
         this.displayedColumns = ['prod', 'name', 'currentPrice', 'store'];
+        this.stateCtrl = new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"]();
+        this.isGeekMarket = this.stateCtrl.disable;
     }
     BoardGameListComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -257,14 +257,15 @@ var BoardGameListComponent = /** @class */ (function () {
     BoardGameListComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
         this.paginator.page
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(function () { return _this.boardGameService.search(rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].of(_this.boardGames.filter)); }))
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(function () { return _this.boardGameService.search(rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].of(_this.boardGames.filter), _this.isGeekMarket); }))
             .subscribe();
     };
     BoardGameListComponent.prototype.applyFilter = function (filterValue) {
         var _this = this;
         this.boardGames.filter = filterValue.trim().toLowerCase();
-        if (this.boardGames.filter.length > 3) {
-            this.boardGameService.search(rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].of(this.boardGames.filter))
+        this.isGeekMarket = this.stateCtrl.disabled;
+        if (this.boardGames.filter.length > 1) {
+            this.boardGameService.search(rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].of(this.boardGames.filter), this.isGeekMarket)
                 .subscribe(function (data) {
                 _this.refresh(data);
             });
@@ -356,6 +357,15 @@ var BoardGameService = /** @class */ (function () {
                 .set('name', name)
         });
     };
+    BoardGameService.prototype.findAllBoardGames = function (name, value) {
+        if (name === void 0) { name = ''; }
+        if (value === void 0) { value = false; }
+        return this.http.get(this.baseUrl + '/findall', {
+            params: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpParams"]()
+                .set('name', name)
+                .set('geekmarket', String(value))
+        });
+    };
     BoardGameService.prototype.findAndUpdateBoardGames = function (gameId, name) {
         if (name === void 0) { name = ''; }
         return this.http.get(this.baseUrl + '/search', {
@@ -364,12 +374,12 @@ var BoardGameService = /** @class */ (function () {
                 .set('name', name)
         });
     };
-    BoardGameService.prototype.search = function (term) {
+    BoardGameService.prototype.search = function (term, geekMarket) {
         var _this = this;
         return term
             .debounceTime(1000)
             .distinctUntilChanged()
-            .switchMap(function (term) { return _this.findBoardGames(term); });
+            .switchMap(function (term) { return _this.findAllBoardGames(term, geekMarket); });
     };
     BoardGameService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -388,12 +398,12 @@ var BoardGameService = /** @class */ (function () {
 /*!************************************!*\
   !*** ./src/app/material-module.ts ***!
   \************************************/
-/*! exports provided: DemoMaterialModule */
+/*! exports provided: AllMaterialModule */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DemoMaterialModule", function() { return DemoMaterialModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AllMaterialModule", function() { return AllMaterialModule; });
 /* harmony import */ var _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/cdk/drag-drop */ "./node_modules/@angular/cdk/esm5/drag-drop.es5.js");
 /* harmony import */ var _angular_cdk_table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/cdk/table */ "./node_modules/@angular/cdk/esm5/table.es5.js");
 /* harmony import */ var _angular_cdk_tree__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/cdk/tree */ "./node_modules/@angular/cdk/esm5/tree.es5.js");
@@ -410,10 +420,10 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-var DemoMaterialModule = /** @class */ (function () {
-    function DemoMaterialModule() {
+var AllMaterialModule = /** @class */ (function () {
+    function AllMaterialModule() {
     }
-    DemoMaterialModule = __decorate([
+    AllMaterialModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["NgModule"])({
             exports: [
                 _angular_cdk_table__WEBPACK_IMPORTED_MODULE_1__["CdkTableModule"],
@@ -456,8 +466,8 @@ var DemoMaterialModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatTreeModule"],
             ]
         })
-    ], DemoMaterialModule);
-    return DemoMaterialModule;
+    ], AllMaterialModule);
+    return AllMaterialModule;
 }());
 
 /**  Copyright 2018 Google Inc. All Rights Reserved.
@@ -528,7 +538,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\Stuff\chilipir\web-client\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! D:\oath\cheapest-boardgame\web-client\src\main.ts */"./src/main.ts");
 
 
 /***/ })
