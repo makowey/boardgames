@@ -15,9 +15,15 @@ purple-green.css
   width: 100% !important;
 }
 
-body {
+html,body
+{
+  width: 100%;
+  height: 100%;
   margin: 0;
+  padding: 0;
+  overflow-x: hidden;
   font-family: Roboto, sans-serif;
+  background-color: #0E1119;
 }
 
 .avatar {
@@ -26,10 +32,6 @@ body {
   height: 50px;
   border-radius: 50%;
   padding: 3px;
-}
-
-a {
-  text-transform: uppercase;
 }
 
 th.mat-sort-header-sorted {
@@ -51,12 +53,6 @@ th.mat-sort-header-sorted {
 
 .jumbotron p {
   font-size: 1.2em;
-}
-
-#row0 {
-  background-color: aqua;
-  font-weight: bold;
-  color: darkblue;
 }
 
 .example-form {
@@ -85,3 +81,4 @@ th.mat-sort-header-sorted {
   bottom: 5px;
   padding-top: 10px;
 }
+
