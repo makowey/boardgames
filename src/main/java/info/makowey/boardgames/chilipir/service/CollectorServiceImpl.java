@@ -74,7 +74,6 @@ public class CollectorServiceImpl implements CollectorService {
             ResponseException,
             IOException {
         log.info("Extracting from " + boardGameExtractor.name());
-        deleteByName(name);
         return boardGameRepository.saveAll(boardGameExtractor.search(name));
     }
 

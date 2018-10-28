@@ -1,10 +1,6 @@
 package info.makowey.boardgames.chilipir.scraper;
 
-import com.jaunt.Element;
-import com.jaunt.Elements;
-import com.jaunt.NotFound;
-import com.jaunt.ResponseException;
-import com.jaunt.UserAgent;
+import com.jaunt.*;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
@@ -36,7 +32,7 @@ public class RegatScrapperGame implements BoardGameExtractor {
     }
 
     @Override
-    public List<BoardGame> fetchAllGames() throws ResponseException {
+    public List<BoardGame> fetchAllGames() {
         return null;
     }
 
@@ -45,6 +41,7 @@ public class RegatScrapperGame implements BoardGameExtractor {
         Store store = Store.builder()
                 .name(source.getSiteName())
                 .url(populateUrl(title))
+                .logo(source.getLogo())
                 .lastVisit(LocalDate.now())
                 .build();
 
@@ -118,6 +115,7 @@ public class RegatScrapperGame implements BoardGameExtractor {
             price = localElement.getChildElements().get(1).getTextContent();
         }
 
+        if (price.isEmpty()) return 0.0;
         return Double.parseDouble(price
                 .replaceAll("[^0-9.,]+", "")
                 .replaceAll(",", "."));

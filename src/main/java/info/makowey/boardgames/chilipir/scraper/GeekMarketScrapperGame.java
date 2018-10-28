@@ -1,6 +1,5 @@
 package info.makowey.boardgames.chilipir.scraper;
 
-import com.jaunt.ResponseException;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
@@ -28,6 +27,7 @@ public class GeekMarketScrapperGame implements BoardGameExtractor {
     private static final OkHttpClient client = new OkHttpClient();
     private final static String UNKNOWN = "N/A";
     private static Source source = Source.GEEKMARKET;
+    private static String IMAGE_UNKNOWN_URL = "https://vignette.wikia.nocookie.net/lyricwiki/images/d/dd/Unknown.png/revision/latest?cb=20080726074744";
 
     public static void main(String[] args) throws IOException {
         INSTANCE.search("catan")
@@ -114,6 +114,7 @@ public class GeekMarketScrapperGame implements BoardGameExtractor {
                 .name(source.getSiteName()
                         .concat(" - ").concat(username))
                 .url(urlProduct)
+                .logo(source.getLogo())
                 .lastVisit(LocalDate.now())
                 .build();
 
@@ -153,6 +154,12 @@ public class GeekMarketScrapperGame implements BoardGameExtractor {
         List<BoardGame> boardGames = new ArrayList<>();
         for (int i = 0; i < elements.length(); i++) {
             JSONObject object = elements.getJSONObject(i);
+            String imageUrl;
+            try {
+                imageUrl = object.getString("imageurl");
+            } catch (JSONException ex) {
+                imageUrl = IMAGE_UNKNOWN_URL;
+            }
             boardGames.add(BoardGame.builder()
                     .bggId(object.getInt("objectid"))
                     .name(object.getString("name"))
@@ -160,7 +167,7 @@ public class GeekMarketScrapperGame implements BoardGameExtractor {
                             .name("BoardGameGeek")
                             .url(baseUrl.concat(object.getString("href")))
                             .build())
-                    .urlImage(object.getString("imageurl"))
+                    .urlImage(imageUrl)
                     .build());
         }
         return boardGames;

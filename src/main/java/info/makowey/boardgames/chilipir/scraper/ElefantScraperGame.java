@@ -107,6 +107,7 @@ public class ElefantScraperGame implements BoardGameExtractor {
 
         Store store = Store.builder()
                 .name(source.getSiteName())
+                .logo(source.getLogo())
                 .url(populateUrl(element))
                 .lastVisit(LocalDate.now())
                 .build();

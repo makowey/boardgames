@@ -24,6 +24,9 @@ public class Store {
 	@JsonProperty
 	private String url;
 
+	@JsonProperty
+	private String logo;
+
 	private LocalDate lastVisit;
 
 }

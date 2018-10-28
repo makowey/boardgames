@@ -19,7 +19,8 @@ public enum Source {
             "productsPerPage",
             "page",
             "<div class=\"thumbnail\">",
-            100),
+            100,
+            "http://static.elefant.ro/fe/bundles/elefantfront/images/elefant_logo.png?v=2"),
 
     REGAT("RegatulJocurilor.ro",
             "",
@@ -28,7 +29,8 @@ public enum Source {
             "perPage...",
             "page...",
             "<div class=\"centerBoxContentsProducts centeredContent\" style=\"width:100%;\">",
-            100),
+            100,
+            "http://www.regatuljocurilor.ro/includes/templates/abbington_mega/images/logo.png"),
 
     CARTURESTI("Carturesti.ro",
             "",
@@ -37,7 +39,9 @@ public enum Source {
             "perPage...",
             "page...",
             ".product-grid-container a",
-            90 ),
+            90,
+            "https://www.hueman.ro/wp-content/uploads/carturesti_whitelogo.png"),
+
     LEXSHOP( "Lexshop.ro",
             "",
             "https://www.lexshop.ro",
@@ -45,7 +49,9 @@ public enum Source {
             "perPage...",
             "page...",
             "<div class=\"prod_nou \">",
-            36 ),
+            36,
+            "https://d10w0d1gdgjea2.cloudfront.net/app/images/logo.png"),
+
     GEEKMARKET( "GeekMarket",
             "",
             "https://boardgamegeek.com",
@@ -53,7 +59,8 @@ public enum Source {
             "perPage...",
             "page...",
             "????",
-            100
+            100,
+            "https://cf.geekdo-static.com/images/geekmarket/geekmarket.png"
     );
 
     private String siteName;
@@ -64,6 +71,7 @@ public enum Source {
     private String pageName;
     private String productDiv;
     private int numberOfProductsPerPage;
+    private String logo;
 
     public String getPath(int counter) {
         return getBaseUrl().concat(path)

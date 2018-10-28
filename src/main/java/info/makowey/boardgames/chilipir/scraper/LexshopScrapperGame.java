@@ -57,6 +57,7 @@ public class LexshopScrapperGame implements BoardGameExtractor {
 		Store store = Store.builder()
 				.name( source.getSiteName() )
 				.url( populateUrl( element ) )
+				.logo(source.getLogo())
 				.lastVisit( LocalDate.now() )
 				.build();
 

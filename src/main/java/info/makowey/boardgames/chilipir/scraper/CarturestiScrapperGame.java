@@ -93,6 +93,7 @@ public class CarturestiScrapperGame implements BoardGameExtractor {
         Store store = Store.builder()
                 .name(source.getSiteName())
                 .url( urlProduct )
+                .logo(source.getLogo())
                 .lastVisit(LocalDate.now())
                 .build();
 

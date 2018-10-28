@@ -8,6 +8,7 @@ import java.util.Optional;
 
 // https://boardgamegeek.com/xmlapi2/thing?id=167791
 // https://boardgamegeek.com/xmlapi2/search?query=terraforming%20mars
+//https://boardvsgame.com/search.php?q=terraf autocomplete!!!
 public class BoardGameGeekEngine {
 
 	private static final String THING_URL = "https://boardgamegeek.com/xmlapi2/thing?id=";
