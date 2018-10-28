@@ -41,6 +41,18 @@ th.mat-sort-header-sorted {
   width: 100%;
 }
 
+.jumbotron {
+  padding: 0.5em 0.6em;
+}
+
+.jumbotron h1 {
+  font-size: 2em;
+}
+
+.jumbotron p {
+  font-size: 1.2em;
+}
+
 #row0 {
   background-color: aqua;
   font-weight: bold;

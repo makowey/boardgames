@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +41,7 @@ public class CollectorServiceImpl implements CollectorService {
     public List<BoardGame> traceAll() {
         Query query = new Query();
         //query.skip(pageNumber * pageSize);
+        query.addCriteria(Criteria.where("currentPrice").gte(150));
         query.limit(100);
         return mongoTemplate.find(query, BoardGame.class);
     }
@@ -78,9 +80,16 @@ public class CollectorServiceImpl implements CollectorService {
 
     @Override
     public List<BoardGame> findByName(String name) {
+        String[] words = name.split(" ");
         Query query = new Query();
-        query.addCriteria(Criteria.where("name").regex(name, "i"));
-        query.limit(15);
+        Criteria criteria = new Criteria();
+        Criteria[] criteriaList = new Criteria[words.length];
+        int index = 0;
+        for (String word : words) {
+            criteriaList[index++] = Criteria.where("name").regex(word, "i");
+        }
+        criteria.andOperator(criteriaList);
+        query.addCriteria(criteria);
         return mongoTemplate.find(query, BoardGame.class).stream()
                 .sorted(byCurrentPrice)
                 .collect(Collectors.toList());

@@ -30,6 +30,7 @@ public class BoardGame {
 	@JsonProperty
 	private int bggId;
 
+	@Indexed
 	@JsonProperty
 	private String name;
 

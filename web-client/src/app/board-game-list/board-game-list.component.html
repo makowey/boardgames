@@ -12,18 +12,19 @@
 <!--<br>-->
 <!--</form>-->
 
-<mat-form-field>
+<mat-form-field class="mx-auto px-2">
   <input matInput (keyup)="applyFilter($event.target.value)" (keydown.enter)="findBoardGame($event.target.value)"
          placeholder="Filter the {{numberOfGames}} items | Press enter to get latest price | Enable GeekMarket for best trades[europe]">
 </mat-form-field>
 
 <mat-slide-toggle
   [checked]="stateCtrl.disabled"
-  (change)="onChange()">
+  (change)="onChange()"
+  class="float-right px-2">
   <i>GeekMarket</i>
 </mat-slide-toggle>
 
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z8 mx-auto">
   <table mat-table [dataSource]="boardGames" matSort>
 
     <!--- Note that these columns can be defined in any order.
@@ -60,6 +61,8 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" id="row{{i}}"></tr>
   </table>
-
+  <footer class="credit">
+    <a href="https://boardgamegeek.com/user/makowey">@makowey, 2018</a>
+  </footer>
   <mat-paginator [pageSizeOptions]="[15, 30, 50]" showFirstLastButtons></mat-paginator>
 </div>
