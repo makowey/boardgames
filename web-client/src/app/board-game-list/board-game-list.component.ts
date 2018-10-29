@@ -22,6 +22,7 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  private isLoading: boolean = true;
 
   constructor(private boardGameService: BoardGameService) {
     this.isGeekMarket = false;
@@ -31,8 +32,10 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.boardGameService.getAll().subscribe(data => {
       this.originalData = data;
+        this.isLoading = false;
       this.refresh(data);
-    });
+      },
+      e => this.isLoading = false);
 
     this.boardGameService.count().subscribe(data => {
       this.numberOfGames = data;

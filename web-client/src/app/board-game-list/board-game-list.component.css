@@ -95,11 +95,6 @@ h2 a {
   box-shadow: 0 6px 6px -6px #0E1119;
 }
 
-@media (max-width: 800px) {
-  .container td:nth-child(4),
-  .container th:nth-child(4) { display: none; }
-}
-
 a {
   cursor: hand;
   text-decoration:none;
@@ -120,4 +115,20 @@ td a {
 
 .logo {
  max-height: 40px;
+}
+
+.logo-small {
+  max-height: 15px;
+  position: relative;
+  text-align: right;
+  right: 10px;
+}
+
+@media (min-width: 800px) {
+  .logo-small { display: none; }
+}
+
+@media (max-width: 800px) {
+  .container td:nth-child(4),
+  .container th:nth-child(4) { display: none; }
 }
