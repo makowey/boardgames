@@ -4,8 +4,8 @@ import com.jaunt.ResponseException;
 import com.mongodb.client.result.DeleteResult;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.repository.BoardGameRepository;
-import info.makowey.boardgames.chilipir.scraper.stores.GeekMarketScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
+import info.makowey.boardgames.chilipir.scraper.stores.GeekMarketScrapperGame;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -84,6 +84,7 @@ public class CollectorServiceImpl implements CollectorService {
         Criteria[] criteriaList = new Criteria[words.length];
         int index = 0;
         for (String word : words) {
+            word = word.replaceAll("[-.\\+*?\\[^\\]$(){}=!<>|:\\\\]", "\\\\$0");
             criteriaList[index++] = Criteria.where("name").regex(word, "i");
         }
         criteria.andOperator(criteriaList);

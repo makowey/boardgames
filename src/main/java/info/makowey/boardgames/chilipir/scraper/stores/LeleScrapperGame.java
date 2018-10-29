@@ -7,11 +7,11 @@ import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 import java.io.IOException;
 import java.util.List;
 
-public class PionulScrapperGame extends SimpleJsonScrapperGame implements BoardGameExtractor {
+public class LeleScrapperGame extends SimpleJsonScrapperGame implements BoardGameExtractor {
 
-    public static final PionulScrapperGame INSTANCE = new PionulScrapperGame(Source.PIONUL);
+    public static final LeleScrapperGame INSTANCE = new LeleScrapperGame(Source.LELEGAMES);
 
-    private PionulScrapperGame(Source source) {
+    private LeleScrapperGame(Source source) {
         super(source);
     }
 

@@ -63,6 +63,16 @@ public enum Source {
             100,
             "http://pionul.ro/image/cache/data/Daniel/Pionul%20textura-01-Recovered-600x315.png"),
 
+    LELEGAMES("LeleGames.ro",
+            "",
+            "http://lelegames.ro",
+            "/...",
+            "???",
+            "???",
+            "div",
+            100,
+            "https://www.lelegames.ro/image/cache/logo/logo-300x369.png"),
+
     GEEKMARKET("GeekMarket",
             "",
             "https://boardgamegeek.com",
@@ -110,6 +120,8 @@ public enum Source {
                 return LexshopScrapperGame.INSTANCE;
             case PIONUL:
                 return PionulScrapperGame.INSTANCE;
+            case LELEGAMES:
+                return LeleScrapperGame.INSTANCE;
             case GEEKMARKET:
                 return GeekMarketScrapperGame.INSTANCE;
             default:
