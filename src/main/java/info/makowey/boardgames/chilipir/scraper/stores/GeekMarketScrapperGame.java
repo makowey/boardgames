@@ -1,7 +1,8 @@
-package info.makowey.boardgames.chilipir.scraper;
+package info.makowey.boardgames.chilipir.scraper.stores;
 
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
+import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;

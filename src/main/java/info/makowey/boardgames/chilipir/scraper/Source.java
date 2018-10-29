@@ -1,6 +1,7 @@
 package info.makowey.boardgames.chilipir.scraper;
 
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
+import info.makowey.boardgames.chilipir.scraper.stores.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -42,7 +43,7 @@ public enum Source {
             90,
             "https://www.hueman.ro/wp-content/uploads/carturesti_whitelogo.png"),
 
-    LEXSHOP( "Lexshop.ro",
+    LEXSHOP("Lexshop.ro",
             "",
             "https://www.lexshop.ro",
             "?page=produse&categorie=8&min=6.5&max=899&nrjucatori_min=1&nrjucatori_max=99&sort=0&nrpg=36",
@@ -52,7 +53,17 @@ public enum Source {
             36,
             "https://d10w0d1gdgjea2.cloudfront.net/app/images/logo.png"),
 
-    GEEKMARKET( "GeekMarket",
+    PIONUL("Pionul.ro",
+            "",
+            "http://pionul.ro",
+            "/...",
+            "???",
+            "???",
+            "div",
+            100,
+            "http://pionul.ro/image/cache/data/Daniel/Pionul%20textura-01-Recovered-600x315.png"),
+
+    GEEKMARKET("GeekMarket",
             "",
             "https://boardgamegeek.com",
             "/geekmarket/browse?objecttype=thing&objectid=230802",
@@ -73,6 +84,11 @@ public enum Source {
     private int numberOfProductsPerPage;
     private String logo;
 
+    public static Source getByName(String name) {
+        return Optional.of(valueOf(name.toUpperCase()))
+                .orElse(ELEFANT);
+    }
+
     public String getPath(int counter) {
         return getBaseUrl().concat(path)
                 .concat(format(getFormatter(),
@@ -80,11 +96,6 @@ public enum Source {
                         getNumberOfProductsPerPage(),
                         getPageName(),
                         counter));
-    }
-
-    public static Source getByName(String name) {
-        return Optional.of(valueOf(name.toUpperCase()))
-                .orElse(ELEFANT);
     }
 
     public BoardGameExtractor getBGEInstance() {
@@ -97,6 +108,8 @@ public enum Source {
                 return CarturestiScrapperGame.INSTANCE;
             case LEXSHOP:
                 return LexshopScrapperGame.INSTANCE;
+            case PIONUL:
+                return PionulScrapperGame.INSTANCE;
             case GEEKMARKET:
                 return GeekMarketScrapperGame.INSTANCE;
             default:

@@ -4,7 +4,7 @@ import com.jaunt.ResponseException;
 import com.mongodb.client.result.DeleteResult;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.repository.BoardGameRepository;
-import info.makowey.boardgames.chilipir.scraper.GeekMarketScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.GeekMarketScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

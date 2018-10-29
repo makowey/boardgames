@@ -1,8 +1,9 @@
-package info.makowey.boardgames.chilipir.scraper;
+package info.makowey.boardgames.chilipir.scraper.stores;
 
 import com.jaunt.*;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
+import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package info.makowey.boardgames.chilipir.scraper;
+package info.makowey.boardgames.chilipir.scraper.stores;
 import com.jaunt.Element;
 import com.jaunt.Elements;
 import com.jaunt.NotFound;
@@ -6,6 +6,7 @@ import com.jaunt.ResponseException;
 import com.jaunt.UserAgent;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
+import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 
 import java.time.LocalDate;
