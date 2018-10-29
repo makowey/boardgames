@@ -72,6 +72,15 @@ public enum Source {
             "div",
             100,
             "https://www.lelegames.ro/image/cache/logo/logo-300x369.png"),
+    EMAG("Emag.ro",
+            "https://www.emag.ro/search/jocuri-societate/%s/c",
+            "http://emag.ro",
+            "https://www.emag.ro/search/jocuri-societate/azul/c",
+            "???",
+            "???",
+            "<div class='card-item js-product-data'>",
+            100,
+            "https://s12emagst.akamaized.net/layout/ro/images/logo//38/57629.png"),
 
     GEEKMARKET("GeekMarket",
             "",
@@ -122,6 +131,8 @@ public enum Source {
                 return PionulScrapperGame.INSTANCE;
             case LELEGAMES:
                 return LeleScrapperGame.INSTANCE;
+            case EMAG:
+                return EmagScrapperGame.INSTANCE;
             case GEEKMARKET:
                 return GeekMarketScrapperGame.INSTANCE;
             default:
