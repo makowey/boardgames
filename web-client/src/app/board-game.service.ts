@@ -31,6 +31,13 @@ export class BoardGameService {
     });
   }
 
+  public findCollections(username = ''): Observable<any> {
+    return this.http.get(this.baseUrl + '/findCollections', {
+      params: new HttpParams()
+        .set('username', username)
+    });
+  }
+
   private findAllBoardGames(name = '', value = false): Observable<any> {
     return this.http.get(this.baseUrl + '/findall', {
       params: new HttpParams()

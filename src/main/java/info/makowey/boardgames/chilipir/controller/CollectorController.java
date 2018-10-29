@@ -1,7 +1,9 @@
 package info.makowey.boardgames.chilipir.controller;
 
+import com.jaunt.NotFound;
 import com.jaunt.ResponseException;
 import info.makowey.boardgames.chilipir.model.BoardGame;
+import info.makowey.boardgames.chilipir.scraper.BoardGameGeekEngine;
 import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.service.CollectorService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
@@ -91,6 +94,7 @@ public class CollectorController {
             @RequestParam(name = "name", defaultValue = "Rummy") String name) {
 
         Set<BoardGame> boardGames = new HashSet<>();
+
         Stream.of(Source.values())
                 .parallel()
                 .map(Source::getBGEInstance)
@@ -104,5 +108,15 @@ public class CollectorController {
                 });
 
         return boardGames;
+    }
+
+    @GetMapping("/findCollections")
+    public List<BoardGame> getCollectionGamesForUsername(
+            @RequestParam(name = "username", defaultValue = "makowey") String username) throws NotFound, ResponseException {
+        return BoardGameGeekEngine.getCollectionForUsername(username.replace("@", ""))
+                .parallelStream()
+                .peek(boardGame -> boardGame.setCurrentPrice(collectorService
+                        .getCurrentPrice(boardGame.getName())))
+                .collect(Collectors.toList());
     }
 }

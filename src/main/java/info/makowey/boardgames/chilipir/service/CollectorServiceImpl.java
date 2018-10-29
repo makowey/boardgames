@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -108,5 +107,13 @@ public class CollectorServiceImpl implements CollectorService {
         return allGames.stream()
                 .sorted(byCurrentPrice.reversed())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Double getCurrentPrice(String name) {
+        return findByName(name).stream()
+                .mapToDouble(BoardGame::getCurrentPrice)
+                .average()
+                .orElse(0.0);
     }
 }

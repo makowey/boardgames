@@ -31,9 +31,9 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.boardGameService.getAll().subscribe(data => {
-      this.originalData = data;
+        this.originalData = data;
         this.isLoading = false;
-      this.refresh(data);
+        this.refresh(data);
       },
       e => this.isLoading = false);
 
@@ -56,6 +56,15 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
     this.currentFilter = filterValue;
     this.boardGames.filter = filterValue.trim().toLowerCase();
 
+    if (this.currentFilter.startsWith("@") &&
+      this.currentFilter.endsWith("@")) {
+      this.boardGameService.findCollections(this.boardGames.filter)
+        .subscribe(data => {
+          this.refresh(data);
+        });
+      return;
+    }
+
     if (this.boardGames.filter.length > 1) {
       this.boardGameService.search(
         Observable.of(this.boardGames.filter),
@@ -68,6 +77,9 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
 
   findBoardGame(filterValue: string) {
     this.currentFilter = filterValue;
+
+    if (this.currentFilter.startsWith("@")) return;
+
     this.boardGames.filter = filterValue.replace(/ /g, "%20");
     this.boardGameService.findAndUpdateBoardGames(0, this.boardGames.filter)
       .subscribe(data => {

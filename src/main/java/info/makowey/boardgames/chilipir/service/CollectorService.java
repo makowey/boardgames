@@ -24,4 +24,6 @@ public interface CollectorService {
 	int count();
 
 	List<BoardGame> findAll(String name, String geekMarket) throws IOException;
+
+	Double getCurrentPrice(String name);
 }

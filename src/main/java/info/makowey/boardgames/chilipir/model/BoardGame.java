@@ -47,4 +47,7 @@ public class BoardGame {
 
 	@JsonProperty
 	private Store store;
+
+	@JsonProperty
+	private String bggDetails;
 }
