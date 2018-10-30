@@ -105,7 +105,7 @@ public enum Source {
 
     public static Source getByName(String name) {
         return Optional.of(valueOf(name.toUpperCase()))
-                .orElse(ELEFANT);
+                .orElse(REGAT);
     }
 
     public String getPath(int counter) {

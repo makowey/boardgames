@@ -16,6 +16,8 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
   originalData;
   displayedColumns: string[] = ['prod', 'name', 'currentPrice', 'store'];
   numberOfGames;
+  numberOfBggCollection = 0;
+  totalBggCollection = 0;
   stateCtrl = new FormControl();
   isGeekMarket;
   currentFilter = "catan";
@@ -60,6 +62,8 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
       this.currentFilter.endsWith("@")) {
       this.boardGameService.findCollections(this.boardGames.filter)
         .subscribe(data => {
+          this.totalBggCollection = this.getTotal(data);
+          this.numberOfBggCollection = data.length;
           this.refresh(data);
         });
       return;
@@ -112,6 +116,11 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
       this.disableGeekMarket();
   }
 
+  getTotal(data) {
+    let total = 0;
+    data.forEach(game => total += game.currentPrice);
+    return total;
+  }
 }
 
 export interface BoardGame {

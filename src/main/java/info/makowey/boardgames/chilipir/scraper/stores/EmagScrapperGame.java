@@ -19,6 +19,8 @@ public class EmagScrapperGame implements BoardGameExtractor {
 
     private static Source source = Source.EMAG;
 
+    private boolean isCleanable = false;
+
     public static void main(String[] args) throws ResponseException {
         INSTANCE.search("azul")
                 .forEach(System.out::println);
@@ -107,5 +109,14 @@ public class EmagScrapperGame implements BoardGameExtractor {
             System.err.println("No games found. Reason: " + notFound.getMessage());
             return BoardGame.builder().build();
         }
+    }
+
+    @Override
+    public boolean cleanable() {
+        return isCleanable;
+    }
+
+    public void setCleanable( boolean cleanable ) {
+        isCleanable = cleanable;
     }
 }

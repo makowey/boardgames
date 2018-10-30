@@ -4,7 +4,9 @@ import com.jaunt.ResponseException;
 import com.mongodb.client.result.DeleteResult;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.repository.BoardGameRepository;
+import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
+import info.makowey.boardgames.chilipir.scraper.stores.EmagScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.GeekMarketScrapperGame;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +65,13 @@ public class CollectorServiceImpl implements CollectorService {
         return mongoTemplate.remove(query, BoardGame.class);
     }
 
+    public DeleteResult deleteBySouce( Source source ) {
+        Query query = new Query();
+        query.addCriteria( Criteria.where( "store.name" ).is( source.getSiteName() ) );
+        log.info( "Deleting items from {} ", source.getSiteName() );
+        return mongoTemplate.remove( query, BoardGame.class );
+    }
+
     @Override
     public int count() {
         return Math.toIntExact(boardGameRepository.count());
@@ -72,6 +81,13 @@ public class CollectorServiceImpl implements CollectorService {
     public List<BoardGame> search(String name, BoardGameExtractor boardGameExtractor) throws
             ResponseException,
             IOException {
+
+        // clean some not boardgames related objects....
+        if (boardGameExtractor instanceof EmagScrapperGame)
+            deleteBySouce( Source.EMAG );
+
+        //deleteBySouce( Source.ELEFANT );
+
         log.info("Extracting from " + boardGameExtractor.name());
         return boardGameRepository.saveAll(boardGameExtractor.search(name));
     }

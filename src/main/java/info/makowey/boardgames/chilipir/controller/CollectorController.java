@@ -5,11 +5,20 @@ import com.jaunt.ResponseException;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.scraper.BoardGameGeekEngine;
 import info.makowey.boardgames.chilipir.scraper.Source;
+import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
+import info.makowey.boardgames.chilipir.scraper.stores.CarturestiScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.ElefantScraperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.EmagScrapperGame;
 import info.makowey.boardgames.chilipir.service.CollectorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -91,9 +100,17 @@ public class CollectorController {
 
     @GetMapping("/search")
     public Set<BoardGame> search(
-            @RequestParam(name = "name", defaultValue = "Rummy") String name) {
+            @RequestParam(name = "name", defaultValue = "Rummy") String name,
+            @RequestParam(name = "clean") String clean ) {
 
         Set<BoardGame> boardGames = new HashSet<>();
+
+        BoardGameExtractor extractor = Source.getByName( clean ).getBGEInstance();
+        if (extractor instanceof CarturestiScrapperGame ||
+                extractor instanceof ElefantScraperGame ||
+                extractor instanceof EmagScrapperGame) {
+            extractor.setCleanable( true );
+        }
 
         Stream.of(Source.values())
                 .parallel()
@@ -116,7 +133,7 @@ public class CollectorController {
         return BoardGameGeekEngine.getCollectionForUsername(username.replace("@", ""))
                 .parallelStream()
                 .peek(boardGame -> boardGame.setCurrentPrice(collectorService
-                        .getCurrentPrice(boardGame.getName())))
+                        .getCurrentPrice( boardGame.getName().split( " " )[0] ) ) )
                 .collect(Collectors.toList());
     }
 }
