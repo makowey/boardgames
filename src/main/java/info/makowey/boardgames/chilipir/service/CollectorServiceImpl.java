@@ -126,6 +126,8 @@ public class CollectorServiceImpl implements CollectorService {
     @Override
     public Double getCurrentPrice(String name) {
         return findByName(name).stream()
+                .filter( boardGame -> ! boardGame.getStore().getName().equals( Source.EMAG.name() ) )
+                .filter( boardGame -> ! boardGame.getStore().getName().equals( Source.ELEFANT.name() ) )
                 .mapToDouble(BoardGame::getCurrentPrice)
                 .average()
                 .orElse(0.0);

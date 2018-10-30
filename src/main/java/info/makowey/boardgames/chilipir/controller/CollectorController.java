@@ -148,7 +148,7 @@ public class CollectorController {
         return collection
                 .parallelStream()
                 .peek( boardGame -> boardGame.setCurrentPrice( collectorService
-                        .getCurrentPrice( boardGame.getName().split( " " )[0] ) ) )
+                        .getCurrentPrice( boardGame.getName().replaceAll( "%20"," " )) ) )
                 .collect( Collectors.toList() );
     }
 
