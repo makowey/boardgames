@@ -69,9 +69,13 @@ public class CollectorController {
     }
 
     @DeleteMapping(path = "/clean")
-    public String deleteAll() {
-        return format("Deleted all the %d boardgames from the repository!",
-                collectorService.deleteAll());
+    public String deleteByName(
+            @RequestParam(name = "name") String name,
+            @RequestParam(name = "extractor") String extractor ) {
+        return format( "Deleted all the %d boardgames from the repository from %s with name containing %s!",
+                collectorService.deleteByName( Source.getByName( extractor ), name ).getDeletedCount(),
+                extractor,
+                name );
     }
 
     @GetMapping("/find")
@@ -101,15 +105,17 @@ public class CollectorController {
     @GetMapping("/search")
     public Set<BoardGame> search(
             @RequestParam(name = "name", defaultValue = "Rummy") String name,
-            @RequestParam(name = "clean") String clean ) {
+            @RequestParam(name = "clean", defaultValue = "NONE") String clean ) {
 
         Set<BoardGame> boardGames = new HashSet<>();
 
-        BoardGameExtractor extractor = Source.getByName( clean ).getBGEInstance();
-        if (extractor instanceof CarturestiScrapperGame ||
-                extractor instanceof ElefantScraperGame ||
-                extractor instanceof EmagScrapperGame) {
-            extractor.setCleanable( true );
+        if (! clean.equals( "NONE" )) {
+            BoardGameExtractor extractor = Source.getByName( clean ).getBGEInstance();
+            if (extractor instanceof CarturestiScrapperGame ||
+                    extractor instanceof ElefantScraperGame ||
+                    extractor instanceof EmagScrapperGame) {
+                extractor.setCleanable( true );
+            }
         }
 
         Stream.of(Source.values())
@@ -135,5 +141,10 @@ public class CollectorController {
                 .peek(boardGame -> boardGame.setCurrentPrice(collectorService
                         .getCurrentPrice( boardGame.getName().split( " " )[0] ) ) )
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/countWords")
+    public int countWords() {
+        return collectorService.countWords();
     }
 }

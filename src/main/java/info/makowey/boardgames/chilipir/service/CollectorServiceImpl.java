@@ -3,10 +3,11 @@ package info.makowey.boardgames.chilipir.service;
 import com.jaunt.ResponseException;
 import com.mongodb.client.result.DeleteResult;
 import info.makowey.boardgames.chilipir.model.BoardGame;
+import info.makowey.boardgames.chilipir.model.Word;
 import info.makowey.boardgames.chilipir.repository.BoardGameRepository;
+import info.makowey.boardgames.chilipir.repository.WordRepository;
 import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
-import info.makowey.boardgames.chilipir.scraper.stores.EmagScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.GeekMarketScrapperGame;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
 public class CollectorServiceImpl implements CollectorService {
 
     private final BoardGameRepository boardGameRepository;
+    private final WordRepository wordRepository;
 
     private final MongoTemplate mongoTemplate;
 
@@ -33,8 +38,11 @@ public class CollectorServiceImpl implements CollectorService {
     Comparator<BoardGame> byName = Comparator.comparing(BoardGame::getName);
 
     @Autowired
-    public CollectorServiceImpl(BoardGameRepository boardGameRepository, MongoTemplate mongoTemplate) {
+    public CollectorServiceImpl( BoardGameRepository boardGameRepository,
+            WordRepository wordRepository,
+            MongoTemplate mongoTemplate ) {
         this.boardGameRepository = boardGameRepository;
+        this.wordRepository = wordRepository;
         this.mongoTemplate = mongoTemplate;
     }
 
@@ -53,19 +61,14 @@ public class CollectorServiceImpl implements CollectorService {
     }
 
     @Override
-    public int deleteAll() {
-        int items = count();
-        boardGameRepository.deleteAll();
-        return items;
-    }
-
-    public DeleteResult deleteByName(String name) {
+    public DeleteResult deleteByName( Source source, String name ) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("name").regex(name, "i"));
-        return mongoTemplate.remove(query, BoardGame.class);
+        query.addCriteria( Criteria.where( "name" ).regex( name, "i" )
+                .andOperator( Criteria.where( "store.name" ).is( source.getSiteName() ) ) );
+        return mongoTemplate.remove( query, BoardGame.class );
     }
 
-    public DeleteResult deleteBySouce( Source source ) {
+    private DeleteResult deleteBySouce( Source source ) {
         Query query = new Query();
         query.addCriteria( Criteria.where( "store.name" ).is( source.getSiteName() ) );
         log.info( "Deleting items from {} ", source.getSiteName() );
@@ -81,14 +84,8 @@ public class CollectorServiceImpl implements CollectorService {
     public List<BoardGame> search(String name, BoardGameExtractor boardGameExtractor) throws
             ResponseException,
             IOException {
-
-        // clean some not boardgames related objects....
-        if (boardGameExtractor instanceof EmagScrapperGame)
-            deleteBySouce( Source.EMAG );
-
-        //deleteBySouce( Source.ELEFANT );
-
         log.info("Extracting from " + boardGameExtractor.name());
+        countWords( name );
         return boardGameRepository.saveAll(boardGameExtractor.search(name));
     }
 
@@ -105,6 +102,8 @@ public class CollectorServiceImpl implements CollectorService {
         }
         criteria.andOperator(criteriaList);
         query.addCriteria(criteria);
+
+        countWords( name );
         return mongoTemplate.find(query, BoardGame.class).stream()
                 .sorted(byCurrentPrice)
                 .collect(Collectors.toList());
@@ -121,6 +120,7 @@ public class CollectorServiceImpl implements CollectorService {
         if (Boolean.valueOf(geekMarket))
             allGames.addAll(findBGGByName(name));
 
+        countWords( name );
         return allGames.stream()
                 .sorted(byCurrentPrice.reversed())
                 .collect(Collectors.toList());
@@ -132,5 +132,23 @@ public class CollectorServiceImpl implements CollectorService {
                 .mapToDouble(BoardGame::getCurrentPrice)
                 .average()
                 .orElse(0.0);
+    }
+
+    private void countWords( String name ) {
+        String[] words = name.split( " " );
+        Stream.of( words )
+                .filter( s -> ! s.isEmpty() )
+                .forEach( s -> {
+                    Word word = wordRepository.findByName( s );
+                    Optional.ofNullable( word )
+                            .ifPresentOrElse( sameWord -> {
+                                word.setCount( Objects.requireNonNull( word ).getCount() + 1 );
+                                wordRepository.save( sameWord );
+                            }, () -> wordRepository.save( Word.builder().name( s ).count( 1 ).build() ) );
+                } );
+    }
+
+    public int countWords() {
+        return Math.toIntExact( wordRepository.count() );
     }
 }

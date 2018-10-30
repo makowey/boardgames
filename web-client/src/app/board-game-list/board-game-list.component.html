@@ -14,9 +14,9 @@
 
 <mat-form-field class="mx-auto px-1">
   <input matInput (keyup)="applyFilter($event.target.value)" (keydown.enter)="findBoardGame($event.target.value)"
-         placeholder="Filter the {{numberOfGames}} items | Press enter to get latest price | Enable GeekMarket for best trades[europe]">
+         placeholder="Filter the {{numberOfGames}} items | Press enter to get latest price | Enable GeekMarket for best trades[europe] | @yourbggusername@">
 </mat-form-field>
-<span class="bggInfo">Total value for your {{ numberOfBggCollection }} games: ~{{ totalBggCollection | number : '1.2-2' }} lei</span>
+<span class="bggInfo">Total value for your {{ numberOfBggCollection }} games: ~{{ totalBggCollection | number : '1.2-2' }} lei. <i>Place your bgg username between two @, (Sample:  @makowey@) </i></span>
 <mat-slide-toggle
   labelPosition="before"
   [checked]="stateCtrl.disabled"
