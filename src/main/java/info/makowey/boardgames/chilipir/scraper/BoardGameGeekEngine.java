@@ -23,6 +23,7 @@ public class BoardGameGeekEngine {
     private static final String COLLECTION_URL = "https://boardgamegeek.com/xmlapi2/collection?username=";
     private static final String NO_IMAGE = "NO_IMAGE";
     private static final String NO_ID = "0";
+    private static final boolean owned = true;
 
     private static final UserAgent userAgent = new UserAgent();
 
@@ -48,11 +49,17 @@ public class BoardGameGeekEngine {
 
         elements.toList()
                 .forEach(element -> {
+
                     String gameName = "";
                     String gameImage = "";
                     String numberOfPlays = "";
                     String bggId = "", myRate = "", averageRate = "";
                     try {
+
+                        // FILTER owned
+                        if (owned && ! element.findFirst( "status" ).getAtString( "own" ).equals( "1" ))
+                            return;
+
                         gameName = element.findFirst("name").getTextContent();
                         gameImage = element.findFirst("thumbnail").getTextContent();
                         numberOfPlays = element.findFirst("numplays").getTextContent();
@@ -75,6 +82,7 @@ public class BoardGameGeekEngine {
 
                     String bggDetails = format(" You played %s times, you rate %s when average is %s",
                             numberOfPlays, myRate, averageRate);
+
                     boardGames.add(BoardGame.builder()
                             .name(gameName)
                             .bggId(Integer.parseInt(bggId))

@@ -1,6 +1,10 @@
 package info.makowey.boardgames.chilipir.scraper.stores;
 
-import com.jaunt.*;
+import com.jaunt.Element;
+import com.jaunt.Elements;
+import com.jaunt.NotFound;
+import com.jaunt.ResponseException;
+import com.jaunt.UserAgent;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
 import info.makowey.boardgames.chilipir.scraper.Source;
@@ -16,8 +20,11 @@ import static java.lang.String.format;
 public class EmagScrapperGame implements BoardGameExtractor {
 
     public static final EmagScrapperGame INSTANCE = new EmagScrapperGame();
+    public static final String UNKNOWN = "UNKNOWN";
 
     private static Source source = Source.EMAG;
+
+    private boolean isCleanable = false;
 
     public static void main(String[] args) throws ResponseException {
         INSTANCE.search("azul")
@@ -38,17 +45,21 @@ public class EmagScrapperGame implements BoardGameExtractor {
     public List<BoardGame> search(String name) throws ResponseException {
         UserAgent userAgent = new UserAgent();
         String fullPath = source.getBaseUrl()
-                .concat(format("/search/jocuri-societate/%s/c", name));
+                .concat( format( "/search/jocuri-societate/stoc/%s/c", name ) );
         userAgent.visit(fullPath);
 
         Elements elements = userAgent.doc.findEach(source.getProductDiv());
 
         return elements.toList().stream()
                 .map(this::convert)
+                .filter( boardGame -> ! boardGame.getName().equals( UNKNOWN ) )
                 .collect(Collectors.toList());
     }
 
     private BoardGame convertToBoardGame(Element element) throws NotFound {
+
+        if (! element.getAtString( "data-category-name" ).equals( "Jocuri de societate" ))
+            return BoardGame.builder().name( UNKNOWN ).build();
 
         Store store = Store.builder()
                 .name(source.getSiteName())
@@ -107,5 +118,14 @@ public class EmagScrapperGame implements BoardGameExtractor {
             System.err.println("No games found. Reason: " + notFound.getMessage());
             return BoardGame.builder().build();
         }
+    }
+
+    @Override
+    public boolean cleanable() {
+        return isCleanable;
+    }
+
+    public void setCleanable( boolean cleanable ) {
+        isCleanable = cleanable;
     }
 }

@@ -35,6 +35,8 @@ public class CarturestiScrapperGame implements BoardGameExtractor {
 
     private static Source source = Source.CARTURESTI;
 
+    private boolean isCleanable = false;
+
     public static void main( String[] args ) throws IOException {
         INSTANCE.search("catan")
                 .forEach(System.out::println);
@@ -107,5 +109,9 @@ public class CarturestiScrapperGame implements BoardGameExtractor {
                 .currentPrice( jsonObject.getDouble( "price" ) )
                 .urlImage( urlImage )
                 .build();
+    }
+
+    public void setCleanable( boolean cleanable ) {
+        isCleanable = cleanable;
     }
 }

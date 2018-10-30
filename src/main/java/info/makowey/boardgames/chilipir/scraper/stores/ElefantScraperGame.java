@@ -29,6 +29,8 @@ public class ElefantScraperGame implements BoardGameExtractor {
 
     private static Source source = Source.ELEFANT;
 
+    private boolean isCleanable = false;
+
     public static void main(String[] args) throws ResponseException {
 
         INSTANCE.search("catan")
@@ -165,6 +167,10 @@ public class ElefantScraperGame implements BoardGameExtractor {
                     }
                 })
                 .collect(Collectors.toList());
+    }
+
+    public void setCleanable( boolean cleanable ) {
+        isCleanable = cleanable;
     }
 }
 // http://www.elefant.ro/search/jucarii?query=catan
