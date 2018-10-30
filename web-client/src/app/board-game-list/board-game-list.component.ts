@@ -74,6 +74,7 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
         Observable.of(this.boardGames.filter),
         this.isGeekMarket)
         .subscribe(data => {
+          this.numberOfBggCollection = 0;
           this.refresh(data);
         });
     }

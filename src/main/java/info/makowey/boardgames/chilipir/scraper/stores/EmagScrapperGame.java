@@ -20,6 +20,7 @@ import static java.lang.String.format;
 public class EmagScrapperGame implements BoardGameExtractor {
 
     public static final EmagScrapperGame INSTANCE = new EmagScrapperGame();
+    public static final String UNKNOWN = "UNKNOWN";
 
     private static Source source = Source.EMAG;
 
@@ -51,13 +52,14 @@ public class EmagScrapperGame implements BoardGameExtractor {
 
         return elements.toList().stream()
                 .map(this::convert)
+                .filter( boardGame -> ! boardGame.getName().equals( UNKNOWN ) )
                 .collect(Collectors.toList());
     }
 
     private BoardGame convertToBoardGame(Element element) throws NotFound {
 
         if (! element.getAtString( "data-category-name" ).equals( "Jocuri de societate" ))
-            return BoardGame.builder().build();
+            return BoardGame.builder().name( UNKNOWN ).build();
 
         Store store = Store.builder()
                 .name(source.getSiteName())
