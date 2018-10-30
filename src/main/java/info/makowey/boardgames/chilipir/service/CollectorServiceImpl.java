@@ -85,7 +85,6 @@ public class CollectorServiceImpl implements CollectorService {
             ResponseException,
             IOException {
         log.info("Extracting from " + boardGameExtractor.name());
-        countWords( name );
         return boardGameRepository.saveAll(boardGameExtractor.search(name));
     }
 
@@ -103,7 +102,6 @@ public class CollectorServiceImpl implements CollectorService {
         criteria.andOperator(criteriaList);
         query.addCriteria(criteria);
 
-        countWords( name );
         return mongoTemplate.find(query, BoardGame.class).stream()
                 .sorted(byCurrentPrice)
                 .collect(Collectors.toList());
@@ -120,7 +118,6 @@ public class CollectorServiceImpl implements CollectorService {
         if (Boolean.valueOf(geekMarket))
             allGames.addAll(findBGGByName(name));
 
-        countWords( name );
         return allGames.stream()
                 .sorted(byCurrentPrice.reversed())
                 .collect(Collectors.toList());
@@ -134,8 +131,8 @@ public class CollectorServiceImpl implements CollectorService {
                 .orElse(0.0);
     }
 
-    private void countWords( String name ) {
-        String[] words = name.split( " " );
+    public void countWords( String name ) {
+        String[] words = name.split( "%20" );
         Stream.of( words )
                 .filter( s -> ! s.isEmpty() )
                 .forEach( s -> {
@@ -150,5 +147,9 @@ public class CollectorServiceImpl implements CollectorService {
 
     public int countWords() {
         return Math.toIntExact( wordRepository.count() );
+    }
+
+    public Word findWordByName( String name ) {
+        return wordRepository.findByName( name );
     }
 }

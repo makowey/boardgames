@@ -3,6 +3,7 @@ package info.makowey.boardgames.chilipir.controller;
 import com.jaunt.NotFound;
 import com.jaunt.ResponseException;
 import info.makowey.boardgames.chilipir.model.BoardGame;
+import info.makowey.boardgames.chilipir.model.Word;
 import info.makowey.boardgames.chilipir.scraper.BoardGameGeekEngine;
 import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
@@ -118,6 +119,7 @@ public class CollectorController {
             }
         }
 
+        collectorService.countWords( name );
         Stream.of(Source.values())
                 .parallel()
                 .map(Source::getBGEInstance)
@@ -136,15 +138,27 @@ public class CollectorController {
     @GetMapping("/findCollections")
     public List<BoardGame> getCollectionGamesForUsername(
             @RequestParam(name = "username", defaultValue = "makowey") String username) throws NotFound, ResponseException {
-        return BoardGameGeekEngine.getCollectionForUsername(username.replace("@", ""))
+        List<BoardGame> collection = BoardGameGeekEngine
+                .getCollectionForUsername( username.replace( "@", "" ) );
+
+        if (collection.isEmpty())
+            return collection;
+        collectorService.countWords( username );
+
+        return collection
                 .parallelStream()
-                .peek(boardGame -> boardGame.setCurrentPrice(collectorService
+                .peek( boardGame -> boardGame.setCurrentPrice( collectorService
                         .getCurrentPrice( boardGame.getName().split( " " )[0] ) ) )
-                .collect(Collectors.toList());
+                .collect( Collectors.toList() );
     }
 
     @GetMapping("/countWords")
     public int countWords() {
         return collectorService.countWords();
+    }
+
+    @GetMapping("/findWord")
+    public Word findWord( @RequestParam(name = "word") String word ) {
+        return collectorService.findWordByName( word );
     }
 }

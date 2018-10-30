@@ -3,6 +3,7 @@ package info.makowey.boardgames.chilipir.service;
 import com.jaunt.ResponseException;
 import com.mongodb.client.result.DeleteResult;
 import info.makowey.boardgames.chilipir.model.BoardGame;
+import info.makowey.boardgames.chilipir.model.Word;
 import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 
@@ -27,7 +28,11 @@ public interface CollectorService {
 
 	int countWords();
 
+	void countWords( String name );
+
 	List<BoardGame> findAll(String name, String geekMarket) throws IOException;
 
 	Double getCurrentPrice(String name);
+
+	Word findWordByName(String name);
 }
