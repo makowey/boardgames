@@ -153,18 +153,6 @@ public class CollectorController {
                     double currentPrice = collectorService
                             .getCurrentPrice(boardGame.getName().replaceAll("%20", " "));
 
-                    if (currentPrice < 1.0) {
-                        CompletableFuture.supplyAsync( () -> {
-                            try {
-                                Thread.sleep( 700 );
-                            } catch (InterruptedException e) {
-                                log.error( "Sleeping not well...." );
-                            }
-                            search( boardGame.getName(), "NONE" );
-                            return Optional.empty();
-                        } );
-                    }
-
                     boardGame.setCurrentPrice(currentPrice);
                 })
                 .collect(Collectors.toList());
