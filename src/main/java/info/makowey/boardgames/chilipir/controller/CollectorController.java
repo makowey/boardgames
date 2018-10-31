@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -72,11 +74,11 @@ public class CollectorController {
     @DeleteMapping(path = "/clean")
     public String deleteByName(
             @RequestParam(name = "name") String name,
-            @RequestParam(name = "extractor") String extractor ) {
-        return format( "Deleted all the %d boardgames from the repository from %s with name containing %s!",
-                collectorService.deleteByName( Source.getByName( extractor ), name ).getDeletedCount(),
+            @RequestParam(name = "extractor") String extractor) {
+        return format("Deleted all the %d boardgames from the repository from %s with name containing %s!",
+                collectorService.deleteByName(Source.getByName(extractor), name).getDeletedCount(),
                 extractor,
-                name );
+                name);
     }
 
     @GetMapping("/find")
@@ -106,20 +108,20 @@ public class CollectorController {
     @GetMapping("/search")
     public Set<BoardGame> search(
             @RequestParam(name = "name", defaultValue = "Rummy") String name,
-            @RequestParam(name = "clean", defaultValue = "NONE") String clean ) {
+            @RequestParam(name = "clean", defaultValue = "NONE") String clean) {
 
         Set<BoardGame> boardGames = new HashSet<>();
 
-        if (! clean.equals( "NONE" )) {
-            BoardGameExtractor extractor = Source.getByName( clean ).getBGEInstance();
+        if (!clean.equals("NONE")) {
+            BoardGameExtractor extractor = Source.getByName(clean).getBGEInstance();
             if (extractor instanceof CarturestiScrapperGame ||
                     extractor instanceof ElefantScraperGame ||
                     extractor instanceof EmagScrapperGame) {
-                extractor.setCleanable( true );
+                extractor.setCleanable(true);
             }
         }
 
-        collectorService.countWords( name );
+        collectorService.countWords(name);
         Stream.of(Source.values())
                 .parallel()
                 .map(Source::getBGEInstance)
@@ -139,17 +141,33 @@ public class CollectorController {
     public List<BoardGame> getCollectionGamesForUsername(
             @RequestParam(name = "username", defaultValue = "makowey") String username) throws NotFound, ResponseException {
         List<BoardGame> collection = BoardGameGeekEngine
-                .getCollectionForUsername( username.replace( "@", "" ) );
+                .getCollectionForUsername(username.replace("@", ""));
 
         if (collection.isEmpty())
             return collection;
-        collectorService.countWords( username );
+        collectorService.countWords(username);
 
         return collection
                 .parallelStream()
-                .peek( boardGame -> boardGame.setCurrentPrice( collectorService
-                        .getCurrentPrice( boardGame.getName().replaceAll( "%20"," " )) ) )
-                .collect( Collectors.toList() );
+                .peek(boardGame -> {
+                    double currentPrice = collectorService
+                            .getCurrentPrice(boardGame.getName().replaceAll("%20", " "));
+
+                    if (currentPrice < 1.0) {
+                        CompletableFuture.supplyAsync( () -> {
+                            try {
+                                Thread.sleep( 700 );
+                            } catch (InterruptedException e) {
+                                log.error( "Sleeping not well...." );
+                            }
+                            search( boardGame.getName(), "NONE" );
+                            return Optional.empty();
+                        } );
+                    }
+
+                    boardGame.setCurrentPrice(currentPrice);
+                })
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/countWords")
@@ -158,7 +176,7 @@ public class CollectorController {
     }
 
     @GetMapping("/findWord")
-    public Word findWord( @RequestParam(name = "word") String word ) {
-        return collectorService.findWordByName( word );
+    public Word findWord(@RequestParam(name = "word") String word) {
+        return collectorService.findWordByName(word);
     }
 }
