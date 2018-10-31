@@ -34,8 +34,7 @@ public class CollectorServiceImpl implements CollectorService {
 
     private final MongoTemplate mongoTemplate;
 
-    Comparator<BoardGame> byCurrentPrice = Comparator.comparing(BoardGame::getCurrentPrice);
-    Comparator<BoardGame> byName = Comparator.comparing(BoardGame::getName);
+    private Comparator<BoardGame> byCurrentPrice = Comparator.comparing(BoardGame::getCurrentPrice);
 
     @Autowired
     public CollectorServiceImpl( BoardGameRepository boardGameRepository,
@@ -85,7 +84,7 @@ public class CollectorServiceImpl implements CollectorService {
             ResponseException,
             IOException {
         log.info("Extracting from " + boardGameExtractor.name());
-        return boardGameRepository.saveAll(boardGameExtractor.search(name));
+        return boardGameRepository.saveAll(boardGameExtractor.search(name.replaceAll(" ", "%20")));
     }
 
     @Override
@@ -96,7 +95,7 @@ public class CollectorServiceImpl implements CollectorService {
         Criteria[] criteriaList = new Criteria[words.length];
         int index = 0;
         for (String word : words) {
-            word = word.replaceAll("[-.\\+*?\\[^\\]$(){}=!<>|:\\\\]", "\\\\$0");
+            word = word.replaceAll("[-.+*?\\[^\\]$(){}=!<>|:\\\\]", "\\\\$0");
             criteriaList[index++] = Criteria.where("name").regex(word, "i");
         }
         criteria.andOperator(criteriaList);
