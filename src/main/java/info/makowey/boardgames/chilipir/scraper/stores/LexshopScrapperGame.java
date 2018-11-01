@@ -8,12 +8,17 @@ import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
 import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LexshopScrapperGame implements BoardGameExtractor {
 
 	public static final LexshopScrapperGame INSTANCE = new LexshopScrapperGame();

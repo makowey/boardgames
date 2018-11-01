@@ -34,7 +34,6 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.boardGameService.getAll().subscribe(data => {
         this.originalData = data;
-        this.isLoading = false;
         this.refresh(data);
       },
       e => this.isLoading = false);
@@ -60,36 +59,43 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
 
     if (this.currentFilter.startsWith("@") &&
       this.currentFilter.endsWith("@")) {
+      this.isLoading = true;
+
       this.boardGameService.findCollections(this.boardGames.filter)
         .subscribe(data => {
           this.totalBggCollection = this.getTotal(data);
           this.numberOfBggCollection = data.length;
           this.refresh(data);
-        });
+          },
+          e => this.isLoading = false);
       return;
     }
 
     if (this.boardGames.filter.length > 1) {
+      this.isLoading = true;
+
       this.boardGameService.search(
         Observable.of(this.boardGames.filter),
         this.isGeekMarket)
         .subscribe(data => {
           this.numberOfBggCollection = 0;
           this.refresh(data);
-        });
+          },
+          e => this.isLoading = false);
     }
   }
 
   findBoardGame(filterValue: string) {
     this.currentFilter = filterValue;
-
     if (this.currentFilter.startsWith("@")) return;
 
+    this.isLoading = true;
     this.boardGames.filter = filterValue.replace(/ /g, "%20");
     this.boardGameService.findAndUpdateBoardGames(0, this.boardGames.filter)
       .subscribe(data => {
         this.refresh(data);
-      });
+        },
+        e => this.isLoading = false);
   }
 
   refresh(data) {
@@ -97,6 +103,7 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
     this.boardGames.paginator = this.paginator;
     this.sort.sort(<MatSortable>({id: 'currentPrice', start: 'asc'}));
     this.boardGames.sort = this.sort;
+    this.isLoading = false;
   }
 
   enableGeekMarket() {

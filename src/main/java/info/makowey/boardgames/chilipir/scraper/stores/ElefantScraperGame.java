@@ -12,6 +12,7 @@ import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ElefantScraperGame implements BoardGameExtractor {
 
@@ -48,7 +50,7 @@ public class ElefantScraperGame implements BoardGameExtractor {
                     try {
                         return convertToBoardGame(element);
                     } catch (NotFound notFound) {
-                        notFound.printStackTrace();
+                        log.error( "Element not found for {}", name() );
                     }
                     return null;
                 })
@@ -67,7 +69,7 @@ public class ElefantScraperGame implements BoardGameExtractor {
         try {
             id = BoardGameGeekEngine.lookupByName(name);
         } catch (ResponseException | NotFound e) {
-            e.printStackTrace();
+            log.error( "Element not found for {} in {}", name, name() );
         }
 
         Optional.ofNullable(id)

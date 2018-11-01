@@ -6,6 +6,7 @@ import com.jaunt.ResponseException;
 import com.jaunt.UserAgent;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import static java.lang.String.format;
 // https://boardgamegeek.com/xmlapi2/thing?id=167791
 // https://boardgamegeek.com/xmlapi2/search?query=terraforming%20mars
 //https://boardvsgame.com/search.php?q=terraf autocomplete!!!
+@Slf4j
 public class BoardGameGeekEngine {
 
     private static final String THING_URL = "https://boardgamegeek.com/xmlapi2/thing?id=";
@@ -53,7 +55,7 @@ public class BoardGameGeekEngine {
                     String gameName = "";
                     String gameImage = "";
                     String numberOfPlays = "";
-                    String bggId = "", myRate = "", averageRate = "";
+                    String bggId = "", myRate, averageRate;
                     try {
 
                         // FILTER owned
@@ -77,7 +79,9 @@ public class BoardGameGeekEngine {
                                 .getAt("value");
 
                     } catch (NotFound notFound) {
-                        notFound.printStackTrace();
+                        myRate = "-";
+                        averageRate = "?";
+                        log.error( "No stats found for {}, user: {}", gameName, name );
                     }
 
                     String bggDetails = format(" You played %s times, you rate %s when average is %s",

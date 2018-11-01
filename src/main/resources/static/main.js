@@ -253,7 +253,6 @@ var BoardGameListComponent = /** @class */ (function () {
         var _this = this;
         this.boardGameService.getAll().subscribe(function (data) {
             _this.originalData = data;
-            _this.isLoading = false;
             _this.refresh(data);
         }, function (e) { return _this.isLoading = false; });
         this.boardGameService.count().subscribe(function (data) {
@@ -272,20 +271,22 @@ var BoardGameListComponent = /** @class */ (function () {
         this.boardGames.filter = filterValue.trim().toLowerCase();
         if (this.currentFilter.startsWith("@") &&
             this.currentFilter.endsWith("@")) {
+            this.isLoading = true;
             this.boardGameService.findCollections(this.boardGames.filter)
                 .subscribe(function (data) {
                 _this.totalBggCollection = _this.getTotal(data);
                 _this.numberOfBggCollection = data.length;
                 _this.refresh(data);
-            });
+            }, function (e) { return _this.isLoading = false; });
             return;
         }
         if (this.boardGames.filter.length > 1) {
+            this.isLoading = true;
             this.boardGameService.search(rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].of(this.boardGames.filter), this.isGeekMarket)
                 .subscribe(function (data) {
                 _this.numberOfBggCollection = 0;
                 _this.refresh(data);
-            });
+            }, function (e) { return _this.isLoading = false; });
         }
     };
     BoardGameListComponent.prototype.findBoardGame = function (filterValue) {
@@ -293,17 +294,19 @@ var BoardGameListComponent = /** @class */ (function () {
         this.currentFilter = filterValue;
         if (this.currentFilter.startsWith("@"))
             return;
+        this.isLoading = true;
         this.boardGames.filter = filterValue.replace(/ /g, "%20");
         this.boardGameService.findAndUpdateBoardGames(0, this.boardGames.filter)
             .subscribe(function (data) {
             _this.refresh(data);
-        });
+        }, function (e) { return _this.isLoading = false; });
     };
     BoardGameListComponent.prototype.refresh = function (data) {
         this.boardGames = new _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](data);
         this.boardGames.paginator = this.paginator;
         this.sort.sort(({ id: 'currentPrice', start: 'asc' }));
         this.boardGames.sort = this.sort;
+        this.isLoading = false;
     };
     BoardGameListComponent.prototype.enableGeekMarket = function () {
         this.stateCtrl.enable();
@@ -585,7 +588,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\oath\cheapest-boardgame\web-client\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! D:\Stuff\chilipir\web-client\src\main.ts */"./src/main.ts");
 
 
 /***/ })

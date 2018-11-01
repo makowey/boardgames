@@ -4,6 +4,8 @@ import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
 import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -22,6 +24,7 @@ import static java.lang.String.format;
 
 @Slf4j
 //https://boardgamegeek.com/api/geekmarket/products/search?ajax=1&marketdomain=boardgame&q=azul
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GeekMarketScrapperGame implements BoardGameExtractor {
 
     public static final GeekMarketScrapperGame INSTANCE = new GeekMarketScrapperGame();

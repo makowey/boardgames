@@ -1,12 +1,17 @@
 package info.makowey.boardgames.chilipir.scraper.stores;
 
-import com.jaunt.*;
+import com.jaunt.Element;
+import com.jaunt.Elements;
+import com.jaunt.NotFound;
+import com.jaunt.ResponseException;
+import com.jaunt.UserAgent;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
 import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,6 +19,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RegatScrapperGame implements BoardGameExtractor {
 

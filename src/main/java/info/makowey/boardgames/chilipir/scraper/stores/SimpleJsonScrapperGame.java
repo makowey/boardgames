@@ -3,6 +3,8 @@ package info.makowey.boardgames.chilipir.scraper.stores;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
 import info.makowey.boardgames.chilipir.scraper.Source;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@NoArgsConstructor
 public class SimpleJsonScrapperGame {
     private static final OkHttpClient client = new OkHttpClient();
     protected Source source;
