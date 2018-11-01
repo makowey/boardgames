@@ -23,6 +23,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jaxb-core.version>2.2.11</jaxb-core.version>
         <java.version>11</java.version>
+        <jaunt.version>1.5.1</jaunt.version>
     </properties>
 
     <dependencies>
@@ -82,7 +83,7 @@
         <dependency>
             <groupId>com.jaunt</groupId>
             <artifactId>jaunt</artifactId>
-            <version>1.5</version>
+            <version>${jaunt.version}</version>
         </dependency>
 
         <dependency>
