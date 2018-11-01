@@ -35,4 +35,6 @@ public interface CollectorService {
 	Double getCurrentPrice(String name);
 
 	Word findWordByName(String name);
+
+	BoardGame getOne();
 }

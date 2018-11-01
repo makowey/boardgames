@@ -135,5 +135,6 @@ export interface BoardGame {
   name: string;
   urlImage: string;
   currentPrice: number;
+  bestPrice: number;
   store: string;
 }

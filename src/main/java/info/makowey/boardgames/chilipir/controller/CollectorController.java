@@ -158,6 +158,11 @@ public class CollectorController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/getOne")
+    public BoardGame getOne() {
+        return collectorService.getOne();
+    }
+
     @GetMapping("/countWords")
     public int countWords() {
         return collectorService.countWords();

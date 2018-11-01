@@ -11,7 +11,7 @@ import 'rxjs/add/operator/switchMap';
 })
 export class BoardGameService {
 
-  baseUrl = "";//localhost:8083";
+  baseUrl = "//localhost:8083";
 
   constructor(private http: HttpClient) {
   }
@@ -61,5 +61,9 @@ export class BoardGameService {
       .debounceTime(1000)
       .distinctUntilChanged()
       .switchMap(term => this.findAllBoardGames(term, geekMarket));
+  }
+
+  getOne() {
+    return this.http.get(this.baseUrl + '/getOne');
   }
 }

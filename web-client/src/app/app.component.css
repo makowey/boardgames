@@ -3,6 +3,42 @@
     padding: 0;
     margin-bottom: 0;
   }
-  .display-4 { font-size: 17px; font-weight: bolder; color: #2C3446;}
-  .lead { font-size: 14px}
+
+  .display-4 {
+    font-size: 17px;
+    font-weight: bolder;
+    color: #2C3446;
+  }
+
+  .lead {
+    font-size: 14px
+  }
+
+  #bestPriceOffer {
+    position: relative;
+    float: right;
+    margin-top: 10px;
+    max-width: 35px;
+    max-height: 35px;
+    border-radius: 35px;
+    display: none;
+  }
+}
+
+.logo {
+  position: relative;
+  max-width: 75px;
+  max-height: 75px;
+  border-radius: 35px;
+}
+
+#bestPriceOffer{
+  font-style: italic;
+  font-size: 11px;
+  float: right;
+  text-align: center;
+}
+
+.best-price {
+  color: brown;
 }
