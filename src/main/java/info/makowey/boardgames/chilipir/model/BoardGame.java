@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,32 +23,36 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 public class BoardGame {
 
-	@Id
-	@Indexed
-	@JsonProperty
-	private String id;
+    @Id
+    @Indexed
+    @JsonProperty
+    private String id;
 
-	@JsonProperty
-	private int bggId;
+    @JsonProperty
+    private int bggId;
 
-	@Indexed
-	@JsonProperty
-	private String name;
+    @Indexed
+    @JsonProperty
+    private String name;
 
-	@JsonProperty
-	private String urlImage;
+    @JsonProperty
+    private String urlImage;
 
-	@JsonProperty
-	private double bestPrice;
+    @JsonProperty
+    private double bestPrice;
 
-	private double currentPrice;
+    private double currentPrice;
 
-	@JsonProperty
-	private double lowestPriceEver;
+    @JsonProperty
+    private double lowestPriceEver;
 
-	@JsonProperty
-	private Store store;
+    @JsonProperty
+    private Store store;
 
-	@JsonProperty
-	private String bggDetails;
+    @JsonProperty
+    private String bggDetails;
+
+    public String getName() {
+        return StringEscapeUtils.unescapeHtml4(name);
+    }
 }
