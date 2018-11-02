@@ -62,4 +62,8 @@ export class BoardGameService {
       .distinctUntilChanged()
       .switchMap(term => this.findAllBoardGames(term, geekMarket));
   }
+
+  getOne() {
+    return this.http.get(this.baseUrl + '/getOne');
+  }
 }

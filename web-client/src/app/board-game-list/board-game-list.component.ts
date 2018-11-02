@@ -71,6 +71,8 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    if(this.currentFilter.startsWith("@")) return;
+
     if (this.boardGames.filter.length > 1) {
       this.isLoading = true;
 
@@ -135,5 +137,6 @@ export interface BoardGame {
   name: string;
   urlImage: string;
   currentPrice: number;
+  bestPrice: number;
   store: string;
 }
