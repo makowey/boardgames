@@ -3,6 +3,7 @@ package info.makowey.boardgames.chilipir.controller;
 import com.jaunt.NotFound;
 import com.jaunt.ResponseException;
 import info.makowey.boardgames.chilipir.model.BoardGame;
+import info.makowey.boardgames.chilipir.model.Store;
 import info.makowey.boardgames.chilipir.model.Word;
 import info.makowey.boardgames.chilipir.scraper.BoardGameGeekEngine;
 import info.makowey.boardgames.chilipir.scraper.Source;
@@ -73,12 +74,12 @@ public class CollectorController {
     }
 
     @DeleteMapping(path = "/clean")
-    public String deleteByName(
-            @RequestParam(name = "name") String name,
-            @RequestParam(name = "extractor") String extractor) {
+    public String deleteByStoreName(
+            @RequestParam(name = "store") String storeName,
+            @RequestParam(name = "name") String name) {
         return format("Deleted all the %d boardgames from the repository from %s with name containing %s!",
-                collectorService.deleteByName(Source.getByName(extractor), name).getDeletedCount(),
-                extractor,
+                collectorService.deleteByStoreName(storeName.toUpperCase(), name).getDeletedCount(),
+                storeName,
                 name);
     }
 
@@ -170,7 +171,8 @@ public class CollectorController {
                     }
 
                     boardGame.setCurrentPrice( currentPrice.get() );
-                    collectorService.storeBoardGames( Collections.singletonList( boardGame ) );
+                    boardGame.setStore(Store.builder().name(Source.GEEKMARKET.name()).build());
+                    //collectorService.storeBoardGames( Collections.singletonList( boardGame ) );
                 })
                 .collect(Collectors.toList());
     }

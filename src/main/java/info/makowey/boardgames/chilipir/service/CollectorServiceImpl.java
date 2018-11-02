@@ -77,6 +77,14 @@ public class CollectorServiceImpl implements CollectorService {
         return mongoTemplate.remove(query, BoardGame.class);
     }
 
+    @Override
+    public DeleteResult deleteByStoreName(String storeName, String name) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("store.name").is(storeName));
+        log.info("Deleting items from {} ", storeName);
+        return mongoTemplate.remove(query, BoardGame.class);
+    }
+
     private DeleteResult deleteBySouce(Source source) {
         Query query = new Query();
         query.addCriteria(Criteria.where("store.name").is(source.getSiteName()));

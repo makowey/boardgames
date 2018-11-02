@@ -1,6 +1,7 @@
 package info.makowey.boardgames.chilipir.service;
 
 import com.jaunt.ResponseException;
+import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.result.DeleteResult;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Word;
@@ -37,4 +38,6 @@ public interface CollectorService {
 	Word findWordByName(String name);
 
 	BoardGame getOne();
+
+	DeleteResult deleteByStoreName(String storeName, String word);
 }
