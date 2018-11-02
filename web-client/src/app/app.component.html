@@ -15,10 +15,13 @@
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <div id="bestPriceOffer">
-      <img src="{{boardGame.urlImage}}" class="logo"><br>
-      <span class="best-name">{{boardGame.name}}</span><br>
+      <img src="{{boardGame?.urlImage}}"
+           alt="{{boardGame?.name}}"
+           onerror="this.src='https://vignette.wikia.nocookie.net/lyricwiki/images/d/dd/Unknown.png/revision/latest?cb=20080726074744'"
+           class="logo"><br>
+      <span class="best-name">{{boardGame?.name}}</span><br>
       Best price:
-      <span class="best-price">{{boardGame.bestPrice}}</span>
+      <span class="best-price">{{boardGame?.bestPrice}}</span>
     </div>
     <h1 class="display-4">{{title}}</h1>
     <p class="lead">Search for any boardgame to get best prices. More traders will be added. Enable geekmarket for

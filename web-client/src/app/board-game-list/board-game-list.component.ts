@@ -71,6 +71,8 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    if(this.currentFilter.startsWith("@")) return;
+
     if (this.boardGames.filter.length > 1) {
       this.isLoading = true;
 

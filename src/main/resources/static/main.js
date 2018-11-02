@@ -67,7 +67,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "@media (max-width: 800px) {\r\n  .jumbotron {\r\n    padding: 0;\r\n    margin-bottom: 0;\r\n  }\r\n  .display-4 { font-size: 17px; font-weight: bolder; color: #2C3446;}\r\n  .lead { font-size: 14px}\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRTtJQUNFLFdBQVc7SUFDWCxpQkFBaUI7R0FDbEI7RUFDRCxhQUFhLGdCQUFnQixDQUFDLG9CQUFvQixDQUFDLGVBQWUsQ0FBQztFQUNuRSxRQUFRLGVBQWUsQ0FBQztDQUN6QiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiQG1lZGlhIChtYXgtd2lkdGg6IDgwMHB4KSB7XHJcbiAgLmp1bWJvdHJvbiB7XHJcbiAgICBwYWRkaW5nOiAwO1xyXG4gICAgbWFyZ2luLWJvdHRvbTogMDtcclxuICB9XHJcbiAgLmRpc3BsYXktNCB7IGZvbnQtc2l6ZTogMTdweDsgZm9udC13ZWlnaHQ6IGJvbGRlcjsgY29sb3I6ICMyQzM0NDY7fVxyXG4gIC5sZWFkIHsgZm9udC1zaXplOiAxNHB4fVxyXG59XHJcbiJdfQ== */"
+module.exports = "@media (max-width: 800px) {\r\n  .jumbotron {\r\n    padding: 0;\r\n    margin-bottom: 0;\r\n  }\r\n\r\n  .display-4 {\r\n    font-size: 17px;\r\n    font-weight: bolder;\r\n    color: #2C3446;\r\n  }\r\n\r\n  .lead {\r\n    font-size: 14px\r\n  }\r\n\r\n  #bestPriceOffer {\r\n    position: relative;\r\n    float: right;\r\n    margin-top: 10px;\r\n    max-width: 35px;\r\n    max-height: 35px;\r\n    border-radius: 35px;\r\n    display: none;\r\n  }\r\n}\r\n\r\n.logo {\r\n  position: relative;\r\n  max-width: 75px;\r\n  max-height: 75px;\r\n  border-radius: 35px;\r\n}\r\n\r\n#bestPriceOffer{\r\n  font-style: italic;\r\n  font-size: 11px;\r\n  float: right;\r\n  text-align: center;\r\n}\r\n\r\n.best-price {\r\n  color: brown;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRTtJQUNFLFdBQVc7SUFDWCxpQkFBaUI7R0FDbEI7O0VBRUQ7SUFDRSxnQkFBZ0I7SUFDaEIsb0JBQW9CO0lBQ3BCLGVBQWU7R0FDaEI7O0VBRUQ7SUFDRSxlQUFlO0dBQ2hCOztFQUVEO0lBQ0UsbUJBQW1CO0lBQ25CLGFBQWE7SUFDYixpQkFBaUI7SUFDakIsZ0JBQWdCO0lBQ2hCLGlCQUFpQjtJQUNqQixvQkFBb0I7SUFDcEIsY0FBYztHQUNmO0NBQ0Y7O0FBRUQ7RUFDRSxtQkFBbUI7RUFDbkIsZ0JBQWdCO0VBQ2hCLGlCQUFpQjtFQUNqQixvQkFBb0I7Q0FDckI7O0FBRUQ7RUFDRSxtQkFBbUI7RUFDbkIsZ0JBQWdCO0VBQ2hCLGFBQWE7RUFDYixtQkFBbUI7Q0FDcEI7O0FBRUQ7RUFDRSxhQUFhO0NBQ2QiLCJmaWxlIjoic3JjL2FwcC9hcHAuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIkBtZWRpYSAobWF4LXdpZHRoOiA4MDBweCkge1xyXG4gIC5qdW1ib3Ryb24ge1xyXG4gICAgcGFkZGluZzogMDtcclxuICAgIG1hcmdpbi1ib3R0b206IDA7XHJcbiAgfVxyXG5cclxuICAuZGlzcGxheS00IHtcclxuICAgIGZvbnQtc2l6ZTogMTdweDtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkZXI7XHJcbiAgICBjb2xvcjogIzJDMzQ0NjtcclxuICB9XHJcblxyXG4gIC5sZWFkIHtcclxuICAgIGZvbnQtc2l6ZTogMTRweFxyXG4gIH1cclxuXHJcbiAgI2Jlc3RQcmljZU9mZmVyIHtcclxuICAgIHBvc2l0aW9uOiByZWxhdGl2ZTtcclxuICAgIGZsb2F0OiByaWdodDtcclxuICAgIG1hcmdpbi10b3A6IDEwcHg7XHJcbiAgICBtYXgtd2lkdGg6IDM1cHg7XHJcbiAgICBtYXgtaGVpZ2h0OiAzNXB4O1xyXG4gICAgYm9yZGVyLXJhZGl1czogMzVweDtcclxuICAgIGRpc3BsYXk6IG5vbmU7XHJcbiAgfVxyXG59XHJcblxyXG4ubG9nbyB7XHJcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xyXG4gIG1heC13aWR0aDogNzVweDtcclxuICBtYXgtaGVpZ2h0OiA3NXB4O1xyXG4gIGJvcmRlci1yYWRpdXM6IDM1cHg7XHJcbn1cclxuXHJcbiNiZXN0UHJpY2VPZmZlcntcclxuICBmb250LXN0eWxlOiBpdGFsaWM7XHJcbiAgZm9udC1zaXplOiAxMXB4O1xyXG4gIGZsb2F0OiByaWdodDtcclxuICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbn1cclxuXHJcbi5iZXN0LXByaWNlIHtcclxuICBjb2xvcjogYnJvd247XHJcbn1cclxuIl19 */"
 
 /***/ }),
 
@@ -78,7 +78,7 @@ module.exports = "@media (max-width: 800px) {\r\n  .jumbotron {\r\n    padding: 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<head>\r\n  <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\" integrity=\"sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO\" crossorigin=\"anonymous\">\r\n  <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js\" integrity=\"sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy\" crossorigin=\"anonymous\"></script>\r\n\r\n  <script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\" integrity=\"sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo\" crossorigin=\"anonymous\"></script>\r\n  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js\" integrity=\"sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49\" crossorigin=\"anonymous\"></script>\r\n</head>\r\n<div class=\"jumbotron jumbotron-fluid\">\r\n  <div class=\"container\">\r\n    <h1 class=\"display-4\">{{title}}</h1>\r\n    <p class=\"lead\">Search for any boardgame to get best prices. More traders will be added. Enable geekmarket for international shipments.</p>\r\n  </div>\r\n</div>\r\n\r\n<app-board-game-list></app-board-game-list>\r\n<router-outlet></router-outlet>\r\n"
+module.exports = "<head>\r\n  <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css\"\r\n        integrity=\"sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO\" crossorigin=\"anonymous\">\r\n  <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js\"\r\n          integrity=\"sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy\"\r\n          crossorigin=\"anonymous\"></script>\r\n\r\n  <script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\"\r\n          integrity=\"sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo\"\r\n          crossorigin=\"anonymous\"></script>\r\n  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js\"\r\n          integrity=\"sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49\"\r\n          crossorigin=\"anonymous\"></script>\r\n</head>\r\n<div class=\"jumbotron jumbotron-fluid\">\r\n  <div class=\"container\">\r\n    <div id=\"bestPriceOffer\">\r\n      <img src=\"{{boardGame?.urlImage}}\"\r\n           alt=\"{{boardGame?.name}}\"\r\n           onerror=\"this.src='https://vignette.wikia.nocookie.net/lyricwiki/images/d/dd/Unknown.png/revision/latest?cb=20080726074744'\"\r\n           class=\"logo\"><br>\r\n      <span class=\"best-name\">{{boardGame?.name}}</span><br>\r\n      Best price:\r\n      <span class=\"best-price\">{{boardGame?.bestPrice}}</span>\r\n    </div>\r\n    <h1 class=\"display-4\">{{title}}</h1>\r\n    <p class=\"lead\">Search for any boardgame to get best prices. More traders will be added. Enable geekmarket for\r\n      international shipments.</p>\r\n  </div>\r\n</div>\r\n\r\n<app-board-game-list></app-board-game-list>\r\n<router-outlet></router-outlet>\r\n"
 
 /***/ }),
 
@@ -93,23 +93,36 @@ module.exports = "<head>\r\n  <link rel=\"stylesheet\" href=\"https://stackpath.
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _board_game_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./board-game.service */ "./src/app/board-game.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
 
 var AppComponent = /** @class */ (function () {
-    function AppComponent() {
+    function AppComponent(boardGameService) {
+        this.boardGameService = boardGameService;
         this.title = 'Boardgames share market';
     }
+    AppComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.boardGameService.getOne().subscribe(function (data) {
+            _this.boardGame = data;
+        });
+    };
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-root',
             template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
             styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
-        })
+        }),
+        __metadata("design:paramtypes", [_board_game_service__WEBPACK_IMPORTED_MODULE_1__["BoardGameService"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -280,6 +293,8 @@ var BoardGameListComponent = /** @class */ (function () {
             }, function (e) { return _this.isLoading = false; });
             return;
         }
+        if (this.currentFilter.startsWith("@"))
+            return;
         if (this.boardGames.filter.length > 1) {
             this.isLoading = true;
             this.boardGameService.search(rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].of(this.boardGames.filter), this.isGeekMarket)
@@ -430,6 +445,9 @@ var BoardGameService = /** @class */ (function () {
             .debounceTime(1000)
             .distinctUntilChanged()
             .switchMap(function (term) { return _this.findAllBoardGames(term, geekMarket); });
+    };
+    BoardGameService.prototype.getOne = function () {
+        return this.http.get(this.baseUrl + '/getOne');
     };
     BoardGameService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

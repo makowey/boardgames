@@ -22,11 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -150,10 +151,26 @@ public class CollectorController {
         return collection
                 .parallelStream()
                 .peek(boardGame -> {
-                    double currentPrice = collectorService
-                            .getCurrentPrice(boardGame.getName().replaceAll("%20", " "));
+                    final AtomicInteger currentPrice = new AtomicInteger( collectorService.getCurrentPrice(
+                            boardGame.getName().replaceAll( "%20", " " ) ).intValue() );
 
-                    boardGame.setCurrentPrice(currentPrice);
+                    if (currentPrice.get() < 1.0) {
+                        OptionalDouble geekAveragePrice = OptionalDouble.empty();
+                        try {
+                            List<BoardGame> games = findBGGByName( boardGame.getName() );
+
+                            geekAveragePrice = games.stream()
+                                    .mapToDouble( BoardGame::getCurrentPrice )
+                                    .average();
+                        } catch (IOException e) {
+                            log.error( "Geekmarket, not found for {}", boardGame.getName() );
+                        }
+
+                        geekAveragePrice.ifPresent( value -> currentPrice.set( (int) value ) );
+                    }
+
+                    boardGame.setCurrentPrice( currentPrice.get() );
+                    collectorService.storeBoardGames( Collections.singletonList( boardGame ) );
                 })
                 .collect(Collectors.toList());
     }

@@ -8,7 +8,7 @@ import {BoardGameService} from "./board-game.service";
 })
 export class AppComponent implements OnInit {
   title = 'Boardgames share market';
-  boardGame: any;
+  boardGame;
 
   constructor(private boardGameService: BoardGameService) {
   }

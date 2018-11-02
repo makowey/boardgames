@@ -180,8 +180,9 @@ public class GeekMarketScrapperGame implements BoardGameExtractor {
     private enum CURRENCY {
         EUR("euro", 4.6630),
         GBP("lira", 5.2576),
-        CAD("dollar canadian", 3.1231),
-        USD("dollar", 4.1067);
+        CAD("canadian dollar", 3.1231),
+        USD("dollar", 4.1067),
+        AUD("astralian dollar", 2.95);
 
         private String type;
         private double value;
