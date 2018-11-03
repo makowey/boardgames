@@ -555,7 +555,7 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\Stuff\chilipir\web-client\src\styles.css */"./src/styles.css");
+module.exports = __webpack_require__(/*! D:\oath\cheapest-boardgame\web-client\src\styles.css */"./src/styles.css");
 
 
 /***/ })
