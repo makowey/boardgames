@@ -25,7 +25,6 @@ public class BoardGameGeekEngine {
     private static final String COLLECTION_URL = "https://boardgamegeek.com/xmlapi2/collection?username=";
     private static final String NO_IMAGE = "NO_IMAGE";
     private static final String NO_ID = "0";
-    private static final boolean owned = true;
 
     private static final UserAgent userAgent = new UserAgent();
 
@@ -44,9 +43,9 @@ public class BoardGameGeekEngine {
                         .getAt("id")).orElse(NO_ID);
     }
 
-    public static List<BoardGame> getCollectionForUsername(String name) throws ResponseException, NotFound {
+    public static List<BoardGame> getCollectionForUsername(String name, boolean owned) throws ResponseException {
         List<BoardGame> boardGames = new ArrayList<>();
-        userAgent.visit(COLLECTION_URL.concat(name));
+        userAgent.visit(COLLECTION_URL.concat(name).concat( "&stats=1" ));
         Elements elements = userAgent.doc.findEach("<item>");
 
         elements.toList()
@@ -55,7 +54,7 @@ public class BoardGameGeekEngine {
                     String gameName = "";
                     String gameImage = "";
                     String numberOfPlays = "";
-                    String bggId = "", myRate, averageRate;
+                    String bggId = "", myRate, averageRate, bggPosition = "?";
                     try {
 
                         // FILTER owned
@@ -78,14 +77,21 @@ public class BoardGameGeekEngine {
                                 .findFirst("average")
                                 .getAt("value");
 
+                        bggPosition = element
+                                .findFirst("stats")
+                                .findFirst("rating")
+                                .findFirst("ranks")
+                                .findFirst( "rank" )
+                                .getAtString( "value" );
+
                     } catch (NotFound notFound) {
                         myRate = "-";
                         averageRate = "?";
                         log.error( "No stats found for {}, user: {}", gameName, name );
                     }
 
-                    String bggDetails = format(" You played %s times, you rate %s when average is %s",
-                            numberOfPlays, myRate, averageRate);
+                    String bggDetails = format(" You played %s times, you rate %s when average is %s (Rank: %s)",
+                            numberOfPlays, myRate, averageRate, bggPosition);
 
                     boardGames.add(BoardGame.builder()
                             .name(gameName)
