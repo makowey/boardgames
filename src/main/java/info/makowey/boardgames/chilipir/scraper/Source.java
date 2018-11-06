@@ -72,6 +72,7 @@ public enum Source {
             "div",
             100,
             "https://www.lelegames.ro/image/cache/logo/logo-300x369.png"),
+
     EMAG("Emag.ro",
             "https://www.emag.ro/search/jocuri-societate/%s/c",
             "http://emag.ro",
@@ -81,6 +82,16 @@ public enum Source {
             "<div class='card-item js-product-data'>",
             100,
             "https://s12emagst.akamaized.net/layout/ro/images/logo//38/57629.png"),
+
+    BESTKIDS("BestKids.ro",
+            "https://www.bestkids.ro/searchadv.aspx?CategoryID=92&IsSubmit=true&SearchTerm=%s",
+            "http://bestkids.ro",
+            "https://www.bestkids.ro/searchadv.aspx?CategoryID=92&IsSubmit=true&SearchTerm=catan",
+            "???",
+            "???",
+            "<div class='search_product clearfix'>",
+            100,
+            "https://www.bestkids.ro/skins/skin_1/images/logo_new.png"),
 
     GEEKMARKET("GeekMarket",
             "",
@@ -133,6 +144,8 @@ public enum Source {
                 return LeleScrapperGame.INSTANCE;
             case EMAG:
                 return EmagScrapperGame.INSTANCE;
+            case BESTKIDS:
+                return BestKidsScrapperGame.INSTANCE;
             case GEEKMARKET:
                 return GeekMarketScrapperGame.INSTANCE;
             default:
