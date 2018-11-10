@@ -6,7 +6,7 @@
     <groupId>info.makowey.boardgames</groupId>
     <artifactId>chilipir</artifactId>
     <version>1.0.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <url>http://boardgames.com.go</url>
 
     <name>Best deal for boardgames</name>
@@ -20,7 +20,8 @@
     </parent>
 
     <properties>
-        <start-class>info.makowey.boardgames.chilipir.ChilipirServlet</start-class>
+        <final-name>cheapest-bgg</final-name>
+        <start-class>info.makowey.boardgames.chilipir.ChilipirApplication</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jaxb-core.version>2.2.11</jaxb-core.version>
@@ -40,6 +41,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework.boot</groupId>-->
+                    <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+                <!--</exclusion>-->
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -58,13 +65,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
-        </dependency>
-
-        <!-- hot swapping, disable cache for template, enable live reload -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <!-- Optional, for bootstrap -->
@@ -132,13 +132,13 @@
     </dependencies>
 
     <build>
-        <finalName>ROOT</finalName>
+        <finalName>${final-name}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>info.makowey.boardgames.chilipir.ChilipirServlet</mainClass>
+                    <mainClass>info.makowey.boardgames.chilipir.ChilipirApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -162,6 +162,19 @@
                 <version>3.8.0</version>
                 <configuration>
                     <release>${java.version}</release>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <url>http://localhost:8080/manager/text</url>
+                    <server>TomcatServer</server>
+                    <path>/${final-name}</path>
+                    <username>admin</username>
+                    <password>admin</password>
                 </configuration>
             </plugin>
         </plugins>
