@@ -1,7 +1,4 @@
-FROM openjdk:11-jdk-alpine
-VOLUME /tmp
-ARG DEPENDENCY=target/dependency
-COPY ${DEPENDENCY}/BOOT-INF/lib /cheapest-bgg/lib
-COPY ${DEPENDENCY}/META-INF /cheapest-bgg/META-INF
-COPY ${DEPENDENCY}/BOOT-INF/classes /cheapest-bgg
-ENTRYPOINT ["java","-cp","app:cheapest-bgg/lib/*","info.makowey.boardgames.chilipir.ChilipirApplication"]
+FROM openjdk:11
+COPY /home/gamer/boardgames/target/cheapest-bgg.jar /home/gamer/
+WORKDIR /home/gamer/
+RUN java -jar cheapest-bgg.jar
