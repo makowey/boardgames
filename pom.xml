@@ -140,6 +140,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>info.makowey.boardgames.chilipir.ChilipirApplication</mainClass>
+                    <executable>true</executable>
                 </configuration>
                 <executions>
                     <execution>
