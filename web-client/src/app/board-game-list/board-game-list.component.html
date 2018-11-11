@@ -23,7 +23,8 @@
       Total value for your <b>{{ numberOfBggCollection }}</b> games: <b>~{{ totalBggCollection | number : '1.2-2' }}</b>
       lei.
     </div>
-    <span class="bggInfo" *ngIf="numberOfBggCollection == 0"><i>Place your bgg username between two @, (Sample:  @makowey@) </i></span></mat-hint>
+    <span class="bggInfo" *ngIf="numberOfBggCollection == 0"><i>Place your bgg username between two @, (Sample:  @makowey@) </i></span>
+  </mat-hint>
   <mat-hint align="end">{{gamename.value.length}} / 50</mat-hint>
 </mat-form-field>
 
@@ -82,10 +83,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" id="row{{i}}"></tr>
   </table>
-  <footer class="credit">
-    <a href="https://boardgamegeek.com/user/makowey">@makowey, 2018</a>
-  </footer>
-  <mat-paginator [pageSizeOptions]="[15, 30, 50]" showFirstLastButtons></mat-paginator>
 
   <mat-card *ngIf="isLoading"
             style="display: flex; justify-content: center; align-items: center">
@@ -94,4 +91,9 @@
       mode="indeterminate">
     </mat-progress-spinner>
   </mat-card>
+
+  <footer class="credit">
+    <a href="https://boardgamegeek.com/user/makowey">@makowey, 2018</a>
+  </footer>
+  <mat-paginator [pageSizeOptions]="[15, 30, 50]" showFirstLastButtons></mat-paginator>
 </div>
