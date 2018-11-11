@@ -118,6 +118,7 @@ public class CollectorServiceImpl implements CollectorService {
         }
         criteria.andOperator(criteriaList);
         query.addCriteria(criteria);
+        query.limit(321);
 
         return mongoTemplate.find(query, BoardGame.class).stream()
                 .sorted(byCurrentPrice)
