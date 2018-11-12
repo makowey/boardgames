@@ -232,7 +232,7 @@ public class CollectorServiceImpl implements CollectorService {
         boardGameRepository.saveAll(persistedBoardGames);
     }
 
-    @Scheduled(fixedRate = 24 * 60 * 60 * 1_000)
+    @Scheduled(fixedRate = 2 * 60 * 60 * 1_000)
     private void updateOLX() {
         log.info("Cleaning OLX games from local repository");
         deleteBySouce(Source.OLX);

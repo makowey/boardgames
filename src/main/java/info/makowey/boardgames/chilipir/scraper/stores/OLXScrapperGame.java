@@ -31,7 +31,7 @@ public class OLXScrapperGame implements BoardGameExtractor {
 
     private int counterPage, numberOfItems;
 
-    public static void main(String[] args) throws ResponseException {
+    public static void main(String[] args) {
         INSTANCE.fetchAllGames()
                 .forEach(System.out::println);
     }
