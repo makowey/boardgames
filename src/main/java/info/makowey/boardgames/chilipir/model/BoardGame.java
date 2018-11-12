@@ -47,6 +47,12 @@ public class BoardGame {
     private double lowestPriceEver;
 
     @JsonProperty
+    private double normalPrice;
+
+    @JsonProperty
+    private double percent;
+
+    @JsonProperty
     private Store store;
 
     @JsonProperty

@@ -157,3 +157,32 @@ td a {
 .bggInfoTotal {
   font-size: 14px;
 }
+
+.bubble {
+  right: 10px;
+  position: relative;
+  text-transform: uppercase;
+  top: 10px;
+  float:right!important;
+  z-index: 9;
+}
+
+.bubble .inside {
+  background-color: #951515;
+  border-radius: 999px;
+  display: table;
+  height: 25px;
+  position: relative;
+  width: 25px;
+  -webkit-border-radius: 999px;
+}
+
+.bubble .inside .inside-text {
+  color: #fff;
+  display: table-cell;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 14px;
+  text-align: center;
+  vertical-align: middle;
+}

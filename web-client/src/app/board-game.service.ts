@@ -11,7 +11,7 @@ import 'rxjs/add/operator/switchMap';
 })
 export class BoardGameService {
 
-  baseUrl = "";//localhost:8080";
+  baseUrl = "";//localhost:8083";
 
   constructor(private http: HttpClient) {
   }
@@ -28,6 +28,13 @@ export class BoardGameService {
     return this.http.get(this.baseUrl + '/find', {
       params: new HttpParams()
         .set('name', name)
+    });
+  }
+
+  public blackFriday(percent = '10'): Observable<any> {
+    return this.http.get(this.baseUrl + '/blackFriday', {
+      params: new HttpParams()
+        .set('percent', percent)
     });
   }
 

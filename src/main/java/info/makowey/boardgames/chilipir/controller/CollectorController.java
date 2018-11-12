@@ -1,6 +1,5 @@
 package info.makowey.boardgames.chilipir.controller;
 
-import com.jaunt.NotFound;
 import com.jaunt.ResponseException;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
@@ -140,7 +139,7 @@ public class CollectorController {
 
     @GetMapping("/findCollections")
     public List<BoardGame> getCollectionGamesForUsername(
-            @RequestParam(name = "username", defaultValue = "makowey") String username) throws NotFound, ResponseException {
+            @RequestParam(name = "username", defaultValue = "makowey") String username ) throws ResponseException {
         List<BoardGame> collection = BoardGameGeekEngine
                 .getCollectionForUsername(username.replace("@", ""), true);
 
@@ -190,4 +189,10 @@ public class CollectorController {
     public Word findWord(@RequestParam(name = "word") String word) {
         return collectorService.findWordByName(word);
     }
+
+    @GetMapping("/blackFriday")
+    public List<BoardGame> blackFriday( @RequestParam(name = "percent", defaultValue = "10") String percent ) {
+        return collectorService.blackFriday( Short.parseShort( percent.replaceAll( "[^0-9]", "" ) ) );
+    }
+
 }

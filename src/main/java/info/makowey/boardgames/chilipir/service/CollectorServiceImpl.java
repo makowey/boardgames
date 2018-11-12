@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -195,5 +196,38 @@ public class CollectorServiceImpl implements CollectorService {
         });
 
         return first.orElse(boardGame);
+    }
+
+    @Override
+    public List<BoardGame> blackFriday( short percent ) {
+        Query query = new Query();
+        query.addCriteria( Criteria.where( "percent" ).gte( percent ) );
+        query.limit( 300 );
+        return mongoTemplate.find( query, BoardGame.class );
+    }
+
+    //@Scheduled(cron = "0 0 0/1 * * ?")
+    @Scheduled(fixedRate = 5_000)
+    private void updateLowestPrices() {
+        log.info( "Updating lowest prices & promo percentages for all games..." );
+        List<BoardGame> persistedBoardGames = boardGameRepository.findAll();
+
+        persistedBoardGames.forEach( boardGame -> {
+
+            if (boardGame.getLowestPriceEver() < 1)
+                boardGame.setLowestPriceEver( boardGame.getCurrentPrice() );
+
+            if (boardGame.getNormalPrice() < 1)
+                boardGame.setNormalPrice( boardGame.getCurrentPrice() );
+
+            if (boardGame.getCurrentPrice() < boardGame.getLowestPriceEver()) {
+                boardGame.setLowestPriceEver( boardGame.getCurrentPrice() );
+            }
+
+            double percent = (boardGame.getCurrentPrice() * 100) / boardGame.getNormalPrice();
+            boardGame.setPercent( (int) (100 - percent) );
+        } );
+
+        boardGameRepository.saveAll( persistedBoardGames );
     }
 }

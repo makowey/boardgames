@@ -20,7 +20,7 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
   totalBggCollection = 0;
   stateCtrl = new FormControl();
   isGeekMarket;
-  currentFilter = "catan";
+  currentFilter = "#20";
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -36,7 +36,7 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
         this.originalData = data;
         this.refresh(data);
       },
-      e => this.isLoading = false);
+      () => this.isLoading = false);
 
     this.boardGameService.count().subscribe(data => {
       this.numberOfGames = data;
@@ -57,6 +57,8 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
     this.currentFilter = filterValue;
     this.boardGames.filter = filterValue.trim().toLowerCase();
 
+    if (this.currentFilter.startsWith("#")) return this.blackFriday(filterValue);
+
     if (this.currentFilter.startsWith("@") &&
       this.currentFilter.endsWith("@")) {
       this.isLoading = true;
@@ -67,7 +69,7 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
           this.numberOfBggCollection = data.length;
           this.refresh(data);
           },
-          e => this.isLoading = false);
+          () => this.isLoading = false);
       return;
     }
 
@@ -83,13 +85,14 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
           this.numberOfBggCollection = 0;
           this.refresh(data);
           },
-          e => this.isLoading = false);
+          () => this.isLoading = false);
     }
   }
 
   findBoardGame(filterValue: string) {
     this.currentFilter = filterValue;
-    if (this.currentFilter.startsWith("@")) return;
+    if (this.currentFilter.startsWith("@") ||
+      this.currentFilter.startsWith("#")) return;
 
     this.isLoading = true;
     this.boardGames.filter = filterValue.replace(/ /g, "%20");
@@ -97,7 +100,19 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
       .subscribe(data => {
         this.refresh(data);
         },
-        e => this.isLoading = false);
+        () => this.isLoading = false);
+  }
+
+  blackFriday(filterValue: string) {
+    this.currentFilter = filterValue.replace("#", "");
+
+    this.isLoading = true;
+    this.boardGames.filter = this.currentFilter;
+    this.boardGameService.blackFriday(this.boardGames.filter)
+      .subscribe(data => {
+          this.refresh(data);
+        },
+        () => this.isLoading = false);
   }
 
   refresh(data) {
@@ -139,4 +154,5 @@ export interface BoardGame {
   currentPrice: number;
   bestPrice: number;
   store: string;
+  percent: number;
 }
