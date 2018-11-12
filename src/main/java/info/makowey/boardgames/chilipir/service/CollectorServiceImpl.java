@@ -207,7 +207,7 @@ public class CollectorServiceImpl implements CollectorService {
     }
 
     //@Scheduled(cron = "0 0 0/1 * * ?")
-    @Scheduled(fixedRate = 5_000)
+    @Scheduled(fixedRate = 15 * 60 * 1_000)
     private void updateLowestPrices() {
         log.info( "Updating lowest prices & promo percentages for all games..." );
         List<BoardGame> persistedBoardGames = boardGameRepository.findAll();
