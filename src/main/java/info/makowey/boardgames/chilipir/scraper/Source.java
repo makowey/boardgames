@@ -1,7 +1,15 @@
 package info.makowey.boardgames.chilipir.scraper;
 
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
-import info.makowey.boardgames.chilipir.scraper.stores.*;
+import info.makowey.boardgames.chilipir.scraper.stores.BestKidsScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.CarturestiScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.ElefantScraperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.EmagScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.GeekMarketScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.LeleScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.LexshopScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.PionulScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.RegatScrapperGame;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -101,7 +109,17 @@ public enum Source {
             "page...",
             "????",
             100,
-            "https://cf.geekdo-static.com/images/geekmarket/geekmarket.png"
+            "https://cf.geekdo-static.com/images/geekmarket/geekmarket.png"),
+
+    OLX("OLX",
+            "/oferte/q-%s/?view=galleryWide&page=%d",
+            "https://www.olx.ro",
+            "/oferte/q-boardgame/?view=galleryWide",
+            "perPage...",
+            "page...",
+            "<div class='mheight tcenter'",
+            39,
+            "https://www.logolynx.com/images/logolynx/28/28e08949f63a8b080f7df7d13195f377.png"
     );
 
     private String siteName;

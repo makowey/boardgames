@@ -9,6 +9,7 @@ import info.makowey.boardgames.chilipir.repository.WordRepository;
 import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 import info.makowey.boardgames.chilipir.scraper.stores.GeekMarketScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.OLXScrapperGame;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -145,7 +146,7 @@ public class CollectorServiceImpl implements CollectorService {
     @Override
     public Double getCurrentPrice(String name) {
         return findByName(name).stream()
-                .filter( boardGame -> boardGame.getStore().getName() != null )
+                .filter(boardGame -> boardGame.getStore().getName() != null)
                 .filter(boardGame -> !boardGame.getStore().getName().equals(Source.EMAG.name()))
                 .filter(boardGame -> !boardGame.getStore().getName().equals(Source.ELEFANT.name()))
                 .mapToDouble(BoardGame::getCurrentPrice)
@@ -199,35 +200,42 @@ public class CollectorServiceImpl implements CollectorService {
     }
 
     @Override
-    public List<BoardGame> blackFriday( short percent ) {
+    public List<BoardGame> blackFriday(short percent) {
         Query query = new Query();
-        query.addCriteria( Criteria.where( "percent" ).gte( percent ) );
-        query.limit( 300 );
-        return mongoTemplate.find( query, BoardGame.class );
+        query.addCriteria(Criteria.where("percent").gte(percent));
+        query.limit(300);
+        return mongoTemplate.find(query, BoardGame.class);
     }
 
     //@Scheduled(cron = "0 0 0/1 * * ?")
     @Scheduled(fixedRate = 15 * 60 * 1_000)
     private void updateLowestPrices() {
-        log.info( "Updating lowest prices & promo percentages for all games..." );
+        log.info("Updating lowest prices & promo percentages for all games...");
         List<BoardGame> persistedBoardGames = boardGameRepository.findAll();
 
-        persistedBoardGames.forEach( boardGame -> {
+        persistedBoardGames.forEach(boardGame -> {
 
             if (boardGame.getLowestPriceEver() < 1)
-                boardGame.setLowestPriceEver( boardGame.getCurrentPrice() );
+                boardGame.setLowestPriceEver(boardGame.getCurrentPrice());
 
             if (boardGame.getNormalPrice() < 1)
-                boardGame.setNormalPrice( boardGame.getCurrentPrice() );
+                boardGame.setNormalPrice(boardGame.getCurrentPrice());
 
             if (boardGame.getCurrentPrice() < boardGame.getLowestPriceEver()) {
-                boardGame.setLowestPriceEver( boardGame.getCurrentPrice() );
+                boardGame.setLowestPriceEver(boardGame.getCurrentPrice());
             }
 
             double percent = (boardGame.getCurrentPrice() * 100) / boardGame.getNormalPrice();
-            boardGame.setPercent( (int) (100 - percent) );
-        } );
+            boardGame.setPercent((int) (100 - percent));
+        });
 
-        boardGameRepository.saveAll( persistedBoardGames );
+        boardGameRepository.saveAll(persistedBoardGames);
+    }
+
+    @Scheduled(fixedRate = 24 * 60 * 60 * 1_000)
+    private void updateOLX() {
+        log.info("Cleaning OLX games from local repository");
+        deleteBySouce(Source.OLX);
+        boardGameRepository.saveAll(OLXScrapperGame.INSTANCE.fetchAllGames());
     }
 }
