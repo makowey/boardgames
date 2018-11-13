@@ -9,6 +9,7 @@ import info.makowey.boardgames.chilipir.scraper.stores.EmptyBoardGameExtractor;
 import info.makowey.boardgames.chilipir.scraper.stores.GeekMarketScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.LeleScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.LexshopScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.PersonalScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.PionulScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.RegatScrapperGame;
 import lombok.AllArgsConstructor;
@@ -121,7 +122,18 @@ public enum Source {
             "<div class='mheight tcenter'",
             39,
             "http://www.userlogos.org/files/logos/famecky/olxcolorrb.png"
-    );
+    ),
+
+    PERSONAL("PERSONAL",
+            "/mygames.html",
+            "https://edituraamec.ro",
+            "/mygames.html",
+            "perPage...",
+            "page...",
+            "<tr class=game>",
+            100,
+            "https://banner2.kisspng.com/20180326/zhw/kisspng-po-master-shifu-tigress-giant-panda-kung-fu-panda-kung-fu-panda-5ab8d062b972d7.7735026115220614107596.jpg"
+    );;
 
     private String siteName;
     private String formatter;
@@ -167,6 +179,8 @@ public enum Source {
                 return BestKidsScrapperGame.INSTANCE;
             case OLX:
                 return EmptyBoardGameExtractor.INSTANCE;
+            case PERSONAL:
+                return PersonalScrapperGame.INSTANCE;
             case GEEKMARKET:
                 return GeekMarketScrapperGame.INSTANCE;
             default:
