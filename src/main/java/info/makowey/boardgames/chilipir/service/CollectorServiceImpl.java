@@ -238,19 +238,20 @@ public class CollectorServiceImpl implements CollectorService {
 
             double percent = (boardGame.getCurrentPrice() * 100) / boardGame.getNormalPrice();
             boardGame.setPercent((int) (100 - percent));
-
-            BoardGame save = boardGameRepository.save(boardGame);
         });
 
-        //updateOLX();
+//        deleteBySouce(Source.OLX);
+//        updateOLX();
+
+        boardGameRepository.saveAll(persistedBoardGames);
     }
 
     @Scheduled(fixedRate = 12 * 60 * 60 * 1_000)
     private void updateOLX() {
-        boardGameRepository.saveAll(setIdendifiers(OLXScrapperGame.INSTANCE.fetchAllGames()));
+        boardGameRepository.saveAll(setIdentifiers(OLXScrapperGame.INSTANCE.fetchAllGames()));
     }
 
-    private List<BoardGame> setIdendifiers(List<BoardGame> games) {
+    private List<BoardGame> setIdentifiers(List<BoardGame> games) {
         games.forEach(game -> {
             if (game.getIdentifier() == 0) game.setIdentifier(game.getId().hashCode());
         });
