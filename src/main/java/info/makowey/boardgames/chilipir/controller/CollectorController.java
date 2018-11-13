@@ -11,6 +11,7 @@ import info.makowey.boardgames.chilipir.scraper.stores.CarturestiScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.ElefantScraperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.EmagScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.GeekMarketScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.PersonalScrapperGame;
 import info.makowey.boardgames.chilipir.service.CollectorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,8 +130,8 @@ public class CollectorController {
                 .filter(boardGameExtractor -> !(boardGameExtractor instanceof GeekMarketScrapperGame))
                 .forEach(boardGameExtractor -> {
                     try {
-                        boardGames.addAll(
-                                collectorService.search(name, boardGameExtractor));
+                        List<BoardGame> games = collectorService.search(name, boardGameExtractor);
+                        if (!(boardGameExtractor instanceof PersonalScrapperGame)) boardGames.addAll(games);
                     } catch (ResponseException | IOException e) {
                         log.error("Collector error {}: {}", boardGameExtractor.name(), e.getMessage());
                     }
