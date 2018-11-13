@@ -132,7 +132,7 @@ public enum Source {
             "page...",
             "<tr class=game>",
             100,
-            "https://banner2.kisspng.com/20180326/zhw/kisspng-po-master-shifu-tigress-giant-panda-kung-fu-panda-kung-fu-panda-5ab8d062b972d7.7735026115220614107596.jpg"
+            "https://upload.wikimedia.org/wikipedia/en/thumb/3/3d/Po_from_DreamWorks_Animation%27s_Kung_Fu_Panda.png/200px-Po_from_DreamWorks_Animation%27s_Kung_Fu_Panda.png"
     );;
 
     private String siteName;
