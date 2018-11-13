@@ -59,7 +59,8 @@ public class PersonalScrapperGame implements BoardGameExtractor {
 
         String name = populateName(element);
         return BoardGame.builder()
-                .id(UUID.nameUUIDFromBytes(name.getBytes()).toString())
+                .id(UUID.nameUUIDFromBytes(name.concat(source.name()).getBytes())
+                        .toString())
                 .bggId(0)
                 .store(store)
                 .name(name)

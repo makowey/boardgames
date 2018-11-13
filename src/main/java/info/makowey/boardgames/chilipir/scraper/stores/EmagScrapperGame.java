@@ -50,21 +50,22 @@ public class EmagScrapperGame implements BoardGameExtractor {
     public List<BoardGame> search(String name) throws ResponseException {
         UserAgent userAgent = new UserAgent();
         String fullPath = source.getBaseUrl()
-                .concat( format( "/search/jocuri-societate/stoc/%s/c", name ) );
+                .concat(format("/search/jocuri-societate/stoc/%s/c", name));
+
+        //log.info("exploring emag: {}", fullPath);
         userAgent.visit(fullPath);
 
         Elements elements = userAgent.doc.findEach(source.getProductDiv());
-
         return elements.toList().stream()
                 .map(this::convert)
-                .filter( boardGame -> ! boardGame.getName().equals( UNKNOWN ) )
+                .filter(boardGame -> !boardGame.getName().equals(UNKNOWN))
                 .collect(Collectors.toList());
     }
 
     private BoardGame convertToBoardGame(Element element) throws NotFound {
 
-        if (! element.getAtString( "data-category-name" ).equals( "Jocuri de societate" ))
-            return BoardGame.builder().name( UNKNOWN ).build();
+        if (!element.getAtString("data-category-name").equals("Jocuri de societate"))
+            return BoardGame.builder().name(UNKNOWN).build();
 
         Store store = Store.builder()
                 .name(source.getSiteName())
@@ -75,7 +76,8 @@ public class EmagScrapperGame implements BoardGameExtractor {
 
         String name = populateName(element);
         return BoardGame.builder()
-                .id(UUID.nameUUIDFromBytes(name.getBytes()).toString())
+                .id(UUID.nameUUIDFromBytes(name.concat(source.name()).getBytes())
+                        .toString())
                 .bggId(0)
                 .store(store)
                 .name(name)
@@ -130,7 +132,7 @@ public class EmagScrapperGame implements BoardGameExtractor {
         return isCleanable;
     }
 
-    public void setCleanable( boolean cleanable ) {
+    public void setCleanable(boolean cleanable) {
         isCleanable = cleanable;
     }
 }

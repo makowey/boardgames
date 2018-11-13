@@ -10,6 +10,7 @@ import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 import info.makowey.boardgames.chilipir.scraper.stores.CarturestiScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.ElefantScraperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.EmagScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.GeekMarketScrapperGame;
 import info.makowey.boardgames.chilipir.service.CollectorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,12 +126,13 @@ public class CollectorController {
         Stream.of(Source.values())
                 .parallel()
                 .map(Source::getBGEInstance)
+                .filter(boardGameExtractor -> !(boardGameExtractor instanceof GeekMarketScrapperGame))
                 .forEach(boardGameExtractor -> {
                     try {
                         boardGames.addAll(
                                 collectorService.search(name, boardGameExtractor));
                     } catch (ResponseException | IOException e) {
-                        log.error("Collector error: " + e.getMessage());
+                        log.error("Collector error {}: {}", boardGameExtractor.name(), e.getMessage());
                     }
                 });
 
@@ -139,7 +141,7 @@ public class CollectorController {
 
     @GetMapping("/findCollections")
     public List<BoardGame> getCollectionGamesForUsername(
-            @RequestParam(name = "username", defaultValue = "makowey") String username ) throws ResponseException {
+            @RequestParam(name = "username", defaultValue = "makowey") String username) throws ResponseException {
         List<BoardGame> collection = BoardGameGeekEngine
                 .getCollectionForUsername(username.replace("@", ""), true);
 
@@ -150,25 +152,25 @@ public class CollectorController {
         return collection
                 .parallelStream()
                 .peek(boardGame -> {
-                    final AtomicInteger currentPrice = new AtomicInteger( collectorService.getCurrentPrice(
-                            boardGame.getName().replaceAll( "%20", " " ) ).intValue() );
+                    final AtomicInteger currentPrice = new AtomicInteger(collectorService.getCurrentPrice(
+                            boardGame.getName().replaceAll("%20", " ")).intValue());
 
                     if (currentPrice.get() < 1.0) {
                         OptionalDouble geekAveragePrice = OptionalDouble.empty();
                         try {
-                            List<BoardGame> games = findBGGByName( boardGame.getName() );
+                            List<BoardGame> games = findBGGByName(boardGame.getName());
 
                             geekAveragePrice = games.stream()
-                                    .mapToDouble( BoardGame::getCurrentPrice )
+                                    .mapToDouble(BoardGame::getCurrentPrice)
                                     .average();
                         } catch (IOException e) {
-                            log.error( "Geekmarket, not found for {}", boardGame.getName() );
+                            log.error("Geekmarket, not found for {}", boardGame.getName());
                         }
 
-                        geekAveragePrice.ifPresent( value -> currentPrice.set( (int) value ) );
+                        geekAveragePrice.ifPresent(value -> currentPrice.set((int) value));
                     }
 
-                    boardGame.setCurrentPrice( currentPrice.get() );
+                    boardGame.setCurrentPrice(currentPrice.get());
                     boardGame.setStore(Store.builder().name(Source.GEEKMARKET.name()).build());
                     //collectorService.storeBoardGames( Collections.singletonList( boardGame ) );
                 })
@@ -191,8 +193,8 @@ public class CollectorController {
     }
 
     @GetMapping("/blackFriday")
-    public List<BoardGame> blackFriday( @RequestParam(name = "percent", defaultValue = "10") String percent ) {
-        return collectorService.blackFriday( Short.parseShort( percent.replaceAll( "[^0-9]", "" ) ) );
+    public List<BoardGame> blackFriday(@RequestParam(name = "percent", defaultValue = "10") String percent) {
+        return collectorService.blackFriday(Short.parseShort(percent.replaceAll("[^0-9]", "")));
     }
 
 }

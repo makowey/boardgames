@@ -85,7 +85,7 @@ public enum Source {
 
     EMAG("Emag.ro",
             "https://www.emag.ro/search/jocuri-societate/%s/c",
-            "http://emag.ro",
+            "https://www.emag.ro",
             "https://www.emag.ro/search/jocuri-societate/azul/c",
             "???",
             "???",
@@ -133,7 +133,7 @@ public enum Source {
             "<tr class=game>",
             100,
             "https://upload.wikimedia.org/wikipedia/en/thumb/3/3d/Po_from_DreamWorks_Animation%27s_Kung_Fu_Panda.png/200px-Po_from_DreamWorks_Animation%27s_Kung_Fu_Panda.png"
-    );;
+    );
 
     private String siteName;
     private String formatter;
