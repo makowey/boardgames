@@ -5,6 +5,7 @@ import info.makowey.boardgames.chilipir.scraper.stores.BestKidsScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.CarturestiScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.ElefantScraperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.EmagScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.EmptyBoardGameExtractor;
 import info.makowey.boardgames.chilipir.scraper.stores.GeekMarketScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.LeleScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.LexshopScrapperGame;
@@ -119,7 +120,7 @@ public enum Source {
             "page...",
             "<div class='mheight tcenter'",
             39,
-            "https://www.logolynx.com/images/logolynx/28/28e08949f63a8b080f7df7d13195f377.png"
+            "http://www.userlogos.org/files/logos/famecky/olxcolorrb.png"
     );
 
     private String siteName;
@@ -164,6 +165,8 @@ public enum Source {
                 return EmagScrapperGame.INSTANCE;
             case BESTKIDS:
                 return BestKidsScrapperGame.INSTANCE;
+            case OLX:
+                return EmptyBoardGameExtractor.INSTANCE;
             case GEEKMARKET:
                 return GeekMarketScrapperGame.INSTANCE;
             default:
