@@ -227,10 +227,11 @@ public class CollectorServiceImpl implements CollectorService {
 
             double percent = (boardGame.getCurrentPrice() * 100) / boardGame.getNormalPrice();
             boardGame.setPercent((int) (100 - percent));
+
+            boardGameRepository.save(boardGame);
         });
 
         //updateOLX();
-        boardGameRepository.saveAll(persistedBoardGames);
     }
 
     @Scheduled(fixedRate = 12 * 60 * 60 * 1_000)
