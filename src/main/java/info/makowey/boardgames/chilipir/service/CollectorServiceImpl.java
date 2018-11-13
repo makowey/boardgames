@@ -104,7 +104,14 @@ public class CollectorServiceImpl implements CollectorService {
             ResponseException,
             IOException {
         log.info("Extracting from " + boardGameExtractor.name());
-        return boardGameRepository.saveAll(boardGameExtractor.search(name.replaceAll(" ", "%20")));
+
+        List<BoardGame> games = boardGameExtractor.search(name.replaceAll(" ", "%20"));
+
+        games.forEach(game -> {
+            if (game.getIdentifier() == 0) game.setIdentifier(game.getId().hashCode());
+        });
+
+        return boardGameRepository.saveAll(games);
     }
 
     @Override
@@ -225,10 +232,14 @@ public class CollectorServiceImpl implements CollectorService {
                 boardGame.setLowestPriceEver(boardGame.getCurrentPrice());
             }
 
+            if (boardGame.getIdentifier() == 0) {
+                boardGame.setIdentifier(boardGame.getId().hashCode());
+            }
+
             double percent = (boardGame.getCurrentPrice() * 100) / boardGame.getNormalPrice();
             boardGame.setPercent((int) (100 - percent));
 
-            boardGameRepository.save(boardGame);
+            BoardGame save = boardGameRepository.save(boardGame);
         });
 
         //updateOLX();
@@ -236,6 +247,13 @@ public class CollectorServiceImpl implements CollectorService {
 
     @Scheduled(fixedRate = 12 * 60 * 60 * 1_000)
     private void updateOLX() {
-        boardGameRepository.saveAll(OLXScrapperGame.INSTANCE.fetchAllGames());
+        boardGameRepository.saveAll(setIdendifiers(OLXScrapperGame.INSTANCE.fetchAllGames()));
+    }
+
+    private List<BoardGame> setIdendifiers(List<BoardGame> games) {
+        games.forEach(game -> {
+            if (game.getIdentifier() == 0) game.setIdentifier(game.getId().hashCode());
+        });
+        return games;
     }
 }

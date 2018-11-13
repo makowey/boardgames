@@ -23,10 +23,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 public class BoardGame {
 
+    @JsonProperty
+    private String id;
+
     @Id
     @Indexed
     @JsonProperty
-    private String id;
+    private long identifier;
 
     @JsonProperty
     private int bggId;
