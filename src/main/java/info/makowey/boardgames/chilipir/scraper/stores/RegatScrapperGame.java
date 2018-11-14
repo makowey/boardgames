@@ -53,8 +53,10 @@ public class RegatScrapperGame implements BoardGameExtractor {
                 .build();
 
         String name = populateName(title);
+        String hash = UUID.nameUUIDFromBytes( name.concat(source.name()).getBytes() ).toString();
         return BoardGame.builder()
-                .id(UUID.nameUUIDFromBytes(name.getBytes()).toString())
+                .id( hash )
+                .identifier(hash.hashCode())
                 .bggId(0)
                 .store(store)
                 .name(name)

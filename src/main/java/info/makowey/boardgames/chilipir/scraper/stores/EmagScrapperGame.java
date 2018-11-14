@@ -75,9 +75,10 @@ public class EmagScrapperGame implements BoardGameExtractor {
                 .build();
 
         String name = populateName(element);
+        String hash = UUID.nameUUIDFromBytes( name.concat(source.name()).getBytes() ).toString();
         return BoardGame.builder()
-                .id(UUID.nameUUIDFromBytes(name.concat(source.name()).getBytes())
-                        .toString())
+                .id( hash )
+                .identifier(hash.hashCode())
                 .bggId(0)
                 .store(store)
                 .name(name)

@@ -23,6 +23,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 public class BoardGame {
 
+    @Indexed
     @JsonProperty
     private String id;
 

@@ -128,9 +128,10 @@ public class GeekMarketScrapperGame implements BoardGameExtractor {
             price = price * currencyValue.get().value;
         }
 
+        String hash = UUID.nameUUIDFromBytes( name.concat(source.name()).getBytes() ).toString();
         return BoardGame.builder()
-                .id(UUID.nameUUIDFromBytes(name.concat(username)
-                        .getBytes()).toString())
+                .id( hash )
+                .identifier(hash.hashCode())
                 .bggId(0)
                 .store(store)
                 .name(name)
