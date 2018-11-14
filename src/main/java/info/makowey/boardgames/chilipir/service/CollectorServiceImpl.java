@@ -256,7 +256,7 @@ public class CollectorServiceImpl implements CollectorService {
         return games;
     }
 
-    @Scheduled(cron = "30 2 * * *")
+    @Scheduled(cron = "0 1 1 * * *", zone="Europe/Istanbul")
     private void reloadAllGames() {
         List<Word> words = wordRepository.findAll();
         log.info( "Loaded {} words!", words.size() );
