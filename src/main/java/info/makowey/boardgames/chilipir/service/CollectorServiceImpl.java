@@ -110,11 +110,30 @@ public class CollectorServiceImpl implements CollectorService {
 
         List<BoardGame> games = boardGameExtractor.search(name.replaceAll(" ", "%20"));
 
-        games.forEach(game -> {
-            if (game.getIdentifier() == 0) game.setIdentifier(game.getId().hashCode());
-        });
+        games.forEach(game -> boardGameRepository.findById(game.getId())
+                .ifPresentOrElse(
+                        boardGame -> {
+                            boardGameRepository.delete(game);
 
-        return boardGameRepository.saveAll(games);
+                            boardGame.setCurrentPrice(game.getCurrentPrice());
+
+                            if (boardGame.getLowestPriceEver() < 1)
+                                boardGame.setLowestPriceEver(boardGame.getCurrentPrice());
+
+                            if (boardGame.getNormalPrice() < 1)
+                                boardGame.setNormalPrice(boardGame.getCurrentPrice());
+
+                            if (boardGame.getCurrentPrice() < boardGame.getLowestPriceEver()) {
+                                boardGame.setLowestPriceEver(boardGame.getCurrentPrice());
+                            }
+
+                            double percent = (boardGame.getCurrentPrice() * 100) / boardGame.getNormalPrice();
+                            boardGame.setPercent((int) (100 - percent));
+
+                            boardGameRepository.save(boardGame);
+                        }, () -> boardGameRepository.save(game)));
+
+        return games;
     }
 
     @Override
@@ -217,78 +236,49 @@ public class CollectorServiceImpl implements CollectorService {
         return mongoTemplate.find(query, BoardGame.class);
     }
 
-    //@Scheduled(cron = "0 0 0/1 * * ?")
-    @Scheduled(fixedRate = 15 * 60 * 1_000)
-    private void updateLowestPrices() {
-        log.info("Updating lowest prices & promo percentages for all games...");
-        List<BoardGame> persistedBoardGames = boardGameRepository.findAll();
-
-        persistedBoardGames.forEach(boardGame -> {
-
-            if (boardGame.getLowestPriceEver() < 1)
-                boardGame.setLowestPriceEver(boardGame.getCurrentPrice());
-
-            if (boardGame.getNormalPrice() < 1)
-                boardGame.setNormalPrice(boardGame.getCurrentPrice());
-
-            if (boardGame.getCurrentPrice() < boardGame.getLowestPriceEver()) {
-                boardGame.setLowestPriceEver(boardGame.getCurrentPrice());
-            }
-
-            double percent = (boardGame.getCurrentPrice() * 100) / boardGame.getNormalPrice();
-            boardGame.setPercent((int) (100 - percent));
-        });
-
-        boardGameRepository.saveAll(persistedBoardGames);
-    }
-
     @Scheduled(fixedRate = 12 * 60 * 60 * 1_000)
     private void updateOLX() {
-        if (deleteBySouce( Source.OLX ).getDeletedCount() > 0) {
-            boardGameRepository.saveAll( setIdentifiers( OLXScrapperGame.INSTANCE.fetchAllGames() ) );
+        if (deleteBySouce(Source.OLX).getDeletedCount() > 0) {
+            boardGameRepository.saveAll(OLXScrapperGame.INSTANCE.fetchAllGames());
         }
     }
 
-    private List<BoardGame> setIdentifiers(List<BoardGame> games) {
-        games.forEach(game -> {
-            if (game.getIdentifier() == 0) game.setIdentifier(game.getId().hashCode());
-        });
-        return games;
-    }
-
-    @Scheduled(cron = "0 1 1 * * *", zone="Europe/Istanbul")
+    @Scheduled(cron = "0 1 1 * * *", zone = "Europe/Istanbul")
+    //@Scheduled(fixedRate = 10 * 60 * 60 * 1_000)
     private void reloadAllGames() {
+        //boardGameRepository.deleteAll();
+
         List<Word> words = wordRepository.findAll();
-        log.info( "Loaded {} words!", words.size() );
+        log.info("Loaded {} words!", words.size());
 
         final Set<String> bggUsers = new HashSet<>();
         final Set<String> splittedWords = new HashSet<>();
         final Set<String> finalWords = words.stream()
-                .map( Word::getName )
+                .map(Word::getName)
                 .distinct()
-                .filter( s -> s.length() > 3 )
-                .peek( s -> {
-                    if (s.startsWith( "@" ) && s.endsWith( "@" ))
-                        bggUsers.add( s );
+                .filter(s -> s.length() > 3)
+                .peek(s -> {
+                    if (s.startsWith("@") && s.endsWith("@"))
+                        bggUsers.add(s);
 
-                    splittedWords.addAll( Arrays.asList( s.split( " " ) ));
-                } )
-                .collect( Collectors.toSet() );
+                    splittedWords.addAll(Arrays.asList(s.split(" ")));
+                })
+                .collect(Collectors.toSet());
 
-        finalWords.addAll( splittedWords );
+        finalWords.addAll(splittedWords);
 
-        log.info( "Obtained {} final words!", finalWords.size() );
-        log.info( "Found {} bgg users using this system", bggUsers.size() );
+        log.info("Obtained {} final words!", finalWords.size());
+        log.info("Found {} bgg users using this system", bggUsers.size());
         finalWords.parallelStream()
-                .forEach( s -> Arrays.stream( Source.values() )
-                        .forEach( source -> {
+                .forEach(s -> Arrays.stream(Source.values())
+                        .forEach(source -> {
                             try {
-                                search( s, source.getBGEInstance() );
-                                log.info( "Saved for {} from {}", s, source.getBGEInstance().name() );
-                                Thread.sleep( 700 );
+                                search(s, source.getBGEInstance());
+                                log.info("Saved for {} from {}", s, source.getBGEInstance().name());
+                                Thread.sleep(700);
                             } catch (ResponseException | IOException | InterruptedException e) {
-                                log.error( "some error..." );
+                                log.error("some error...");
                             }
-                        } ) );
+                        }));
     }
 }

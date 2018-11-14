@@ -99,7 +99,7 @@ public class PersonalScrapperGame implements BoardGameExtractor {
         try {
             return convertToBoardGame(element);
         } catch (NotFound notFound) {
-            System.err.println("No games found. Reason: " + notFound.getMessage());
+            log.error("No games found. Reason: " + notFound.getMessage());
             return BoardGame.builder().build();
         }
     }
