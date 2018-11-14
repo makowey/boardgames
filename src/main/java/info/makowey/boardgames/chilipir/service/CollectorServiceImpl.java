@@ -20,12 +20,15 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -232,23 +235,18 @@ public class CollectorServiceImpl implements CollectorService {
                 boardGame.setLowestPriceEver(boardGame.getCurrentPrice());
             }
 
-            if (boardGame.getIdentifier() == 0) {
-                boardGame.setIdentifier(boardGame.getId().hashCode());
-            }
-
             double percent = (boardGame.getCurrentPrice() * 100) / boardGame.getNormalPrice();
             boardGame.setPercent((int) (100 - percent));
         });
-
-//        deleteBySouce(Source.OLX);
-//        updateOLX();
 
         boardGameRepository.saveAll(persistedBoardGames);
     }
 
     @Scheduled(fixedRate = 12 * 60 * 60 * 1_000)
     private void updateOLX() {
-        boardGameRepository.saveAll(setIdentifiers(OLXScrapperGame.INSTANCE.fetchAllGames()));
+        if (deleteBySouce( Source.OLX ).getDeletedCount() > 0) {
+            boardGameRepository.saveAll( setIdentifiers( OLXScrapperGame.INSTANCE.fetchAllGames() ) );
+        }
     }
 
     private List<BoardGame> setIdentifiers(List<BoardGame> games) {
@@ -256,5 +254,41 @@ public class CollectorServiceImpl implements CollectorService {
             if (game.getIdentifier() == 0) game.setIdentifier(game.getId().hashCode());
         });
         return games;
+    }
+
+    @Scheduled(cron = "30 2 * * *")
+    private void reloadAllGames() {
+        List<Word> words = wordRepository.findAll();
+        log.info( "Loaded {} words!", words.size() );
+
+        final Set<String> bggUsers = new HashSet<>();
+        final Set<String> splittedWords = new HashSet<>();
+        final Set<String> finalWords = words.stream()
+                .map( Word::getName )
+                .distinct()
+                .filter( s -> s.length() > 3 )
+                .peek( s -> {
+                    if (s.startsWith( "@" ) && s.endsWith( "@" ))
+                        bggUsers.add( s );
+
+                    splittedWords.addAll( Arrays.asList( s.split( " " ) ));
+                } )
+                .collect( Collectors.toSet() );
+
+        finalWords.addAll( splittedWords );
+
+        log.info( "Obtained {} final words!", finalWords.size() );
+        log.info( "Found {} bgg users using this system", bggUsers.size() );
+        finalWords.parallelStream()
+                .forEach( s -> Arrays.stream( Source.values() )
+                        .forEach( source -> {
+                            try {
+                                search( s, source.getBGEInstance() );
+                                log.info( "Saved for {} from {}", s, source.getBGEInstance().name() );
+                                Thread.sleep( 700 );
+                            } catch (ResponseException | IOException | InterruptedException e) {
+                                log.error( "some error..." );
+                            }
+                        } ) );
     }
 }
