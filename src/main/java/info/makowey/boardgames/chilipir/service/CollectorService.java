@@ -1,7 +1,6 @@
 package info.makowey.boardgames.chilipir.service;
 
 import com.jaunt.ResponseException;
-import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.result.DeleteResult;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Word;
@@ -22,6 +21,8 @@ public interface CollectorService {
 	List<BoardGame> search( String name, BoardGameExtractor boardGameExtractor ) throws ResponseException, IOException;
 
 	List<BoardGame> findByName( String name );
+
+	BoardGame findById( String id );
 
 	List<BoardGame> findBGGByName( String name ) throws IOException;
 

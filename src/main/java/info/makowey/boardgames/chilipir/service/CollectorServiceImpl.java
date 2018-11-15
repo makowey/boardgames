@@ -41,6 +41,7 @@ public class CollectorServiceImpl implements CollectorService {
 
     private final MongoTemplate mongoTemplate;
     private Comparator<BoardGame> byCurrentPrice = Comparator.comparing(BoardGame::getCurrentPrice);
+	private final List<String> allIds;
 
     @Autowired
     public CollectorServiceImpl(BoardGameRepository boardGameRepository,
@@ -49,23 +50,23 @@ public class CollectorServiceImpl implements CollectorService {
         this.boardGameRepository = boardGameRepository;
         this.wordRepository = wordRepository;
         this.mongoTemplate = mongoTemplate;
+
+		allIds = traceAll().stream()
+				.map( BoardGame::getId )
+				.collect( Collectors.toList() );
+		Collections.shuffle( allIds );
     }
 
     private List<String> getAllIds() {
-        List<String> ids = traceAll().stream()
-                .map(BoardGame::getId)
-                .collect(Collectors.toList());
-
-        Collections.shuffle(ids);
-        return ids;
+		return allIds;
     }
 
     @Override
     public List<BoardGame> traceAll() {
         Query query = new Query();
         //query.skip(pageNumber * pageSize);
-        query.addCriteria(Criteria.where("currentPrice").gte(150));
-        query.limit(100);
+		query.addCriteria( Criteria.where( "currentPrice" ).gte( 100 ) );
+		query.limit( 300 );
         return mongoTemplate.find(query, BoardGame.class);
     }
 
@@ -110,7 +111,7 @@ public class CollectorServiceImpl implements CollectorService {
 
         List<BoardGame> games = boardGameExtractor.search(name.replaceAll(" ", "%20"));
 
-        games.forEach(game -> boardGameRepository.findById(game.getId())
+		games.forEach( game -> Optional.ofNullable( findById( game.getId() ) )
                 .ifPresentOrElse(
                         boardGame -> {
                             boardGameRepository.delete(game);
@@ -156,7 +157,18 @@ public class CollectorServiceImpl implements CollectorService {
                 .collect(Collectors.toList());
     }
 
-    @Override
+	@Override
+	public BoardGame findById( String id ) {
+		Query query = new Query();
+		query.addCriteria( Criteria.where( "_id" ).is( id ) );
+		query.limit( 1 );
+		List<BoardGame> result = mongoTemplate.find( query, BoardGame.class );
+		return result.isEmpty() ?
+				null :
+				result.get( 0 );
+	}
+
+	@Override
     public List<BoardGame> findBGGByName(String name) throws IOException {
         return GeekMarketScrapperGame.INSTANCE.searchOnline(name);
     }
