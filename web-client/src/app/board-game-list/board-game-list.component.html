@@ -69,7 +69,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header matSortStart="asc"> Price(lei)</th>
       <td mat-cell *matCellDef="let element">
         {{element.currentPrice | number : '1.2-2'}}
-        <div class="bubble" *ngIf="element.percent > 0">
+        <div class="bubble" *ngIf="element.percent >= currentFilter">
           <div class="inside">
             <div class="inside-text">
               {{element.percent}}%
