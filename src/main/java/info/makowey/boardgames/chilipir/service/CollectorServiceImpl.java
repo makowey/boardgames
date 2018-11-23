@@ -250,9 +250,8 @@ public class CollectorServiceImpl implements CollectorService {
 
     @Scheduled(fixedRate = 12 * 60 * 60 * 1_000)
     private void updateOLX() {
-        if (deleteBySouce(Source.OLX).getDeletedCount() > 0) {
-            boardGameRepository.saveAll(OLXScrapperGame.INSTANCE.fetchAllGames());
-        }
+        deleteBySouce( Source.OLX );
+        boardGameRepository.saveAll( OLXScrapperGame.INSTANCE.fetchAllGames() );
     }
 
     @Scheduled(cron = "0 1 1 * * *", zone = "Europe/Istanbul")
