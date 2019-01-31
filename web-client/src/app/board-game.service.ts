@@ -11,7 +11,7 @@ import 'rxjs/add/operator/switchMap';
 })
 export class BoardGameService {
 
-  baseUrl = "//localhost:8080";
+  baseUrl = "";//http://localhost:8080";
 
   constructor(private http: HttpClient) {
   }
