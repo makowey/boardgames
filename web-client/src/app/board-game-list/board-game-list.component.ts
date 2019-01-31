@@ -95,6 +95,7 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
       this.currentFilter.startsWith("#")) return;
 
     this.isLoading = true;
+    this.boardGames.data = [];
     this.boardGames.filter = filterValue.replace(/ /g, "%20");
     this.boardGameService.findAndUpdateBoardGames(0, this.boardGames.filter)
       .subscribe(data => {
