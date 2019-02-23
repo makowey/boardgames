@@ -14,7 +14,7 @@
 
 <mat-form-field class="mx-auto px-1">
   <input matInput (keyup)="applyFilter($event.target.value)" (keydown.enter)="findBoardGame($event.target.value)"
-         placeholder="Filter the {{numberOfGames}} items | Press enter to get latest price | Enable GeekMarket for best trades[europe] | @yourbggusername@"
+         placeholder="Filter the {{numberOfGames}} items | Press enter to get latest price | Enable GeekMarket for best trades[europe] | @yourbggusername/[o,w]"
          #gamename
          maxlength="50"
          required>
@@ -23,7 +23,8 @@
       Total value for your <b>{{ numberOfBggCollection }}</b> games: <b>~{{ totalBggCollection | number : '1.2-2' }}</b>
       lei.
     </div>
-    <span class="bggInfo" *ngIf="numberOfBggCollection == 0"><i>Place your bgg username between two @, (Sample:  @makowey@) </i></span>
+    <span class="bggInfo" *ngIf="numberOfBggCollection == 0"><i>Place your bgg username starting with @ and
+      /o[owned] or /w[wishlist] (Sample:  @makowey/o) </i></span>
   </mat-hint>
   <mat-hint align="end">{{gamename.value.length}}/50</mat-hint>
 </mat-form-field>

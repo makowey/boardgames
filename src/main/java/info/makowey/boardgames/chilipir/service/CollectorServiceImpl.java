@@ -252,6 +252,7 @@ public class CollectorServiceImpl implements CollectorService {
     private void updateOLX() {
         deleteBySouce( Source.OLX );
         boardGameRepository.saveAll( OLXScrapperGame.INSTANCE.fetchAllGames() );
+        getOne();
     }
 
     @Scheduled(cron = "0 1 1 * * *", zone = "Europe/Istanbul")
@@ -291,5 +292,7 @@ public class CollectorServiceImpl implements CollectorService {
                                 log.error("some error...");
                             }
                         }));
+
+        getOne();
     }
 }

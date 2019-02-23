@@ -6,6 +6,7 @@ import com.jaunt.ResponseException;
 import com.jaunt.UserAgent;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
+import info.makowey.boardgames.chilipir.scraper.model.CollectionBggFilter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -43,9 +44,15 @@ public class BoardGameGeekEngine {
                         .getAt("id")).orElse(NO_ID);
     }
 
-    public static List<BoardGame> getCollectionForUsername(String name, boolean owned) throws ResponseException {
+    public static List<BoardGame> getCollectionForUsername(String name, CollectionBggFilter filter) throws ResponseException {
         List<BoardGame> boardGames = new ArrayList<>();
-        userAgent.visit(COLLECTION_URL.concat(name).concat( "&stats=1" ));
+        String urlToVisit = COLLECTION_URL.concat(name).concat("&stats=1");
+
+        if(filter.isWishlist()) {
+            urlToVisit = urlToVisit.concat("&whishlist=1&wishlistpriority=1-3");
+        }
+
+        userAgent.visit(urlToVisit);
         Elements elements = userAgent.doc.findEach("<item>");
 
         elements.toList()
@@ -58,7 +65,7 @@ public class BoardGameGeekEngine {
                     try {
 
                         // FILTER owned
-                        if (owned && ! element.findFirst( "status" ).getAtString( "own" ).equals( "1" ))
+                        if (filter.isOwned() && !element.findFirst("status").getAtString("own").equals("1"))
                             return;
 
                         gameName = element.findFirst("name").getTextContent();
@@ -81,13 +88,13 @@ public class BoardGameGeekEngine {
                                 .findFirst("stats")
                                 .findFirst("rating")
                                 .findFirst("ranks")
-                                .findFirst( "rank" )
-                                .getAtString( "value" );
+                                .findFirst("rank")
+                                .getAtString("value");
 
                     } catch (NotFound notFound) {
                         myRate = "-";
                         averageRate = "?";
-                        log.error( "No stats found for {}, user: {}", gameName, name );
+                        log.error("No stats found for {}, user: {}", gameName, name);
                     }
 
                     String bggDetails = format(" You played %s times, you rate %s when average is %s (Rank: %s)",

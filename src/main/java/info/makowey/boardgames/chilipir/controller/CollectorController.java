@@ -7,6 +7,7 @@ import info.makowey.boardgames.chilipir.model.Word;
 import info.makowey.boardgames.chilipir.scraper.BoardGameGeekEngine;
 import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
+import info.makowey.boardgames.chilipir.scraper.model.CollectionBggFilter;
 import info.makowey.boardgames.chilipir.scraper.stores.CarturestiScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.ElefantScraperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.EmagScrapperGame;
@@ -25,11 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -65,9 +62,9 @@ public class CollectorController {
     }
 
     @GetMapping(path = "/game/{id}")
-    public BoardGame findById( @PathVariable String id ) {
-        return Optional.ofNullable(collectorService.findById( id ))
-                .orElse( BoardGame.builder().name( "NO GAME FOUND!!!" ).build() );
+    public BoardGame findById(@PathVariable String id) {
+        return Optional.ofNullable(collectorService.findById(id))
+                .orElse(BoardGame.builder().name("NO GAME FOUND!!!").build());
     }
 
     @PostMapping(path = "/collectGames")
@@ -151,11 +148,42 @@ public class CollectorController {
     @GetMapping("/findCollections")
     public List<BoardGame> getCollectionGamesForUsername(
             @RequestParam(name = "username", defaultValue = "makowey") String username) throws ResponseException {
+
+        String type = "o";
+        if (username.endsWith("/o")) {
+            type = "o";
+            username = username.replaceAll("/o", "");
+        }
+        if (username.endsWith("/w")) {
+            type = "w";
+            username = username.replaceAll("/w", "");
+        }
+
+        CollectionBggFilter filter = CollectionBggFilter.builder()
+                .owned(type.equalsIgnoreCase("o"))
+                .wishlist(type.equalsIgnoreCase("w"))
+                .build();
+
         List<BoardGame> collection = BoardGameGeekEngine
-                .getCollectionForUsername(username.replace("@", ""), true);
+                .getCollectionForUsername(username.replace("@", ""), filter);
+
+        if(filter.isWishlist()){
+            final List<BoardGame> prices = new ArrayList<>();
+            collection.parallelStream()
+                    .forEach(boardGame -> {
+                        try {
+                            prices.addAll(
+                                    collectorService.findAll(boardGame.getName(), "false"));
+                        } catch (IOException exception) {
+                            System.err.println("Could not find prices for " + exception.getLocalizedMessage());
+                        }
+                    });
+            return prices;
+        }
 
         if (collection.isEmpty())
             return collection;
+
         collectorService.countWords(username);
 
         return collection
@@ -179,7 +207,7 @@ public class CollectorController {
                         geekAveragePrice.ifPresent(value -> currentPrice.set((int) value));
                     }
 
-                    boardGame.setCurrentPrice(currentPrice.get());
+                    boardGame.setCurrentPrice(currentPrice.get() > 2000 ? 0 : currentPrice.get());
                     boardGame.setStore(Store.builder().name(Source.GEEKMARKET.name()).build());
                     //collectorService.storeBoardGames( Collections.singletonList( boardGame ) );
                 })
