@@ -147,7 +147,7 @@ public class CollectorController {
 
     @GetMapping("/findCollections")
     public List<BoardGame> getCollectionGamesForUsername(
-            @RequestParam(name = "username", defaultValue = "makowey") String username) throws ResponseException {
+            @RequestParam(name = "username", defaultValue = "makowey") String username) {
 
         String type = "o";
         if (username.endsWith("/o")) {
@@ -172,7 +172,9 @@ public class CollectorController {
                     try {
                         filter.setPriority(priority);
                         collection.addAll(BoardGameGeekEngine.getCollectionForUsername(usernameQuery, filter));
-                    } catch (ResponseException exception) {
+
+                        Thread.sleep(1000L);
+                    } catch (ResponseException | InterruptedException exception) {
                         System.err.printf("Could not load all the games for %s with priority %d\n", usernameQuery, priority);
                     }
                 });

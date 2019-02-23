@@ -101,6 +101,8 @@ public class BoardGameGeekEngine {
                     String bggDetails = format(" You played %s times, you rate %s when average is %s (Rank: %s)",
                             numberOfPlays, myRate, averageRate, bggPosition);
 
+                    if(bggId.isBlank()) bggId = "0";
+                    
                     boardGames.add(BoardGame.builder()
                             .name(gameName)
                             .bggId(Integer.parseInt(bggId))
