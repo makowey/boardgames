@@ -30,39 +30,51 @@ public class BoardGame {
     @Id
     @Indexed
     @JsonProperty
+    @EqualsAndHashCode.Exclude
     private long identifier;
 
     @JsonProperty
+    @EqualsAndHashCode.Exclude
     private int bggId;
 
     @Indexed
     @JsonProperty
+    @EqualsAndHashCode.Include
     private String name;
 
     @JsonProperty
+    @EqualsAndHashCode.Exclude
     private String urlImage;
 
     @JsonProperty
+    @EqualsAndHashCode.Exclude
     private double bestPrice;
 
+    @EqualsAndHashCode.Include
     private double currentPrice;
 
     @JsonProperty
+    @EqualsAndHashCode.Exclude
     private double lowestPriceEver;
 
     @JsonProperty
+    @EqualsAndHashCode.Exclude
     private double normalPrice;
 
     @JsonProperty
+    @EqualsAndHashCode.Exclude
     private double percent;
 
     @JsonProperty
     private Store store;
 
     @JsonProperty
+    @EqualsAndHashCode.Exclude
     private String bggDetails;
 
     public String getName() {
         return StringEscapeUtils.unescapeHtml4(name);
     }
+
+
 }

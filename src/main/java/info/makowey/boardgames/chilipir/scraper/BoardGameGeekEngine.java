@@ -49,7 +49,8 @@ public class BoardGameGeekEngine {
         String urlToVisit = COLLECTION_URL.concat(name).concat("&stats=1");
 
         if(filter.isWishlist()) {
-            urlToVisit = urlToVisit.concat("&whishlist=1&wishlistpriority=1-3");
+            urlToVisit = urlToVisit.concat("&whishlist=1&wishlistpriority=")
+                    .concat(String.valueOf(filter.getPriority()));
         }
 
         userAgent.visit(urlToVisit);

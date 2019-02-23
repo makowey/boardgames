@@ -21,14 +21,17 @@ import java.time.LocalDate;
 public class Store {
 
 	@JsonProperty
+	@EqualsAndHashCode.Include
 	private String name;
 
 	@JsonProperty
+	@EqualsAndHashCode.Exclude
 	private String url;
 
 	@JsonProperty
+	@EqualsAndHashCode.Exclude
 	private String logo;
 
+	@EqualsAndHashCode.Exclude
 	private LocalDate lastVisit;
-
 }

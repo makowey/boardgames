@@ -162,14 +162,25 @@ public class CollectorController {
         CollectionBggFilter filter = CollectionBggFilter.builder()
                 .owned(type.equalsIgnoreCase("o"))
                 .wishlist(type.equalsIgnoreCase("w"))
+                .priority(1)
                 .build();
 
-        List<BoardGame> collection = BoardGameGeekEngine
-                .getCollectionForUsername(username.replace("@", ""), filter);
+        final String usernameQuery = username.replace("@", "");
+        List<BoardGame> collection = new ArrayList<>();
+        Arrays.asList(1, 2, 3)
+                .forEach(priority -> {
+                    try {
+                        filter.setPriority(priority);
+                        collection.addAll(BoardGameGeekEngine.getCollectionForUsername(usernameQuery, filter));
+                    } catch (ResponseException exception) {
+                        System.err.printf("Could not load all the games for %s with priority %d\n", usernameQuery, priority);
+                    }
+                });
 
-        if(filter.isWishlist()){
+        if (filter.isWishlist()) {
             final List<BoardGame> prices = new ArrayList<>();
             collection.parallelStream()
+                    .distinct()
                     .forEach(boardGame -> {
                         try {
                             prices.addAll(
@@ -211,6 +222,7 @@ public class CollectorController {
                     boardGame.setStore(Store.builder().name(Source.GEEKMARKET.name()).build());
                     //collectorService.storeBoardGames( Collections.singletonList( boardGame ) );
                 })
+                .distinct()
                 .collect(Collectors.toList());
     }
 
