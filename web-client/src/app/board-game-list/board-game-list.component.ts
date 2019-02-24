@@ -21,7 +21,6 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
   stateCtrl = new FormControl();
   isGeekMarket;
   currentFilter = "#20";
-  type = "o";
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -62,13 +61,16 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
 
     if (this.currentFilter.startsWith("@") &&
       (this.currentFilter.endsWith("/w") ||
-        this.currentFilter.endsWith("/o") ) ) {
+        this.currentFilter.endsWith("/o") ||
+        this.currentFilter.endsWith("/p")) ) {
       this.isLoading = true;
 
       this.boardGameService.findCollections(this.boardGames.filter)
         .subscribe(data => {
           this.totalBggCollection = this.getTotal(data);
-          if(!this.boardGames.filter.endsWith("\w")) this.numberOfBggCollection = data.length;
+          if(this.boardGames.filter.endsWith("\o")) {
+            this.numberOfBggCollection = data.length;
+          } else this.numberOfBggCollection = 0;
           this.refresh(data);
           },
           () => this.isLoading = false);
@@ -148,6 +150,14 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
     let total = 0;
     data.forEach(game => total += game.currentPrice);
     return total;
+  }
+
+  isPlays() {
+    return this.currentFilter.endsWith("/p");
+  }
+
+  isOwned() {
+    return this.currentFilter.endsWith("/o");
   }
 }
 

@@ -1,5 +1,6 @@
 package info.makowey.boardgames.chilipir.controller;
 
+import com.jaunt.NotFound;
 import com.jaunt.ResponseException;
 import info.makowey.boardgames.chilipir.model.BoardGame;
 import info.makowey.boardgames.chilipir.model.Store;
@@ -8,6 +9,7 @@ import info.makowey.boardgames.chilipir.scraper.BoardGameGeekEngine;
 import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 import info.makowey.boardgames.chilipir.scraper.model.CollectionBggFilter;
+import info.makowey.boardgames.chilipir.scraper.model.PlaysBggFilter;
 import info.makowey.boardgames.chilipir.scraper.stores.CarturestiScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.ElefantScraperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.EmagScrapperGame;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -147,9 +150,21 @@ public class CollectorController {
 
     @GetMapping("/findCollections")
     public List<BoardGame> getCollectionGamesForUsername(
-            @RequestParam(name = "username", defaultValue = "makowey") String username) {
+            @RequestParam(name = "username", defaultValue = "makowey") String username) throws ResponseException, InterruptedException, NotFound {
 
         String type = "o";
+
+        if (username.endsWith("/p")) {
+            username = username.replaceAll("/p", "");
+            username = username.replaceAll("@", "");
+            String year = String.valueOf(LocalDate.now().getYear());
+            return BoardGameGeekEngine.getPlaysForUsername(username, PlaysBggFilter.builder()
+                    .minDate(format("%s-01-01", year))
+                    .maxDate(format("%s-12-31", year))
+                    .year(year)
+                    .build());
+        }
+
         if (username.endsWith("/o")) {
             type = "o";
             username = username.replaceAll("/o", "");
@@ -159,13 +174,14 @@ public class CollectorController {
             username = username.replaceAll("/w", "");
         }
 
+        final String usernameQuery = username.replace("@", "");
+
         CollectionBggFilter filter = CollectionBggFilter.builder()
                 .owned(type.equalsIgnoreCase("o"))
                 .wishlist(type.equalsIgnoreCase("w"))
                 .priority(1)
                 .build();
 
-        final String usernameQuery = username.replace("@", "");
         List<BoardGame> collection = new ArrayList<>();
         Arrays.asList(1, 2, 3)
                 .forEach(priority -> {
