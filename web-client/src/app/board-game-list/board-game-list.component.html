@@ -21,7 +21,7 @@
   <mat-hint align="start">
     <div id="bggInfoTotal" class="bggInfo" *ngIf="numberOfBggCollection > 0">
       Total value for your <b>{{ numberOfBggCollection }}</b> games: <b>~{{ totalBggCollection | number : '1.2-2' }}</b>
-      lei.s
+      lei.
     </div>
     <span class="bggInfo" *ngIf="numberOfBggCollection == 0"><i>Place your bgg username starting with @ and
       /o[owned], /w[wishlist], /p[plays] (Sample:  @makowey/o) </i></span>
@@ -73,7 +73,7 @@
       </th>
       <td mat-cell *matCellDef="let element">
         {{element.currentPrice | number : '1.2-2'}}
-        <div class="bubble" *ngIf="element.percent >= currentFilter">
+        <div class="bubble" *ngIf="element.percent >= 25">
           <div class="inside">
             <div class="inside-text">
               {{element.percent}}%
