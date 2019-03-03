@@ -5,7 +5,7 @@
 
     <groupId>info.makowey.boardgames</groupId>
     <artifactId>chilipir</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     <url>http://boardgames.com.go</url>
 
@@ -27,7 +27,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jaxb-core.version>2.2.11</jaxb-core.version>
         <java.version>11</java.version>
-        <jaunt.version>1.5.4</jaunt.version>
+        <jaunt.version>1.5.5</jaunt.version>
     </properties>
 
     <dependencies>
