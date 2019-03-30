@@ -24,7 +24,7 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  private isLoading: boolean = true;
+  public isLoading: boolean = true;
 
   constructor(private boardGameService: BoardGameService) {
     this.isGeekMarket = false;
