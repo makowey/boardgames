@@ -10,6 +10,8 @@ import info.makowey.boardgames.chilipir.model.Store;
 import info.makowey.boardgames.chilipir.scraper.Source;
 import info.makowey.boardgames.chilipir.scraper.model.BoardGameExtractor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.jsoup.helper.StringUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -153,7 +155,7 @@ public class OLXScrapperGame implements BoardGameExtractor {
         price = price
                 .replaceAll("[^0-9.,]+", "")
                 .replaceAll( ",", "." );
-        return price.isBlank() ? 0.0 : Double.parseDouble( price );
+        return StringUtils.isBlank(price) ? 0.0 : Double.parseDouble( price );
     }
 
     private BoardGame convert(Element element) {
