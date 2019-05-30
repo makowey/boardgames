@@ -150,9 +150,10 @@ public class OLXScrapperGame implements BoardGameExtractor {
                 .findFirst("<div class='price '>")
                 .getTextContent();
 
-        return Double.parseDouble(price
+        price = price
                 .replaceAll("[^0-9.,]+", "")
-                .replaceAll(",", "."));
+                .replaceAll( ",", "." );
+        return price.isBlank() ? 0.0 : Double.parseDouble( price );
     }
 
     private BoardGame convert(Element element) {
