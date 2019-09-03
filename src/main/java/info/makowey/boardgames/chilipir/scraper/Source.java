@@ -133,6 +133,9 @@ public enum Source {
             "<tr class=game>",
             100,
             "https://upload.wikimedia.org/wikipedia/en/thumb/3/3d/Po_from_DreamWorks_Animation%27s_Kung_Fu_Panda.png/200px-Po_from_DreamWorks_Animation%27s_Kung_Fu_Panda.png"
+
+            //https://www.redgoblin.ro/cauta?s=blackout&ajax=true&id_lang=2&maxRows=10
+            //https://barlogulcujocuri.ro/wp-admin/admin-ajax.php?action=basel_ajax_search&number=10&post_type=product&query=dixit
     );
 
     private String siteName;
