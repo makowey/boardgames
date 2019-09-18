@@ -99,7 +99,7 @@ public class EmagScrapperGame implements BoardGameExtractor {
         return element
                 .findFirst("<div class=thumbnail>")
                 .findFirst("<img>")
-                .getAt("src");
+                .getAt("data-src");
     }
 
     @Override
