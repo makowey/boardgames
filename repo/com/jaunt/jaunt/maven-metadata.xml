@@ -3,7 +3,7 @@
   <groupId>com.jaunt</groupId>
   <artifactId>jaunt</artifactId>
   <versioning>
-    <release>1.6.0</release>
+    <release>1.6.0N</release>
     <versions>
       <version>1.5.5</version>
       <version>1.5.6</version>
@@ -11,7 +11,8 @@
       <version>1.5.8</version>
       <version>1.5.9</version>
       <version>1.6.0</version>
+      <version>1.6.0N</version>
     </versions>
-    <lastUpdated>20190918124718</lastUpdated>
+    <lastUpdated>20190918125646</lastUpdated>
   </versioning>
 </metadata>
