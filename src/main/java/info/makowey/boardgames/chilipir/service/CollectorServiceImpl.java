@@ -203,7 +203,7 @@ public class CollectorServiceImpl implements CollectorService {
                     Word word = wordRepository.findByName(s);
                     Optional.ofNullable(word)
                             .ifPresentOrElse(sameWord -> {
-                                word.setCount(Objects.requireNonNull(word).getCount() + 1);
+                                sameWord.setCount(Objects.requireNonNull(sameWord).getCount() + 1);
                                 wordRepository.save(sameWord);
                             }, () -> wordRepository.save(Word.builder().name(s).count(1).build()));
                 });
