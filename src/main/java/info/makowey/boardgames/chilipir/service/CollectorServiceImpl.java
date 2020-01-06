@@ -176,7 +176,7 @@ public class CollectorServiceImpl implements CollectorService {
     @Override
     public List<BoardGame> findAll(String name, String geekMarket) throws IOException {
         List<BoardGame> allGames = new ArrayList<>(findByName(name));
-        if (Boolean.valueOf(geekMarket))
+        if (Boolean.parseBoolean(geekMarket))
             allGames.addAll(findBGGByName(name));
 
         return allGames.stream()
