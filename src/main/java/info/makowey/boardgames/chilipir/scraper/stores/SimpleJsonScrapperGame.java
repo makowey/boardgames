@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @NoArgsConstructor
 public class SimpleJsonScrapperGame {
-    private static final OkHttpClient client = new OkHttpClient();
+    protected static final OkHttpClient client = new OkHttpClient();
     protected Source source;
 
     public SimpleJsonScrapperGame(Source source) {
@@ -52,7 +52,7 @@ public class SimpleJsonScrapperGame {
         return boardGames;
     }
 
-    private BoardGame convertToBoardGame(JSONObject jsonObject) {
+    protected BoardGame convertToBoardGame( JSONObject jsonObject ) {
         String urlImage = jsonObject.getString("image");
         String urlProduct = jsonObject.getString("url");
         String name = jsonObject.getString("name");
