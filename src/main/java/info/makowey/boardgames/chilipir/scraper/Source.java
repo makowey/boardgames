@@ -12,6 +12,7 @@ import info.makowey.boardgames.chilipir.scraper.stores.LeleScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.LexshopScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.PersonalScrapperGame;
 import info.makowey.boardgames.chilipir.scraper.stores.PionulScrapperGame;
+import info.makowey.boardgames.chilipir.scraper.stores.RedGoblinGameExtractor;
 import info.makowey.boardgames.chilipir.scraper.stores.RegatScrapperGame;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -137,6 +138,18 @@ public enum Source {
 			"https://barlogulcujocuri.ro/wp-content/uploads/2018/10/Felinar_Animatie.gif"
 	),
 
+	//https://www.redgoblin.ro/cauta?s=gaia&ajax=true&id_lang=2&maxRows=10
+	RED_GOBLIN( "Red Goblin",
+			"/cauta?s=%s&ajax=true&id_lang=2&maxRows=%d",
+			"https://www.redgoblin.ro",
+			"/oferte/q-boardgame/?view=galleryWide",
+			"perPage...",
+			"page...",
+			"<div class='mheight tcenter'",
+			10,
+			"https://www.redgoblin.ro//img/logo-a-b.png"
+	),
+
 	PERSONAL( "PERSONAL",
 			"/mygames.html",
 			"https://edituraamec.ro",
@@ -197,6 +210,8 @@ public enum Source {
 				return EmptyBoardGameExtractor.INSTANCE;
 			case BARLOG:
 				return BarlogGameExtractor.INSTANCE;
+			case RED_GOBLIN:
+				return RedGoblinGameExtractor.INSTANCE;
 			case PERSONAL:
 				return PersonalScrapperGame.INSTANCE;
 			case GEEKMARKET:

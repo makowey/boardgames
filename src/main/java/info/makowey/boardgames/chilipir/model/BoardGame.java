@@ -23,58 +23,60 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 public class BoardGame {
 
-    @Indexed
-    @JsonProperty
-    private String id;
+	@Indexed
+	@JsonProperty
+	private String id;
 
-    @Id
-    @Indexed
+	@Id
+	@Indexed
+	@JsonProperty
+	@EqualsAndHashCode.Exclude
+	private long identifier;
+
+	@JsonProperty
+	@EqualsAndHashCode.Exclude
+	private int bggId;
+
+	@Indexed
+	@JsonProperty
+	@EqualsAndHashCode.Include
+	private String name;
+
+	@JsonProperty
+	@EqualsAndHashCode.Exclude
+	private String urlImage;
+
+	@JsonProperty
+	@EqualsAndHashCode.Exclude
+	private double bestPrice;
+
+	@EqualsAndHashCode.Include
+	private double currentPrice;
+
+	@JsonProperty
+	@EqualsAndHashCode.Exclude
+	private double lowestPriceEver;
+
+	@JsonProperty
+	@EqualsAndHashCode.Exclude
+	private double normalPrice;
+
+	@JsonProperty
+	@EqualsAndHashCode.Exclude
+	private double percent;
+
+	@JsonProperty
+	private Store store;
+
+	@JsonProperty
+	@EqualsAndHashCode.Exclude
+	private String bggDetails;
+
     @JsonProperty
     @EqualsAndHashCode.Exclude
-    private long identifier;
+	private String category;
 
-    @JsonProperty
-    @EqualsAndHashCode.Exclude
-    private int bggId;
-
-    @Indexed
-    @JsonProperty
-    @EqualsAndHashCode.Include
-    private String name;
-
-    @JsonProperty
-    @EqualsAndHashCode.Exclude
-    private String urlImage;
-
-    @JsonProperty
-    @EqualsAndHashCode.Exclude
-    private double bestPrice;
-
-    @EqualsAndHashCode.Include
-    private double currentPrice;
-
-    @JsonProperty
-    @EqualsAndHashCode.Exclude
-    private double lowestPriceEver;
-
-    @JsonProperty
-    @EqualsAndHashCode.Exclude
-    private double normalPrice;
-
-    @JsonProperty
-    @EqualsAndHashCode.Exclude
-    private double percent;
-
-    @JsonProperty
-    private Store store;
-
-    @JsonProperty
-    @EqualsAndHashCode.Exclude
-    private String bggDetails;
-
-    public String getName() {
-        return StringEscapeUtils.unescapeHtml4(name);
-    }
-
-
+	public String getName() {
+		return StringEscapeUtils.unescapeHtml4( name );
+	}
 }
