@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -54,6 +55,13 @@ public class BarlogGameExtractor extends SimpleJsonScrapperGame implements Board
 	}
 
 	protected BoardGame convertToBoardGame( JSONObject jsonObject ) {
+
+		try {
+			jsonObject.getString( "thumbnail" );
+		} catch (JSONException exception) {
+			return BoardGame.builder().build();
+		}
+
 		String urlImage = jsonObject.getString( "thumbnail" );
 		String urlProduct = jsonObject.getString( "permalink" );
 		String name = jsonObject.getString( "value" );
