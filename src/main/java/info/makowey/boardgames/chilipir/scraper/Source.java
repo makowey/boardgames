@@ -135,7 +135,7 @@ public enum Source {
 			"page...",
 			"<div class='mheight tcenter'",
 			10,
-			"https://barlogulcujocuri.ro/wp-content/uploads/2018/10/Felinar_Animatie.gif"
+			"https://barlogulcujocuri.ro/wp-content/uploads/2018/12/barlog-logo.png"
 	),
 
 	//https://www.redgoblin.ro/cauta?s=gaia&ajax=true&id_lang=2&maxRows=10
