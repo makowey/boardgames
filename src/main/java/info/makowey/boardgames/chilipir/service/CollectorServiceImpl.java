@@ -300,7 +300,6 @@ public class CollectorServiceImpl implements CollectorService {
 							}
 						} ) );
 
-		getOne();
 	}
 
 	public void collectAll() {
