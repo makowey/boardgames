@@ -72,7 +72,11 @@ public class BarlogGameExtractor extends SimpleJsonScrapperGame implements Board
 				.lastVisit( LocalDate.now() )
 				.build();
 
-		double price = Double.parseDouble( jsonObject.getString( "price" )
+		String priceString = jsonObject.getString( "price" );
+		if(priceString.contains( "<ins>" ))
+			priceString = priceString.substring( priceString.indexOf( "<ins>" ), priceString.length() - 1 );
+
+		double price = Double.parseDouble( priceString
 				.replaceAll( "[^0-9.,]+", "" )
 				.replaceAll( ",", "." ) );
 
