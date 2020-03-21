@@ -248,18 +248,23 @@ public class CollectorServiceImpl implements CollectorService {
 		return mongoTemplate.find( query, BoardGame.class );
 	}
 
+	@Scheduled(cron = "0 0 1 * * *", zone = "Europe/Istanbul")
+	public void cleanAllGames() {
+		boardGameRepository.deleteAll();
+	}
+
 	@Scheduled(cron = "0 0/30 * * * *", zone = "Europe/Istanbul")
-	private void updateOLX() {
-		deleteBySouce( Source.OLX );
-		log.info( "OLX games cleared from document store" );
-		boardGameRepository.saveAll( OLXScrapperGame.INSTANCE.fetchAllGames() );
+	public void updateOLX() {
+		final DeleteResult deleteResult = deleteBySouce( Source.OLX );
+		log.info( "OLX games cleared from document store {} items.", deleteResult.getDeletedCount() );
+		final List<BoardGame> boardGames = OLXScrapperGame.INSTANCE.fetchAllGames();
+		boardGameRepository.saveAll( boardGames );
+		log.info( "OLX boardgames saved {} items", boardGames.size() );
 		getOne();
 	}
 
-	@Scheduled(cron = "0 1 1 * * *", zone = "Europe/Istanbul")
-	//@Scheduled(fixedRate = 10 * 60 * 60 * 1_000)
-	private void reloadAllGames() {
-		//boardGameRepository.deleteAll();
+	@Scheduled(cron = "0 15 1 * * *", zone = "Europe/Istanbul")
+	public void reloadAllGames() {
 
 		List<Word> words = wordRepository.findAll();
 		log.info( "Loaded {} words!", words.size() );
