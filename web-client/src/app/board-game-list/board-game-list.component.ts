@@ -58,6 +58,7 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
     this.boardGames.filter = filterValue.trim().toLowerCase();
 
     if (this.currentFilter.startsWith("#")) return this.blackFriday(filterValue);
+    if (this.currentFilter.startsWith("^")) return this.boardGameService.reloadAll();
 
     if (this.currentFilter.startsWith("@") &&
       (this.currentFilter.endsWith("/w") ||
@@ -78,6 +79,7 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
     }
 
     if(this.currentFilter.startsWith("@")) return;
+    if(this.currentFilter.startsWith("$")) return;
 
     if (this.boardGames.filter.length > 1) {
       this.isLoading = true;

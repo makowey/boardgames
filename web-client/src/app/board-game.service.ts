@@ -11,13 +11,17 @@ import 'rxjs/add/operator/switchMap';
 })
 export class BoardGameService {
 
-  baseUrl = "http://localhost:8089";
+  baseUrl = "";//http://localhost:8089";
 
   constructor(private http: HttpClient) {
   }
 
   getAll(): Observable<any> {
     return this.http.get(this.baseUrl + '/all');
+  }
+
+  reloadAll(): Observable<any> {
+    return this.http.get(this.baseUrl + '/collectAll');
   }
 
   count(): Observable<any> {
