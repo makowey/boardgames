@@ -43,4 +43,6 @@ public interface CollectorService {
 	DeleteResult deleteByStoreName(String storeName, String word);
 
 	List<BoardGame> blackFriday(short percent);
+
+	void collectAll();
 }

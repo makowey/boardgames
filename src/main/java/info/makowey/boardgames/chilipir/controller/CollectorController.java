@@ -270,4 +270,10 @@ public class CollectorController {
         return collectorService.blackFriday(Short.parseShort(percent.replaceAll("[^0-9]", "")));
     }
 
+    @GetMapping("/collectAll")
+    public void collectAll() {
+        log.info( "External calling a fresh reload of all the games...." );
+        collectorService.collectAll();
+    }
+
 }
