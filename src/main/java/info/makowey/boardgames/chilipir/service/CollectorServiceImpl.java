@@ -248,8 +248,9 @@ public class CollectorServiceImpl implements CollectorService {
 		return mongoTemplate.find( query, BoardGame.class );
 	}
 
-	@Scheduled(cron = "0 0 1 * * *", zone = "Europe/Istanbul")
+	@Scheduled(cron = "0 25 4/6 * * *", zone = "Europe/Istanbul")
 	public void cleanAllGames() {
+		log.info( "Clean all games..." );
 		boardGameRepository.deleteAll();
 	}
 
@@ -263,7 +264,7 @@ public class CollectorServiceImpl implements CollectorService {
 		getOne();
 	}
 
-	@Scheduled(cron = "0 15 1 * * *", zone = "Europe/Istanbul")
+	@Scheduled(cron = "0 35 4/6 * * *", zone = "Europe/Istanbul")
 	public void reloadAllGames() {
 
 		List<Word> words = wordRepository.findAll();
