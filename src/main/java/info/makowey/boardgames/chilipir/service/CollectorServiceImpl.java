@@ -296,7 +296,7 @@ public class CollectorServiceImpl implements CollectorService {
 								log.info( "Saved for {} from {}", s, source.getBGEInstance().name() );
 								Thread.sleep( 700 );
 							} catch (ResponseException | IOException | InterruptedException e) {
-								log.error( "some error..." );
+								log.error( "some error... {}", e.getLocalizedMessage() );
 							}
 						} ) );
 
