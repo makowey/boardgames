@@ -27,7 +27,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jaxb-core.version>2.2.11</jaxb-core.version>
         <java.version>11</java.version>
-        <jaunt.version>1.6.20</jaunt.version>
+        <jaunt.version>1.6.21</jaunt.version>
     </properties>
 
     <dependencies>
