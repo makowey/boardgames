@@ -117,7 +117,7 @@ public class OLXScrapperGame implements BoardGameExtractor {
                 .bggId(0)
                 .store(store)
                 .name(name)
-                .currentPrice(parsePrice(element) * 5) //curs euro...
+                .currentPrice(parsePrice(element) * 1) //curs ron...
                 .urlImage(populateUrlImage(element))
                 .build();
     }
