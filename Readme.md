@@ -7,7 +7,7 @@ To run this application locally just execute the following command:
 
 ## Deploy unmanaged dependencies
 
-`mvn deploy:deploy-file -Durl=file:///D:/Stuff/chilipir/repo -Dfile=lib/jaunt1.6.20.jar -DgroupId=com.jaunt -DartifactId=jaunt -Dpackaging=jar -Dversion=1.6.20`
+`mvn deploy:deploy-file -Durl=file:///D:/Stuff/chilipir/repo -Dfile=lib/jaunt1.6.24.jar -DgroupId=com.jaunt -DartifactId=jaunt -Dpackaging=jar -Dversion=1.6.24`
 `mvn clean install -U`
 
 <img src="https://i.pinimg.com/originals/2f/c4/fe/2fc4fee4a8c5ed906bd4fe0286fc309f.png">  
