@@ -53,7 +53,7 @@ public enum Source {
 			"page...",
 			".product-grid-container a",
 			90,
-			"https://www.hueman.ro/wp-content/uploads/carturesti_whitelogo.png" ),
+			"https://citylink.ro/wp-content/uploads/2020/02/carturesti.jpg" ),
 
 	LEXSHOP( "Lexshop.ro",
 			"",
@@ -140,6 +140,18 @@ public enum Source {
 
 	//https://www.redgoblin.ro/cauta?s=gaia&ajax=true&id_lang=2&maxRows=10
 	RED_GOBLIN( "Red Goblin",
+			"/cauta?s=%s&ajax=true&id_lang=2&maxRows=%d",
+			"https://www.redgoblin.ro",
+			"/oferte/q-boardgame/?view=galleryWide",
+			"perPage...",
+			"page...",
+			"<div class='mheight tcenter'",
+			10,
+			"https://www.redgoblin.ro//img/logo-a-b.png"
+	),
+
+	//https://services.mybcapps.com/bc-sf-filter/search/suggest?q=maracaib&shop=ludicus-ro-magazinul-clipelor-magice.myshopify.com&t=1605195515315&suggestion_limit=3&collection_limit=3&product_limit=3&page_limit=3&dym_limit=2&callback=BCSfSuggestionCallback&event_type=suggest
+	JOCOZAUR( "Jocozaur",
 			"/cauta?s=%s&ajax=true&id_lang=2&maxRows=%d",
 			"https://www.redgoblin.ro",
 			"/oferte/q-boardgame/?view=galleryWide",
