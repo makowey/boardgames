@@ -65,8 +65,8 @@ public class CollectorServiceImpl implements CollectorService {
 	public List<BoardGame> traceAll() {
 		Query query = new Query();
 		//query.skip(pageNumber * pageSize);
-		query.addCriteria( Criteria.where( "currentPrice" ).gte( 100 ) );
-		query.limit( 300 );
+		query.addCriteria( Criteria.where( "currentPrice" ).gte( -1 ) );
+		query.limit( 321 );
 		return mongoTemplate.find( query, BoardGame.class );
 	}
 
