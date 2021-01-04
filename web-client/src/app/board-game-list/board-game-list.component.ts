@@ -1,4 +1,5 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {BoardGameService} from "../board-game.service";
 import {MatPaginator, MatSort, MatSortable, MatTableDataSource} from "@angular/material";
 import {tap} from "rxjs/operators";
@@ -21,14 +22,19 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
   stateCtrl = new FormControl();
   isGeekMarket;
   currentFilter = "#20";
+  searchTerm = '';
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   public isLoading: boolean = true;
 
-  constructor(private boardGameService: BoardGameService) {
+  constructor(private boardGameService: BoardGameService, private route: ActivatedRoute) {
     this.isGeekMarket = false;
     this.stateCtrl.disable();
+
+    this.route.queryParams.subscribe(params => {
+      this.searchTerm = params['s'];
+    });
   }
 
   ngOnInit() {
@@ -40,6 +46,12 @@ export class BoardGameListComponent implements OnInit, AfterViewInit {
 
     this.boardGameService.count().subscribe(data => {
       this.numberOfGames = data;
+    });
+
+    this.route.queryParams.subscribe(queryParams => {
+      this.boardGameService.search(
+        Observable.of(queryParams.s),
+        this.isGeekMarket)
     });
   }
 
