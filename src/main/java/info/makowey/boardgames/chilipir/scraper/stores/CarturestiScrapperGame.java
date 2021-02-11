@@ -104,7 +104,7 @@ public class CarturestiScrapperGame implements BoardGameExtractor {
         String hash = UUID.nameUUIDFromBytes( name.concat(source.name()).getBytes() ).toString();
         return BoardGame.builder()
                 .id( hash )
-                .identifier(hash.hashCode())
+                .identifier(hash)
                 .bggId(0)
                 .store(store)
                 .name(name)

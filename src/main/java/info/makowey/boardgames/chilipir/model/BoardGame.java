@@ -31,7 +31,7 @@ public class BoardGame {
 	@Indexed
 	@JsonProperty
 	@EqualsAndHashCode.Exclude
-	private long identifier;
+	private String identifier;
 
 	@JsonProperty
 	@EqualsAndHashCode.Exclude
