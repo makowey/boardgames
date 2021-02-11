@@ -93,7 +93,7 @@ public enum Source {
 			"???",
 			"<div class='card-item js-product-data'>",
 			100,
-			"https://s12emagst.akamaized.net/layout/ro/images/logo//38/57629.png" ),
+			"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Logo_eMAG.svg/1200px-Logo_eMAG.svg.png" ),
 
 	BESTKIDS( "BestKids.ro",
 			"https://www.bestkids.ro/searchadv.aspx?CategoryID=92&IsSubmit=true&SearchTerm=%s",
