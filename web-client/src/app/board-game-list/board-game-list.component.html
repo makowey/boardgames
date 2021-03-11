@@ -1,5 +1,5 @@
 <mat-form-field class="mx-auto px-1">
-  <input matInput [routerLink]="[]" [queryParams]="{ s: '' }" queryParamsHandling="merge" (keyup)="applyFilter($event.target.value)" (keydown.enter)="findBoardGame($event.target.value)"
+  <input matInput [routerLink]="['/']" [queryParams]="{ s: 'western' }" queryParamsHandling="merge" (keyup)="applyFilter($event.target.value)" (keydown.enter)="findBoardGame($event.target.value)"
          placeholder="Filter the {{numberOfGames}} items | Press enter to get latest price | Enable GeekMarket for best trades[europe] | @yourbggusername/[o,w,p]"
          #gamename
          maxlength="50"
