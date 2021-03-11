@@ -302,7 +302,7 @@ public class CollectorServiceImpl implements CollectorService {
 	}
 
 	public void collectAll() {
-		cleanAllGames();
+		//cleanAllGames();
 		updateOLX();
 		reloadAllGames();
 	}
